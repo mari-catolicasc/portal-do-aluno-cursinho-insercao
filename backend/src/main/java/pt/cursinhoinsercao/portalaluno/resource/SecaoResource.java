@@ -1,43 +1,38 @@
 package pt.cursinhoinsercao.portalaluno.resource;
 
+import pt.cursinhoinsercao.portalaluno.dto.SecaoDTO;
 import pt.cursinhoinsercao.portalaluno.entity.Secao;
-import pt.cursinhoinsercao.portalaluno.service.SecaoService;
 import pt.cursinhoinsercao.portalaluno.seguranca.Seguranca;
+import pt.cursinhoinsercao.portalaluno.service.SecaoService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("secoes")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@Path("/secoes")
 public class SecaoResource {
 
     private SecaoService secaoService = new SecaoService();
 
-    //Qualquer um pode ver as seções na homepage.
     @GET
-    public Response buscarTodas() {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarTodas() {
         List<Secao> secoes = secaoService.buscarTodas();
         return Response.ok(secoes).build();
     }
 
-    @GET
-    @Path("/{id}") // O {id} é um parâmetro que será capturado da URL
-    public Response buscarPorId(@PathParam("id") int id) {
-        Secao secao = secaoService.buscarPorId(id);
-        if (secao != null) {
-            return Response.ok(secao).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
-
-    //Apenas admins podem criar seções.
     @POST
-    @Seguranca
-    public Response criar(Secao novaSecao) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured // Apenas admins podem aceder
+    public Response criar(SecaoDTO secaoDTO) {
         try {
+            Secao novaSecao = new Secao();
+            novaSecao.setTitulo(secaoDTO.getTitulo());
+            novaSecao.setTexto(secaoDTO.getTexto());
+            novaSecao.setImagem(secaoDTO.getImagem()); // O frontend enviará o caminho do ficheiro aqui
+
             Secao secaoCriada = secaoService.criar(novaSecao);
             return Response.status(Response.Status.CREATED).entity(secaoCriada).build();
         } catch (Exception e) {
@@ -45,29 +40,35 @@ public class SecaoResource {
         }
     }
 
-    //Apenas admins podem atualizar seções.
     @PUT
     @Path("/{id}")
-    @Seguranca
-    public Response atualizar(@PathParam("id") int id, Secao secaoAtualizada) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured // Apenas admins podem aceder
+    public Response atualizar(@PathParam("id") int id, SecaoDTO secaoDTO) {
         try {
-            Secao secao = secaoService.atualizar(id, secaoAtualizada);
-            return Response.ok(secao).build();
+            Secao secaoParaAtualizar = new Secao();
+            secaoParaAtualizar.setTitulo(secaoDTO.getTitulo());
+            secaoParaAtualizar.setTexto(secaoDTO.getTexto());
+            secaoParaAtualizar.setImagem(secaoDTO.getImagem());
+
+            Secao secaoAtualizada = secaoService.atualizar(id, secaoParaAtualizar);
+            return Response.ok(secaoAtualizada).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
 
-    //Apenas admins podem remover seções.
     @DELETE
     @Path("/{id}")
-    @Seguranca
+    @Secured // Apenas admins podem aceder
     public Response deletar(@PathParam("id") int id) {
         try {
             secaoService.deletar(id);
-            return Response.noContent().build(); // HTTP 204 No Content é a resposta padrão para DELETE bem-sucedido
+            return Response.noContent().build(); // Resposta 204 No Content é o padrão para delete com sucesso
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
 }
+

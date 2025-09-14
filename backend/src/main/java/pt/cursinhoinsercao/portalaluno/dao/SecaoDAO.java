@@ -9,32 +9,28 @@ import java.util.List;
 
 public class SecaoDAO {
 
+    public List<Secao> buscarTodas() {
+        EntityManager em = JPAUtil.getEntityManager();
+        String jpql = "SELECT s FROM Secao s ORDER BY s.id";
+        TypedQuery<Secao> query = em.createQuery(jpql, Secao.class);
+        List<Secao> secoes = query.getResultList();
+        em.close();
+        return secoes;
+    }
+
+    public Secao buscarPorId(int id) {
+        EntityManager em = JPAUtil.getEntityManager();
+        Secao secao = em.find(Secao.class, id);
+        em.close();
+        return secao;
+    }
+
     public void salvar(Secao secao) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(secao);
             em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
-
-    public Secao buscarPorId(int id) {
-        EntityManager em = JPAUtil.getEntityManager();
-        try {
-            return em.find(Secao.class, id);
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Secao> buscarTodas() {
-        EntityManager em = JPAUtil.getEntityManager();
-        try {
-            String jpql = "select s from Secao s";
-            TypedQuery<Secao> query = em.createQuery(jpql, Secao.class);
-            return query.getResultList();
         } finally {
             em.close();
         }
@@ -55,10 +51,11 @@ public class SecaoDAO {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
-            em.remove(em.merge(secao));
+            em.remove(em.contains(secao) ? secao : em.merge(secao));
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 }
+

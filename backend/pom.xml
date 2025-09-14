@@ -47,6 +47,12 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey.version}</version>
         </dependency>
+        <!-- Suporte a Multipart (Upload de Ficheiros) no Jersey -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
 
         <!-- Hibernate JPA -->
         <dependency>
