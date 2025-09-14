@@ -83,7 +83,7 @@ export default function Footer() {
 
         <Links>
           <Link href="">Universidades em Joinville e Região</Link>
-          <Link href="">Portal do Aluno</Link>
+          <Link href="/frontend/src/pages/Login">Portal do Aluno</Link>
           <Link href="/admin/register">Matrícula</Link>
           <Link href="/admin/register">Cadatro de novo educador popular</Link>
           <Link href="">Administração</Link>

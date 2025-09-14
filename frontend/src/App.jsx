@@ -5,6 +5,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import Cadastro from './pages/Cadastro';
 import LancarNotas from './pages/portal-do-aluno/LancarNotas';
 import VerNotas from './pages/portal-do-aluno/VerNotas';
+import Login from './pages/Login';
 
 export default function App(){
     return(
@@ -17,6 +18,8 @@ export default function App(){
                 <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
                 <Route path="/portal/notas" element={<VerNotas/>}/>
                 <Route path="/portal/notas/novo" element={<LancarNotas/>}/>
+                <Route path="/portal/recados" element={<RecadosGerais/>}/>
+                <Route path="/frontend/src/pages/Login" element={<Login/>}/>
             </Routes>
         </BrowserRouter>
     );

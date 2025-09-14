@@ -11,6 +11,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>pt.cursinhoinsercao.portalaluno.entity.Usuario</class>
         <class>pt.cursinhoinsercao.portalaluno.entity.Secao</class>
+        <class>pt.cursinhoinsercao.portalaluno.entity.Banner</class>
 
         <properties>
 
@@ -25,6 +26,7 @@
             <property name="hibernate.format_sql" value="true"/>
 
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+
         </properties>
 
     </persistence-unit>

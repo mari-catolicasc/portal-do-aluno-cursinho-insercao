@@ -68,7 +68,7 @@ export default function Navbar() {
               {open && (
                   <Dropdown>
                       <Links href="/">Página Inicial</Links>
-                      <Links href="#home">Portal do Aluno</Links>
+                      <Links href="/frontend/src/pages/Login">Portal do Aluno</Links>
                       <Links href="/admin/register">Matrícula</Links>
                       <Links href="/admin/register">Cadastro de Educador Popular</Links>
                   </Dropdown>

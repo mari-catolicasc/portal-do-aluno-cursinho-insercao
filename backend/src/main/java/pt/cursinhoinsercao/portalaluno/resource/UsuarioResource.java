@@ -1,6 +1,7 @@
 package pt.cursinhoinsercao.portalaluno.resource;
 
 import pt.cursinhoinsercao.portalaluno.dto.Login;
+import pt.cursinhoinsercao.portalaluno.dto.LoginResponse;
 import pt.cursinhoinsercao.portalaluno.entity.Usuario;
 import pt.cursinhoinsercao.portalaluno.service.UsuarioService;
 
@@ -37,10 +38,14 @@ public class UsuarioResource {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(Login dadosLogin) { // Alterado para receber a classe Login
+    public Response login(Login dadosLogin) {
         try {
-            Usuario usuarioLogado = usuarioService.login(dadosLogin);
-            return Response.ok(usuarioLogado).build();
+            String token = usuarioService.login(dadosLogin);
+
+            LoginResponse response = new LoginResponse(token);
+
+            return Response.ok(response).build();
+
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build();
         }

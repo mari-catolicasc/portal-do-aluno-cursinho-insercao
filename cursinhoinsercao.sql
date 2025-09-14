@@ -35,6 +35,18 @@ CREATE TABLE `avaliacoes` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `banner` (Versão com histórico)
+--
+CREATE TABLE `banner` (
+  `id` int(11) NOT NULL,
+  `imagem` varchar(300) NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 0,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `conteudo`
 --
 
@@ -143,6 +155,8 @@ CREATE TABLE `secoes` (
   `imagem` varchar(70) DEFAULT NULL,
   `texto` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `secoes` ADD `titulo` VARCHAR(100) NOT NULL AFTER `id`;
 
 -- --------------------------------------------------------
 
