@@ -89,7 +89,7 @@ const Lin = styled.div`
     border-radius: 20px;
 `
 
-const Nome = styled.p`
+const Txt = styled.p`
     font-size: 16px;
     font-weight: 400;
     color: #000000;
@@ -126,26 +126,52 @@ const Nota = styled.p`
 `
 
 export default function CVerNotas() {
+    // Simulando role de usuário. Precisa ser adaptado quando fizer integração front-back
+    const role = "professor"; 
+    // const role = "aluno";
+
   return (
     <Div>
         <TituloPag>Notas / Ver Notas</TituloPag>
         <Form>
             <SelectAvalDiv>
                 <TituloAval>Avaliação</TituloAval>
-                <Select>
-                    <option>Redação - 09/08/2025</option>
-                </Select>
+                {role === "professor" && (
+                    <Select>
+                        <option>Redação - 09/08/2025</option>
+                        <option>Simulado - 10/09/2025</option>
+                    </Select>
+                )}
+                {role === "aluno" && (
+                    <Select disabled>
+                        <option>Todas</option>
+                    </Select>
+                )}
             </SelectAvalDiv>
-            <AlunosDiv>
-                <Lin>
-                    <Nome id="nome">Fulano da Silva</Nome>
-                    <Nota id="nota">10</Nota>
-                </Lin>
-                <Lin>
-                    <Nome id="nome">Fulano da Silva</Nome>
-                    <Nota id="nota">8</Nota>
-                </Lin>
-            </AlunosDiv>
+            {role === "professor" && ( // Professor vê lista de alunos com notas
+                <AlunosDiv>
+                    <Lin>
+                        <Txt id="nome">Fulano da Silva</Txt>
+                        <Nota id="nota">10</Nota>
+                    </Lin>
+                    <Lin>
+                        <Txt id="nome">Fulano da Silva</Txt>
+                        <Nota id="nota">8</Nota>
+                    </Lin>
+                </AlunosDiv>
+            )}
+            {role === "aluno" && ( // Aluno vê só a própria nota
+                <AlunosDiv>
+                    <Lin>
+                        <Txt id="avaliacao">Redação - 09/08/2025</Txt>
+                        <Nota id="nota">10</Nota>
+                    </Lin>
+                    <Lin>
+                        <Txt id="avaliacao">Simulado - 10/09/2025</Txt>
+                        <Nota id="nota">8</Nota>
+                    </Lin>
+                </AlunosDiv>
+                        )}
         </Form>
     </Div>
   )
