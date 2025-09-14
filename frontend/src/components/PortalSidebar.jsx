@@ -234,7 +234,7 @@ const GroupHeader = styled.div`
     }
 
     &[data-group="1"]::after {
-      content: '👥';
+      content: '📝';
       background: none;
       font-size: 16px;
       display: flex;
@@ -243,7 +243,7 @@ const GroupHeader = styled.div`
     }
 
     &[data-group="2"]::after {
-      content: '🎓';
+      content: '📅';
       background: none;
       font-size: 16px;
       display: flex;
@@ -252,7 +252,7 @@ const GroupHeader = styled.div`
     }
 
     &[data-group="3"]::after {
-      content: '📱';
+      content: '🎓';
       background: none;
       font-size: 16px;
       display: flex;
@@ -261,7 +261,7 @@ const GroupHeader = styled.div`
     }
 
     &[data-group="4"]::after {
-      content: '📊';
+      content: '👤';
       background: none;
       font-size: 16px;
       display: flex;
