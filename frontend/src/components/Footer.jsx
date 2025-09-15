@@ -83,15 +83,32 @@ export default function Footer() {
 
         <Links>
           <Link href="">Universidades em Joinville e Região</Link>
+<<<<<<< HEAD
           <Link href="../pages/AdminLogin.jsx">Portal do Aluno</Link>
           <Link href="/admin/register">Matrícula</Link>
           <Link href="/admin/register">Cadatro de novo educador popular</Link>
           <Link href="../pages/AdminLogin.jsx">Administração</Link>
+=======
+          <Link href="/frontend/src/pages/Login">Portal do Aluno</Link>
+          <Link href="/admin/register">Matrícula</Link>
+          <Link href="/admin/register">Cadatro de novo educador popular</Link>
+          <Link href="">Administração</Link>
+>>>>>>> main
         </Links>
       </FooterLinks>
 
       <p>© 2025 Cursinho Inserção - Todos os direitos reservados</p>
+<<<<<<< HEAD
     
+=======
+      <p>
+        Desenvolvedores: <Link href="https://github.com/Anselmo2001">Claudio Anselmo</Link>,{' '}
+        <Link href="https://github.com/gabezadx">Gabriel Henrique Ferreira</Link>,{' '}
+        <Link href="https://github.com/mwrina">Mari Rosa Oliveira</Link>,{' '}
+        <Link href="https://github.com/messiaspichaujr">Messias Ferreira Pichau Junior</Link>,{' '}
+        <Link href="https://github.com/nathalia-berri">Nathalia Aline Berri</Link>
+      </p>
+>>>>>>> main
     </FooterDiv>
   );
 }

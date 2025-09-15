@@ -1,5 +1,8 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { Link } from 'react-router-dom'; // 1. Importar o componente Link
+=======
+>>>>>>> main
 import styled from 'styled-components';
 import fundoNavbar from '../assets/imgs/logo.jpg'
 import logo from '../assets/imgs/logo_sem_fundo.png';
@@ -11,7 +14,11 @@ const NavbarDiv = styled.nav`
     height: 70px;
     padding: 0 1rem;
     background-image: url(${fundoNavbar}); 
+<<<<<<< HEAD
     background-position: 100% 70px;      
+=======
+    background-position: 100% 70px;    
+>>>>>>> main
     position: relative;
 `
 
@@ -27,7 +34,10 @@ const MenuBtn = styled.button`
     border: none;
     font-size: 2rem;
     cursor: pointer;
+<<<<<<< HEAD
     z-index: 20; // Garante que o botão fique acima do dropdown
+=======
+>>>>>>> main
 `
 
 const MenuIcon = styled.span`
@@ -48,6 +58,7 @@ const Dropdown = styled.div`
     z-index: 10;
 `
 
+<<<<<<< HEAD
 // 2. Mudar de styled.a para styled(Link)
 //    Isto aplica os teus estilos ao componente Link
 const StyledLink = styled(Link)`
@@ -61,6 +72,14 @@ const StyledLink = styled(Link)`
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
+=======
+const Links = styled.a`
+    font-weight: 600;  
+    padding: 10px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #FFFFFF;
+>>>>>>> main
 `
 
 export default function Navbar() {
@@ -69,12 +88,17 @@ export default function Navbar() {
     return (
         <NavbarDiv>
             <MenuBtn id="dropdown" onClick={() => setOpen(!open)}>
+<<<<<<< HEAD
                 <MenuIcon className="material-icons">menu</MenuIcon>
+=======
+              <MenuIcon className="material-icons">menu</MenuIcon>
+>>>>>>> main
             </MenuBtn>
 
             <Logo src={logo} alt="Logo" className="logo" />
 
               {open && (
+<<<<<<< HEAD
                     <Dropdown>
                         {/* 3. Usar o novo StyledLink com a prop 'to' em vez de 'href' */}
                         <StyledLink to="/">Página Inicial</StyledLink>
@@ -86,3 +110,15 @@ export default function Navbar() {
         </NavbarDiv>
     );
 }
+=======
+                  <Dropdown>
+                      <Links href="/">Página Inicial</Links>
+                      <Links href="/frontend/src/pages/Login">Portal do Aluno</Links>
+                      <Links href="/admin/register">Matrícula</Links>
+                      <Links href="/admin/register">Cadastro de Educador Popular</Links>
+                  </Dropdown>
+              )}
+        </NavbarDiv>
+    );
+}
+>>>>>>> main
