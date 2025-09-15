@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import logo from '../assets/imgs/logo_sem_fundo.png';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 // ========== STYLED COMPONENTS (CSS) ==========
 
@@ -335,6 +336,9 @@ const SubmenuItem = styled.a`
   border-radius: 6px;
   margin: 0 12px;
   white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.15);
@@ -428,9 +432,15 @@ const LogoutText = styled.span`
 
 // ========== COMPONENTE REACT ==========
 
-export default function PortalSidebar() {
+export default function PortalSidebar({ isCollapsed, setIsCollapsed }) {
+  const navigate = useNavigate();
+  const submenuRoutes = { 
+    'Ver notas': '/portal/notas',
+    'Lançar notas': '/portal/notas/novo',
+    'Criar nova avaliação': '/portal/avaliacoes/novo',
+  }
+
   // Estados do componente
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState([]);
   const [activeSubmenuItem, setActiveSubmenuItem] = useState('');
@@ -465,7 +475,9 @@ export default function PortalSidebar() {
     if (isMobile) {
       setIsMobileOpen(!isMobileOpen);
     } else {
-      setIsCollapsed(!isCollapsed);
+      if (typeof setIsCollapsed === 'function') {
+        setIsCollapsed(!isCollapsed);
+      }
       if (!isCollapsed) {
         // Fecha todos os grupos quando minimiza
         setExpandedGroups([]);
@@ -500,6 +512,11 @@ export default function PortalSidebar() {
     console.log(`Submenu clicado: ${item}`);
     setActiveSubmenuItem(item);
     setActiveGroup('');
+    // Navega para a rota correspondente
+    const route = submenuRoutes[item];
+    if(route) {
+      navigate(route);
+    }
   };
 
   // Função de logout
@@ -609,7 +626,7 @@ export default function PortalSidebar() {
                   <li key={item}>
                     {/* Links para páginas específicas */}
                     <SubmenuItem
-                      href="#"
+                      as="button"
                       onClick={(e) => handleSubmenuClick(item, e)}
                       className={`submenu-item ${activeSubmenuItem === item ? 'active' : ''}`}
                     >

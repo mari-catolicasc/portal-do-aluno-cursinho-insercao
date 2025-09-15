@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home';
-import AdminLogin from './pages/AdminLogin';
+import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import Cadastro from './pages/Cadastro';
 import LancarNotas from './pages/portal-do-aluno/LancarNotas';
 import VerNotas from './pages/portal-do-aluno/VerNotas';
-import Login from './pages/Login';
+import CriarAvaliacao from './pages/portal-do-aluno/CriarAvaliacao';
 
 export default function App(){
     return(
@@ -13,13 +13,12 @@ export default function App(){
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/home" element={<Home/>}/>
-                <Route path="/admin" element={<AdminLogin/>}/>
-                <Route path='/admin/register' element={<Cadastro/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path='/cadastro' element={<Cadastro/>}/>
                 <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
                 <Route path="/portal/notas" element={<VerNotas/>}/>
                 <Route path="/portal/notas/novo" element={<LancarNotas/>}/>
-                <Route path="/portal/recados" element={<RecadosGerais/>}/>
-                <Route path="/frontend/src/pages/Login" element={<Login/>}/>
+                <Route path="/portal/avaliacoes/novo" element={<CriarAvaliacao/>}/>
             </Routes>
         </BrowserRouter>
     );

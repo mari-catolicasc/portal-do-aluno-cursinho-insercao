@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Botao from "./reused/botao";
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -42,18 +43,6 @@ const Select = styled.select`
     border-radius: 15px;
     appearance: none;
     outline: none; 
-`
-
-const Botao = styled.button`
-    width: 35%;
-    min-height: 60px;
-    font-size: 20px;
-    font-weight: 600;
-    border-radius: 30px;
-    margin: 5% 0 0 0;
-    border: none;
-    color: #FFFFFF;
-    background-color: #F2B924;
 `
 
 export default function CadastroForm() {
@@ -104,7 +93,7 @@ export default function CadastroForm() {
                 </Lin>
             )}
 
-            <Botao type="submit">Cadastrar-se</Botao>
+            <Botao text="Cadastrar"/>
         </Form>
     );
 }
