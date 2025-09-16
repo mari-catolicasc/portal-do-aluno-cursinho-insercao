@@ -6,8 +6,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
 
+    public static void main(String[] args) throws Exception {
         Server server = new Server(8080);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -16,16 +16,14 @@ public class Main {
 
         ServletHolder servletHolder = context.addServlet(ServletContainer.class, "/api/*");
         servletHolder.setInitOrder(0);
-
         servletHolder.setInitParameter(
                 "jersey.config.server.provider.packages",
-                "pt.cursinhoinsercao.portalaluno.resource"
+                "pt.cursinhoinsercao.portalaluno"
         );
 
         try {
             server.start();
             System.out.println("Servidor iniciado em http://localhost:8080");
-
             server.join();
         } finally {
             server.destroy();

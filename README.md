@@ -20,7 +20,11 @@ Ex:
 - ADMIN - Criação da API para login e cadastro de novos usuários
 
 ## Processo de CI
-- Criação de testes automatizados que cubram pelo menos 70% do código;
+- Criação de testes automatizados que cubram pelo menos 70% do código
 
 ## Ambiente de teste
 Vercel Preview
+
+## Administração de atividades
+https://projetos-catolica.atlassian.net/jira/software/projects/CI/boards/3
+
