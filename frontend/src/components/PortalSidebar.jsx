@@ -1,236 +1,201 @@
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useState } from "react";
 import logo from '../assets/imgs/logo_sem_fundo.png';
-import sair from '../assets/imgs/icon_sair.png';
 
-const SidebarDiv = styled.div`
-    width: ${({ $collapsed }) => ($collapsed ? "80px" : "20%")};
-    height: 100vh;
-    position: fixed;
-    background-color: #F2B924;
+// --- Estilização da Sidebar ---
+
+const SidebarContainer = styled.aside`
+    width: 280px;
+    background-color: #f2b924;
+    color: #4a4a4a;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    left: 0;
-    padding: 0 2% 2% 2%;
+    padding: 1.5rem 0;
+    flex-shrink: 0;
     transition: width 0.3s ease;
-    overflow: hidden;
+    height: 100vh;
+    position: sticky;
+    top: 0;
 
-    @media (max-width: 1500px) {
-        width: ${({ $collapsed }) => ($collapsed ? "60px" : "25%")};
-    }
-
-    @media (max-width: 1000px) {
-        width: ${({ $collapsed }) => ($collapsed ? "60px" : "100%")};
-    }
-
-    @media (max-width: 500px) {
-        width: ${({ $collapsed }) => ($collapsed ? "50px" : "100%")};
+    &.collapsed {
+        width: 80px;
     }
 `;
 
-const LogoDiv = styled.div`
-    width: 100%;
+const SidebarHeader = styled.div`
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: ${({ $collapsed }) => ($collapsed ? "center" : "flex-start")};
-    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+
+    &.collapsed {
+        justify-content: center;
+    }
 `;
 
 const Logo = styled.img`
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 70px;
-    transition: height 0.3s ease;
-
-    @media (max-width: 1500px) {
-        height: 50px;
-    }
-
-    @media (max-width: 1000px) {
-        height: 40px;
-    }
+    height: 60px;
+    transition: opacity 0.3s ease, width 0.3s ease;
+    opacity: ${props => (props.isCollapsed ? 0 : 1)};
+    width: ${props => (props.isCollapsed ? '0px' : 'auto')};
 `;
 
-const Opcoes = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const Opcao = styled.div`
-    display: flex;
-    flex-direction: column;
-    line-height: 40px;
-    margin: 5% 0;
-    position: relative;
-`;
-
-const DropdownBtn = styled.button`
-    font-size: ${({ $collapsed }) => ($collapsed ? "0" : "16px")};
-    color: #E1346A;
-    border: none;
+const ToggleButton = styled.button`
     background: none;
-    width: 100%;
-    text-align: ${({ $collapsed }) => ($collapsed ? "center" : "left")};
+    border: none;
     cursor: pointer;
-    outline: none;
-    transition: font-size 0.3s ease;
-
-    @media (max-width: 1500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "14px")};
-    }
-
-    @media (max-width: 1000px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "13px")};
-    }
-
-    @media (max-width: 500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "12px")};
-    }
+    font-size: 1.5rem;
+    color: #4a4a4a;
 `;
 
-const DropdownContent = styled.div`
-    display: ${({ $open }) => ($open ? "flex" : "none")};
-    flex-direction: column;
-    gap: 8px;
-    padding-left: 16px;
+const NavMenu = styled.nav`
+    flex-grow: 1;
+    padding: 0 1.5rem;
 `;
 
-const Link = styled.a`
-    color: #FFFFFF;
-    text-decoration: none;
-    font-size: ${({ $collapsed }) => ($collapsed ? "0" : "16px")};
-    transition: font-size 0.3s ease;
+const NavItem = styled.div`
+    margin-bottom: 0.5rem;
+`;
+
+const NavButton = styled.button`
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0.8rem 0;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a4a4a;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &:hover {
-        text-decoration: underline;
+        opacity: 0.8;
     }
 
-    @media (max-width: 1500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "14px")};
-    }
-
-    @media (max-width: 1000px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "12px")};
-    }
-
-    @media (max-width: 500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "12px")};
+    .collapsed & span {
+        display: none;
     }
 `;
 
-const Sair = styled.button`
-    font-size: ${({ $collapsed }) => ($collapsed ? "0" : "16px")};
-    display: flex;
-    flex-direction: row;
-    gap: ${({ $collapsed }) => ($collapsed ? "0" : "30px")};
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-
-    @media (max-width: 1500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "14px")};
-    }
-
-    @media (max-width: 1000px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "12px")};
-    }
-
-    @media (max-width: 500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "12px")};
+const DropdownMenu = styled.div`
+    padding-left: 1rem;
+    max-height: ${props => (props.isOpen ? '500px' : '0')};
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    
+    .collapsed & {
+        display: none;
     }
 `;
 
-const SairLink = styled.p`
-    color: #E3271E;
+const NavLinkStyled = styled(NavLink)`
+    display: block;
+    padding: 0.6rem 0;
+    color: #4a4a4a;
     text-decoration: none;
-    transition: font-size 0.3s ease;
+    border-radius: 5px;
+    white-space: nowrap;
 
-    @media (max-width: 1500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "16px")};
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
     }
 
-    @media (max-width: 1000px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "14px")};
-    }
-
-    @media (max-width: 500px) {
-        font-size: ${({ $collapsed }) => ($collapsed ? "0" : "14px")};
+    &.active {
+        font-weight: bold;
+        color: black;
     }
 `;
 
-const SairIcon = styled.img`
-    height: ${({ $collapsed }) => ($collapsed ? "30px" : "18px")};
+const LogoutButton = styled.button`
+    background: none;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 1.5rem;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a4a4a;
+    cursor: pointer;
+    white-space: nowrap;
+    
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .collapsed & .logout-text {
+        display: none;
+    }
 `;
 
-export default function PortalSidebar({ isCollapsed, setIsCollapsed }) {
-    const [openDropdown, setOpenDropdown] = useState(null);
+const DropdownItem = ({ title, children, isCollapsed }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <NavItem>
+            <NavButton className={isCollapsed ? 'collapsed' : ''} onClick={() => setIsOpen(!isOpen)}>
+                <span>{title}</span>
+                <span>{isOpen ? '▲' : '▼'}</span>
+            </NavButton>
+            <DropdownMenu isOpen={isOpen} className={isCollapsed ? 'collapsed' : ''}>
+                {children}
+            </DropdownMenu>
+        </NavItem>
+    );
+};
 
-    const toggleDropdown = (menu) => {
-        setOpenDropdown(openDropdown === menu ? null : menu);
+
+export default function PortalSidebar() {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        if (window.confirm("Tem a certeza que deseja sair?")) {
+            localStorage.removeItem('user_token');
+            navigate('/admin');
+        }
     };
 
     return (
-        <SidebarDiv $collapsed={isCollapsed}>
-        <LogoDiv
-            $collapsed={isCollapsed}
-            onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-            <Logo src={logo} />
-        </LogoDiv>
+        <SidebarContainer className={isCollapsed ? 'collapsed' : ''}>
+            <SidebarHeader className={isCollapsed ? 'collapsed' : ''}>
+                <Logo src={logo} alt="Logo" isCollapsed={isCollapsed} />
+                <ToggleButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                    {isCollapsed ? '➔' : '←'}
+                </ToggleButton>
+            </SidebarHeader>
 
-            <Opcoes>
-                <Opcao>
-                    <DropdownBtn
-                        $collapsed={isCollapsed}
-                        onClick={() => toggleDropdown("recados")}
-                    >
-                        Recados e conteúdos
-                    </DropdownBtn>
-                    <DropdownContent $open={openDropdown === "recados" && !isCollapsed}>
-                        <Link href="#">Recados gerais</Link>
-                        <Link href="#">Criar novo recado</Link>
-                        <Link href="#">Conteúdos</Link>
-                        <Link href="#">Postar novo conteúdo</Link>
-                    </DropdownContent>
-                </Opcao>
-                <Opcao>
-                    <DropdownBtn
-                        $collapsed={isCollapsed}
-                        onClick={() => toggleDropdown("frequencia")}
-                    >
-                        Frequência
-                    </DropdownBtn>
-                    <DropdownContent $open={openDropdown === "frequencia" && !isCollapsed}>
-                        <Link href="#">Verificar frequência</Link>
-                        <Link href="#">Lançar frequência</Link>
-                    </DropdownContent>
-                </Opcao>
-                <Opcao>
-                    <DropdownBtn
-                        $collapsed={isCollapsed}
-                        onClick={() => toggleDropdown("notas")}
-                    >
-                        Notas
-                    </DropdownBtn>
-                    <DropdownContent $open={openDropdown === "notas" && !isCollapsed}>
-                        <Link href="#">Ver notas</Link>
-                        <Link href="#">Lançar notas</Link>
-                        <Link href="#">Criar nova avaliação</Link>
-                        <Link href="#">Avaliações cadastradas</Link>
-                    </DropdownContent>
-                </Opcao>
-                <Opcao>
-                    <DropdownBtn $collapsed={isCollapsed}>
-                        Seu perfil
-                    </DropdownBtn>
-                </Opcao>
-            </Opcoes>
-
-            <Sair $collapsed={isCollapsed} onclick="location.href='/home'">
-                <SairLink $collapsed={isCollapsed}>Sair</SairLink>
-                <SairIcon $collapsed={isCollapsed} src={sair}/>
-            </Sair>
-        </SidebarDiv>
+            <NavMenu>
+                <DropdownItem title="Página Inicial" isCollapsed={isCollapsed}>
+                    <NavLinkStyled to="/admin/secoes">Seções Cadastradas</NavLinkStyled>
+                    <NavLinkStyled to="/admin/banners">Gerir Banners</NavLinkStyled>
+                </DropdownItem>
+                
+                <DropdownItem title="Educadores Populares" isCollapsed={isCollapsed}>
+                    <NavLinkStyled to="#">Novas Candidaturas</NavLinkStyled>
+                    <NavLinkStyled to="#">Educadores Cadastrados</NavLinkStyled>
+                </DropdownItem>
+                 
+                <DropdownItem title="Controle de Alunos" isCollapsed={isCollapsed}>
+                    <NavLinkStyled to="#">Novas Matrículas</NavLinkStyled>
+                    <NavLinkStyled to="#">Alunos Matriculados</NavLinkStyled>
+                </DropdownItem>
+                 
+                <DropdownItem title="Redes Sociais" isCollapsed={isCollapsed}>
+                    <NavLinkStyled to="#">Redes Cadastradas</NavLinkStyled>
+                    <NavLinkStyled to="#">Cadastrar Nova Rede</NavLinkStyled>
+                </DropdownItem>
+            </NavMenu>
+            
+            <LogoutButton className={isCollapsed ? 'collapsed' : ''} onClick={handleLogout}>
+                <span className="logout-text">Sair</span> ➔
+            </LogoutButton>
+        </SidebarContainer>
     );
 }
+
