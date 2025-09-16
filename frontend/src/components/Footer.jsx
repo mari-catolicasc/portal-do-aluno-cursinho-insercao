@@ -94,7 +94,7 @@ export default function Footer() {
       <p>
         Desenvolvedores: <Link href="https://github.com/Anselmo2001">Claudio Anselmo</Link>,{' '}
         <Link href="https://github.com/gabezadx">Gabriel Henrique Ferreira</Link>,{' '}
-        <Link href="https://github.com/mwrina">Mari Rosa Oliveira</Link>,{' '}
+        <Link href="https://github.com/mari-r0sa">Mari Rosa Oliveira</Link>,{' '}
         <Link href="https://github.com/messiaspichaujr">Messias Ferreira Pichau Junior</Link>,{' '}
         <Link href="https://github.com/nathalia-berri">Nathalia Aline Berri</Link>
       </p>

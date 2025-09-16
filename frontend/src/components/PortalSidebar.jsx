@@ -163,9 +163,8 @@ const SairIcon = styled.img`
     height: ${({ $collapsed }) => ($collapsed ? "30px" : "18px")};
 `;
 
-export default function PortalSidebar() {
+export default function PortalSidebar({ isCollapsed, setIsCollapsed }) {
     const [openDropdown, setOpenDropdown] = useState(null);
-    const [isCollapsed, setIsCollapsed] = useState(false);
 
     const toggleDropdown = (menu) => {
         setOpenDropdown(openDropdown === menu ? null : menu);
@@ -173,12 +172,12 @@ export default function PortalSidebar() {
 
     return (
         <SidebarDiv $collapsed={isCollapsed}>
-            <LogoDiv
-                $collapsed={isCollapsed}
-                onClick={() => setIsCollapsed(!isCollapsed)}
-            >
-                <Logo src={logo} />
-            </LogoDiv>
+        <LogoDiv
+            $collapsed={isCollapsed}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+            <Logo src={logo} />
+        </LogoDiv>
 
             <Opcoes>
                 <Opcao>
