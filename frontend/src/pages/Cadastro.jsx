@@ -214,7 +214,7 @@ export default function Cadastro() {
           <LoginLink to="/admin">Já tem uma conta? Faça login</LoginLink>
         </RegisterCard>
       </Main>
-      <Footer />
+
     </Container>
   );
 }

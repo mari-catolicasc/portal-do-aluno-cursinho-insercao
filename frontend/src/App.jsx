@@ -1,56 +1,54 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-// Pages
+// --- Páginas Padrão ---
 import Home from './pages/Home';
-import AdminLogin from './pages/AdminLogin';
 import Cadastro from './pages/Cadastro';
-import RecadosGerais from './pages/portal-do-aluno/RecadosGerais';
-import Login from './pages/Login';
 
-// Importa as novas páginas de gestão
+// --- Páginas de Administração ---
+import AdminLogin from './pages/AdminLogin';
 import GerirBanners from './pages/admin/GerirBanners';
 import GerirSecoes from './pages/admin/GerirSecoes';
+import NovasCandidaturas from './pages/admin/NovasCandidaturas';
+import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
 
-// Layouts
+// --- Páginas do Portal do Aluno ---
+import LancarNotas from './pages/portal-do-aluno/LancarNotas';
+import VerNotas from './pages/portal-do-aluno/VerNotas';
+import CriarAvaliacao from './pages/portal-do-aluno/CriarAvaliacao';
+
 import AdminLayout from './layouts/AdminLayout';
 
-export default function App(){
-    return(
+export default function App() {
+    return (
         <BrowserRouter>
             <Routes>
-<<<<<<< HEAD
-                {/* --- Rotas Públicas --- */}
+
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/admin" element={<AdminLogin />} />
+
+                <Route path="/cadastro" element={<Cadastro />} />
                 <Route path="/admin/register" element={<Cadastro />} />
 
-                {/* --- Rotas da Área de Administração com Layout --- */}
+                <Route path="/admin" element={<AdminLogin />} />
+
+                {/* ========== ROTAS DE ADMINISTRAÇÃO ========== */}
                 <Route element={<AdminLayout />}>
-                    
-                    {/* Rota principal do dashboard redireciona para a gestão de seções */}
                     <Route path="/admin/dashboard" element={<Navigate to="/admin/secoes" replace />} />
-                    
-                    {/* Rotas específicas para cada funcionalidade */}
                     <Route path="/admin/secoes" element={<GerirSecoes />} />
                     <Route path="/admin/banners" element={<GerirBanners />} />
-                    
-                    {/*Aqui ficará o restante das páginas admin que falta*/}
-                </Route>
-=======
-                <Route path="/" element={<Home/>}/>
-                <Route path="/home" element={<Home/>}/>
-                <Route path="/admin" element={<AdminLogin/>}/>
-                <Route path='/admin/register' element={<Cadastro/>}/>
-                <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
-                <Route path="/portal/recados" element={<RecadosGerais/>}/>
-                <Route path="/frontend/src/pages/Login" element={<Login/>}/>
 
->>>>>>> main
+                    <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas />} />
+                    <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados />} />
+                </Route>
+
+
+                {/* ========== ROTAS DO ALUNO/PROFESSOR ========== */}
+                <Route path="/portal/notas" element={<VerNotas />} />
+                <Route path="/portal/notas/novo" element={<LancarNotas />} />
+                <Route path="/portal/avaliacoes/novo" element={<CriarAvaliacao />} />
+
             </Routes>
         </BrowserRouter>
     );
 }
-
-
 

@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { api } from "../../services/api"; // Ajuste o caminho para a API
+import styled, { keyframes } from "styled-components";
+import { api } from "../../services/api";
 
-// --- Estilização ---
+// --- Animações ---
+const fadeIn = keyframes`from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); }`;
+const fadeOut = keyframes`from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); }`;
+
+// --- Estilização (consistente com GerirSecoes) ---
+const PageTitle = styled.h1`
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+`;
+
 const ManagementSection = styled.section`
     background-color: white;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 2rem;
 
     h2 {
@@ -15,6 +25,8 @@ const ManagementSection = styled.section`
         border-bottom: 1px solid #eee;
         padding-bottom: 1rem;
         margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        color: #4a4a4a;
     }
 `;
 
@@ -61,40 +73,64 @@ const Card = styled.div`
 `;
 
 const Button = styled.button`
-    padding: 0.8rem 1.2rem;
+    padding: 0.7rem 1.5rem;
     border: none;
-    background-color: #007bff;
-    color: white;
+    font-weight: 600;
+    background-color: #f2b924;
+    color: #4a4a4a;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
 
     &:hover {
-        background-color: #0056b3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background-color: #eab308;
     }
 
     &:disabled {
         background-color: #ccc;
         cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
+`;
+
+const ToastMessage = styled.div`
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background-color: ${props => (props.type === 'success' ? '#28a745' : '#dc3545')};
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 2000;
+    visibility: ${props => (props.show ? 'visible' : 'hidden')};
+    animation: ${props => (props.show ? fadeIn : fadeOut)} 0.3s ease;
 `;
 
 export default function GerirBanners() {
     const [historicoBanners, setHistoricoBanners] = useState([]);
     const [bannerFile, setBannerFile] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast({ show: false, message: '', type });
+        }, 3000);
+    };
 
     const fetchHistorico = async () => {
         try {
             setLoading(true);
             const response = await api.get('/api/banners/historico');
             setHistoricoBanners(response.data);
-            setError('');
         } catch (err) {
             console.error(err);
-            setError("Falha ao carregar o histórico de banners.");
+            showToast("Falha ao carregar o histórico de banners.", "error");
         } finally {
             setLoading(false);
         }
@@ -110,10 +146,9 @@ export default function GerirBanners() {
 
     const handleUploadBanner = async () => {
         if (!bannerFile) {
-            setMessage("Por favor, selecione um ficheiro.");
+            showToast("Por favor, selecione um ficheiro.", "error");
             return;
         }
-        setMessage("A enviar imagem do banner...");
         setLoading(true);
         try {
             const formData = new FormData();
@@ -121,28 +156,25 @@ export default function GerirBanners() {
             const uploadResponse = await api.post('/api/uploads', formData);
             const filePath = uploadResponse.data.filePath;
             await api.post('/api/banners', { imagem: filePath });
-            setMessage("Banner criado com sucesso!");
+            showToast("Banner criado com sucesso!");
             setBannerFile(null);
             document.getElementById('banner-upload').value = null;
             fetchHistorico();
-        } catch (err) {
-            console.error(err);
-            setMessage("Erro ao criar o banner.");
+        } catch {
+            showToast("Erro ao criar o banner.", "error");
         } finally {
             setLoading(false);
         }
     };
 
     const handleReativarBanner = async (bannerId) => {
-        setMessage("A reativar banner...");
         setLoading(true);
         try {
             await api.put(`/api/banners/${bannerId}/reativar`);
-            setMessage("Banner reativado com sucesso!");
+            showToast("Banner reativado com sucesso!");
             fetchHistorico();
-        } catch (err) {
-            console.error(err);
-            setMessage("Erro ao reativar o banner.");
+        } catch {
+            showToast("Erro ao reativar o banner.", "error");
         } finally {
             setLoading(false);
         }
@@ -150,9 +182,8 @@ export default function GerirBanners() {
 
     return (
         <div>
-            <h1>Gestão da Página Inicial</h1>
-            {message && <p>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <ToastMessage show={toast.show} type={toast.type}>{toast.message}</ToastMessage>
+            <PageTitle>Gestão de Banners</PageTitle>
 
             <ManagementSection>
                 <h2>Gerir Banner Principal</h2>
@@ -186,3 +217,4 @@ export default function GerirBanners() {
         </div>
     );
 }
+

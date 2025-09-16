@@ -14,10 +14,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.0",
-<<<<<<< HEAD
-=======
     "style-components": "^0.1.0",
->>>>>>> main
     "styled-components": "^6.1.19"
   },
   "devDependencies": {

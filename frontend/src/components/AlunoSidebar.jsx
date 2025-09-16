@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-// --- Estilização da Sidebar ---
-
 const SidebarContainer = styled.aside`
     width: 280px;
     background-color: #f2b924; // O tom de amarelo do seu design
@@ -11,14 +9,16 @@ const SidebarContainer = styled.aside`
     display: flex;
     flex-direction: column;
     padding: 1.5rem 0;
-    flex-shrink: 0; // Impede que a sidebar encolha
+    flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
 `;
 
 const LogoContainer = styled.div`
     padding: 0 1.5rem 1.5rem 1.5rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    // Adicione a sua logo aqui se desejar
     font-size: 1.5rem;
     font-weight: bold;
 `;
@@ -57,7 +57,6 @@ const DropdownMenu = styled.div`
     transition: max-height 0.3s ease-in-out;
 `;
 
-// Usamos NavLink para que ele receba uma classe 'active' automaticamente
 const NavLinkStyled = styled(NavLink)`
     display: block;
     padding: 0.6rem 0;
@@ -69,7 +68,6 @@ const NavLinkStyled = styled(NavLink)`
         background-color: rgba(0, 0, 0, 0.05);
     }
 
-    // Estilo para quando o link está ativo
     &.active {
         font-weight: bold;
         color: black;
@@ -95,7 +93,7 @@ const LogoutButton = styled.button`
 
 // Componente para um item de menu com dropdown
 const DropdownItem = ({ title, children }) => {
-    const [isOpen, setIsOpen] = useState(true); // Inicia aberto por padrão
+    const [isOpen, setIsOpen] = useState(true); // Começa aberto por padrão
     return (
         <div>
             <NavButton onClick={() => setIsOpen(!isOpen)}>
@@ -114,42 +112,43 @@ export default function PortalSidebar() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Limpa o token do localStorage
         localStorage.removeItem('user_token');
-        // Redireciona para a página de login
         navigate('/admin');
     };
 
     return (
         <SidebarContainer>
             <LogoContainer>
-                Portal Admin
+                Portal do Aluno
             </LogoContainer>
             <NavMenu>
                 <NavItem>
-                    <DropdownItem title="Página Inicial">
-                        <NavLinkStyled to="/admin/secoes">Gerir Seções</NavLinkStyled>
-                        <NavLinkStyled to="/admin/banners">Gerir Banners</NavLinkStyled>
+                    <DropdownItem title="Recados e conteúdos">
+                        <NavLinkStyled to="#">Recados gerais</NavLinkStyled>
+                        <NavLinkStyled to="#">Criar novo recado</NavLinkStyled>
+                        <NavLinkStyled to="#">Conteúdos</NavLinkStyled>
+                        <NavLinkStyled to="#">Postar novo conteúdo</NavLinkStyled>
+                    </DropdownItem>
+                </NavItem>
+                
+                <NavItem>
+                     <DropdownItem title="Frequência">
+                        <NavLinkStyled to="#">Verificar frequência</NavLinkStyled>
+                        <NavLinkStyled to="#">Lançar frequência</NavLinkStyled>
                     </DropdownItem>
                 </NavItem>
 
-                <NavItem>
-                    <DropdownItem title="Educadores Populares">
-                        <NavLinkStyled to="/admin/educadores/candidaturas">Novas Candidaturas</NavLinkStyled>
-                        <NavLinkStyled to="/admin/educadores/cadastrados">Educadores Cadastrados</NavLinkStyled>
+                 <NavItem>
+                     <DropdownItem title="Notas">
+                        <NavLinkStyled to="/portal/notas">Ver notas</NavLinkStyled>
+                        <NavLinkStyled to="/portal/notas/novo">Lançar notas</NavLinkStyled>
+                        <NavLinkStyled to="/portal/avaliacoes/novo">Criar nova avaliação</NavLinkStyled>
+                        <NavLinkStyled to="#">Avaliações cadastradas</NavLinkStyled>
                     </DropdownItem>
                 </NavItem>
+                
                 <NavItem>
-                    <DropdownItem title="Controle de Alunos">
-                        <NavLinkStyled to="#">Novas Matrículas</NavLinkStyled>
-                        <NavLinkStyled to="#">Alunos Matriculados</NavLinkStyled>
-                    </DropdownItem>
-                </NavItem>
-                <NavItem>
-                    <DropdownItem title="Redes Sociais">
-                        <NavLinkStyled to="#">Redes Cadastradas</NavLinkStyled>
-                        <NavLinkStyled to="#">Cadastrar Nova Rede</NavLinkStyled>
-                    </DropdownItem>
+                    <NavLinkStyled to="#">Seu perfil</NavLinkStyled>
                 </NavItem>
             </NavMenu>
             <LogoutButton onClick={handleLogout}>

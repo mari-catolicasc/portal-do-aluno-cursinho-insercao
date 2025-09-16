@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { api } from "../../services/api"; 
+import styled, { keyframes } from "styled-components";
+import { api } from "../../services/api";
+
+// --- Animações ---
+const fadeIn = keyframes`from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); }`;
+const fadeOut = keyframes`from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); }`;
+
+// --- Estilização ---
+const PageTitle = styled.h1`
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+`;
 
 const ManagementSection = styled.section`
     background-color: white;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 2rem;
 
     h2 {
@@ -14,6 +25,8 @@ const ManagementSection = styled.section`
         border-bottom: 1px solid #eee;
         padding-bottom: 1rem;
         margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        color: #4a4a4a;
     }
 `;
 
@@ -66,6 +79,13 @@ const SectionInfo = styled.div`
 
     h3 {
         margin: 0;
+        color: #333;
+    }
+
+    p {
+        margin: 0.2rem 0 0;
+        font-size: 0.8rem;
+        color: #888;
     }
 `;
 
@@ -75,68 +95,81 @@ const SectionActions = styled.div`
 `;
 
 const Button = styled.button`
-    padding: 0.8rem 1.2rem;
+    padding: 0.7rem 1.5rem;
     border: none;
-    background-color: ${props => props.secondary ? '#6c757d' : (props.danger ? '#dc3545' : '#007bff')};
-    color: white;
+    font-weight: 600;
+    background-color: ${props => props.secondary ? '#6c757d' : (props.danger ? '#dc3545' : '#f2b924')};
+    color: ${props => (props.danger ? 'white' : '#4a4a4a')};
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
 
     &:hover {
-        background-color: ${props => props.secondary ? '#5a6268' : (props.danger ? '#c82333' : '#0056b3')};
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background-color: ${props => props.secondary ? '#5a6268' : (props.danger ? '#c82333' : '#eab308')};
     }
 
     &:disabled {
         background-color: #ccc;
         cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 `;
 
-// --- NOVOS ESTILOS PARA O MODAL DE EDIÇÃO ---
 const ModalOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); display: flex;
+    justify-content: center; align-items: center; z-index: 1000;
 `;
 
 const ModalContent = styled.div`
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 600px;
+    background-color: white; padding: 2rem; border-radius: 8px;
+    width: 90%; max-width: 600px;
 `;
 
+const ToastMessage = styled.div`
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background-color: ${props => (props.type === 'success' ? '#28a745' : '#dc3545')};
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 2000;
+    visibility: ${props => (props.show ? 'visible' : 'hidden')};
+    animation: ${props => (props.show ? fadeIn : fadeOut)} 0.3s ease;
+`;
 
 export default function GerirSecoes() {
+    // --- States ---
     const [secoes, setSecoes] = useState([]);
     const [novaSecao, setNovaSecao] = useState({ titulo: '', texto: '' });
     const [secaoFile, setSecaoFile] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
-
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [secaoParaEditar, setSecaoParaEditar] = useState(null);
-    const [editSecaoFile, setEditSecaoFile] = useState(null); 
+    const [editSecaoFile, setEditSecaoFile] = useState(null);
+
+    // --- Funções ---
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast({ show: false, message: '', type });
+        }, 3000);
+    };
 
     const fetchSecoes = async () => {
         try {
             setLoading(true);
             const response = await api.get('/api/secoes');
             setSecoes(response.data);
-            setError('');
         } catch (err) {
             console.error(err);
-            setError("Falha ao carregar as seções.");
+            showToast("Falha ao carregar as seções.", 'error');
         } finally {
             setLoading(false);
         }
@@ -146,19 +179,7 @@ export default function GerirSecoes() {
         fetchSecoes();
     }, []);
 
-    // --- Handlers de Criação e Delete ---
-
-    const handleNovaSecaoChange = (e) => {
-        const { name, value } = e.target;
-        setNovaSecao(prevState => ({ ...prevState, [name]: value }));
-    };
-    
-    const handleSecaoFileChange = (e) => {
-        setSecaoFile(e.target.files[0]);
-    };
-
     const handleCriarSecao = async () => {
-        setMessage("A processar nova seção...");
         setLoading(true);
         try {
             let imagemPath = null;
@@ -168,101 +189,74 @@ export default function GerirSecoes() {
                 const uploadResponse = await api.post('/api/uploads', formData);
                 imagemPath = uploadResponse.data.filePath;
             }
-            const dadosParaEnviar = { ...novaSecao, imagem: imagemPath };
-            await api.post('/api/secoes', dadosParaEnviar);
-            setMessage("Seção criada com sucesso!");
+            await api.post('/api/secoes', { ...novaSecao, imagem: imagemPath });
+            showToast("Seção criada com sucesso!");
             setNovaSecao({ titulo: '', texto: '' });
             setSecaoFile(null);
             document.getElementById('secao-upload').value = null;
             fetchSecoes();
-        } catch (err) {
-            console.error(err);
-            setMessage("Erro ao criar a seção.");
+        } catch {
+            showToast("Erro ao criar a seção.", 'error');
         } finally {
             setLoading(false);
         }
     };
-
+    
     const handleApagarSecao = async (id) => {
         if (window.confirm("Tem a certeza que quer apagar esta seção?")) {
-            setMessage("A apagar seção...");
             setLoading(true);
             try {
                 await api.delete(`/api/secoes/${id}`);
-                setMessage("Seção apagada com sucesso!");
+                showToast("Seção apagada com sucesso!");
                 fetchSecoes();
-            } catch (err) {
-                console.error(err);
-                setMessage("Erro ao apagar a seção.");
+            } catch {
+                showToast("Erro ao apagar a seção.", 'error');
             } finally {
                 setLoading(false);
             }
         }
     };
-
-    // --- HANDLERS PARA A EDIÇÃO ---
-
-    const openEditModal = (secao) => {
-        setSecaoParaEditar({ ...secao });
-        setEditSecaoFile(null); 
-        setIsEditModalOpen(true);
-    };
-
-    const closeEditModal = () => {
-        setIsEditModalOpen(false);
-        setSecaoParaEditar(null);
-        setEditSecaoFile(null); 
-    };
-
-    const handleEditChange = (e) => {
-        const { name, value } = e.target;
-        setSecaoParaEditar(prevState => ({ ...prevState, [name]: value }));
-    };
-
-    const handleEditSecaoFileChange = (e) => {
-        setEditSecaoFile(e.target.files[0]);
-    };
-
+    
     const handleSalvarEdicao = async () => {
         if (!secaoParaEditar) return;
-        setMessage("A salvar alterações...");
         setLoading(true);
         try {
-            let imagemPath = secaoParaEditar.imagem; 
-    
+            let imagemPath = secaoParaEditar.imagem;
             if (editSecaoFile) {
                 const formData = new FormData();
                 formData.append('file', editSecaoFile);
                 const uploadResponse = await api.post('/api/uploads', formData);
                 imagemPath = uploadResponse.data.filePath;
             }
-            
-            const dadosAtualizados = {
-                titulo: secaoParaEditar.titulo,
-                texto: secaoParaEditar.texto,
-                imagem: imagemPath
-            };
-
+            const dadosAtualizados = { titulo: secaoParaEditar.titulo, texto: secaoParaEditar.texto, imagem: imagemPath };
             await api.put(`/api/secoes/${secaoParaEditar.id}`, dadosAtualizados);
-            
-            setMessage("Seção atualizada com sucesso!");
+            showToast("Seção atualizada com sucesso!");
             closeEditModal();
-            fetchSecoes(); 
-        } catch (err) {
-            console.error(err);
-            setMessage("Erro ao atualizar a seção.");
+            fetchSecoes();
+        } catch {
+            showToast("Erro ao atualizar a seção.", 'error');
         } finally {
             setLoading(false);
         }
     };
 
+    // --- Funções do Modal ---
+    const openEditModal = (secao) => { setSecaoParaEditar({ ...secao }); setEditSecaoFile(null); setIsEditModalOpen(true); };
+    const closeEditModal = () => { setIsEditModalOpen(false); setSecaoParaEditar(null); setEditSecaoFile(null); };
+    const handleEditChange = (e) => { const { name, value } = e.target; setSecaoParaEditar(p => ({ ...p, [name]: value })); };
+    const handleEditSecaoFileChange = (e) => { setEditSecaoFile(e.target.files[0]); };
+    const handleNovaSecaoChange = (e) => {
+        const { name, value } = e.target;
+        setNovaSecao(prevState => ({ ...prevState, [name]: value }));
+    };
+    const handleSecaoFileChange = (e) => {
+        setSecaoFile(e.target.files[0]);
+    };
+
     return (
         <div>
-            <h1>Gestão das Seções</h1>
-            {message && <p>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
- {/* --- Modal para criar uma nova section --- */}
+            <ToastMessage show={toast.show} type={toast.type}>{toast.message}</ToastMessage>
+            <PageTitle>Gestão das Seções</PageTitle>
 
             <ManagementSection>
                 <h2>Criar Nova Seção</h2>
@@ -276,8 +270,6 @@ export default function GerirSecoes() {
                     </Button>
                 </Form>
             </ManagementSection>
-
-{/* --- Exibição das seções existentes --- */}
 
             <ManagementSection>
                 <h2>Seções Atuais</h2>
@@ -302,38 +294,21 @@ export default function GerirSecoes() {
                 )}
             </ManagementSection>
 
-            {/* --- EDIÇÃO --- */}
-
             {isEditModalOpen && secaoParaEditar && (
                 <ModalOverlay>
                     <ModalContent>
                         <h2>Editar Seção ID: {secaoParaEditar.id}</h2>
                         <Form>
                             <label>Título:</label>
-                            <Input 
-                                type="text" 
-                                name="titulo" 
-                                value={secaoParaEditar.titulo}
-                                onChange={handleEditChange}
-                            />
+                            <Input type="text" name="titulo" value={secaoParaEditar.titulo} onChange={handleEditChange} />
                             <label>Texto:</label>
-                            <Textarea 
-                                name="texto" 
-                                value={secaoParaEditar.texto}
-                                onChange={handleEditChange}
-                            />
-                            
+                            <Textarea name="texto" value={secaoParaEditar.texto} onChange={handleEditChange} />
                             <label>Imagem Atual:</label>
                             {secaoParaEditar.imagem ? (
                                 <img src={`http://localhost:8080${secaoParaEditar.imagem}`} alt="Imagem atual" style={{ width: '100px', height: 'auto', marginBottom: '1rem' }} />
                             ) : <p>Nenhuma imagem.</p>}
-                            
                             <label htmlFor="edit-secao-upload">Trocar Imagem (Opcional):</label>
-                            <Input 
-                                id="edit-secao-upload" 
-                                type="file" 
-                                onChange={handleEditSecaoFileChange} 
-                            />
+                            <Input id="edit-secao-upload" type="file" onChange={handleEditSecaoFileChange} />
                         </Form>
                         <SectionActions style={{ marginTop: '1.5rem', justifyContent: 'flex-end' }}>
                             <Button secondary onClick={closeEditModal} disabled={loading}>Cancelar</Button>
@@ -347,3 +322,4 @@ export default function GerirSecoes() {
         </div>
     );
 }
+
