@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Botao from './reused/botao';
 
 const Div = styled.div`
     display: flex;
@@ -38,6 +39,7 @@ const Form = styled.form`
     flex-grow: 1;
     border-radius: 5px;
     gap: 2.5%;
+    align-items: center;
 `
 
 const SelectAvalDiv = styled.div`
@@ -137,6 +139,7 @@ export default function CLancarNotas() {
                     <Input type="number" id="nota" min="0" max="10" step="0.1"/>
                 </Lin>
             </AlunosDiv>
+            <Botao text="Salvar Notas"/>
         </Form>
     </Div>
   )

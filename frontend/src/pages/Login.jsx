@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Botao from "../components/reused/botao";
+import Navbar from "../components/Navbar";
 import styled from 'styled-components';
 
 // ========== STYLED COMPONENTS (CSS) ==========
@@ -147,6 +149,7 @@ const Login = () => {
   return (
     <Container>
       {/* Seção Principal com o Card de Login */}
+      <Navbar />
       <Main>
         <LoginCard>
           {/* Ícone do usuário */}
@@ -197,9 +200,7 @@ const Login = () => {
             </InputContainer>
  
             {/* Botão de Login */}
-            <LoginButton type="submit">
-              Logar
-            </LoginButton>
+            <Botao text="Logar"/>
           </Form>
         </LoginCard>
       </Main>
