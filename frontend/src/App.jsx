@@ -1,10 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import Home from './pages/Home';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+
 import Cadastro from './pages/Cadastro';
 import LancarNotas from './pages/portal-do-aluno/LancarNotas';
 import VerNotas from './pages/portal-do-aluno/VerNotas';
+
+import RecadosGerais from './pages/portal-do-aluno/RecadosGerais';
 import Login from './pages/Login';
 
 export default function App(){
