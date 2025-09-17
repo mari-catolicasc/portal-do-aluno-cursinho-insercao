@@ -149,6 +149,7 @@ const Login = () => {
   return (
     <Container>
       {/* Seção Principal com o Card de Login */}
+
       <Navbar />
       <Main>
         <LoginCard>
@@ -200,7 +201,11 @@ const Login = () => {
             </InputContainer>
  
             {/* Botão de Login */}
+
             <Botao text="Logar"/>
+            <LoginButton type="submit">
+              Logar
+            </LoginButton>
           </Form>
         </LoginCard>
       </Main>

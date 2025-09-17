@@ -1,10 +1,6 @@
-//importação dos hoooks do react
 
-// import { useEffect, useState } from "react";
-// import { api } from "../services/api";
-
-//importação dos components
-
+import { useState, useEffect } from 'react';
+import { api } from '../services/api';
 import Navbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import Section from "../components/Section";
@@ -13,36 +9,61 @@ import Footer from "../components/Footer";
 import '../global.css';
 
 export default function Home() {
+    const [secoes, setSecoes] = useState([]);
+    const [bannerUrl, setBannerUrl] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // essa const cria um estado para guardar os dados das seção que virão da api
-    // const [sections, setSections] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
 
-    // isso aqui é padrão quando for usar, ele executa a requisição a api apenas uma vez 
-    // useEffect(() => {
-    //     api.get('/sections')
-    //         .then(res => setSections(res.data))
-    //         .catch(err => console.error(err));
-    // }, []);
+                const [resSecoes, resBanner] = await Promise.all([
+                    api.get('/api/secoes'),
+                    api.get('/api/banners/ativo')
+                ]);
 
+                setSecoes(resSecoes.data);
+                setBannerUrl(`http://localhost:8080${resBanner.data.imagem}`);
+
+            } catch (error) {
+                console.error("Erro ao buscar dados da home:", error);
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <div>
+            <p>Carregando...</p>
+        </div>;
+    }
+
+    if (error) {
+        return <div>Erro ao carregar a página. Tente novamente mais tarde.</div>;
+    }
 
     return (
         <>
             <Navbar />
-            <Banner />
+            <Banner imagemUrl={bannerUrl} />
+            {secoes.map(secao => (
 
-            {/* ele vai renderizar cada seção recebida pela api
-            
-            { sections.map (sec => (
                 <Section
-                    key={sec.id}
-                    titulo={sec.titulo}
-                    texto={sec.texto}
-                    imagem={sec.imagem_url}
+                    key={secao.id}
+                    titulo={secao.titulo}
+                    imagem={secao.imagem}
+                    texto={secao.texto}
                 />
-            ))} */}
 
+            ))} 
             <Section/>
             <Footer/>
         </>
     )
 }
+

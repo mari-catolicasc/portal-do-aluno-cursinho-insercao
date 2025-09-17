@@ -5,6 +5,7 @@ import pt.cursinhoinsercao.portalaluno.util.JPAUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -134,5 +135,17 @@ public class BannerDAO {
         } finally {
             em.close();
         }
+    }
+
+    public void desativarTodos(EntityManager em) {
+        String jpql = "UPDATE Banner b SET b.ativo = false WHERE b.ativo = true";
+        Query query = em.createQuery(jpql);
+        query.executeUpdate();
+    }
+    public Banner buscarPorId(int id) {
+        EntityManager em = JPAUtil.getEntityManager();
+        Banner banner = em.find(Banner.class, id);
+        em.close();
+        return banner;
     }
 }

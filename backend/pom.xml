@@ -107,6 +107,20 @@
             <version>1.7.32</version>
         </dependency>
 
+        <!-- Filtro CORS do Jetty para permitir pedidos do frontend -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+
+        <!-- Módulo que ensina o Jersey a converter Datas do Java 8 (LocalDateTime, etc) para JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.3</version>
+        </dependency>
+
     </dependencies>
 
 </project>

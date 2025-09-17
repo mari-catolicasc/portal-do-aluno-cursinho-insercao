@@ -8,17 +8,19 @@ public class Secao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "imagem", length = 70)
-    private String imagem;
+    // Adiciona o campo 'titulo' para corresponder à base de dados
+    @Column(name = "titulo")
+    private String titulo;
 
-    @Column(name = "texto", length = 500)
+    @Column(name = "texto")
     private String texto;
 
-    public Secao() {
-    }
+    @Column(name = "imagem")
+    private String imagem;
+
+    // --- Getters e Setters ---
 
     public int getId() {
         return id;
@@ -28,12 +30,13 @@ public class Secao {
         this.id = id;
     }
 
-    public String getImagem() {
-        return imagem;
+    // Adiciona o getter e setter para o novo campo 'titulo'
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getTexto() {
@@ -42,5 +45,13 @@ public class Secao {
 
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }

@@ -6,132 +6,133 @@ import logo from '../assets/imgs/logo_sem_fundo.png';
 // --- Estilização da Sidebar ---
 
 const SidebarContainer = styled.aside`
-    width: 280px;
-    background-color: #f2b924;
-    color: #4a4a4a;
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem 0;
-    flex-shrink: 0;
-    transition: width 0.3s ease;
-    height: 100vh;
-    position: sticky;
-    top: 0;
+    width: 280px;
+    background-color: #f2b924;
+    color: #4a4a4a;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    flex-shrink: 0;
+    transition: width 0.3s ease;
+    height: 100vh;
+    position: sticky;
+    top: 0;
 
-    &.collapsed {
-        width: 80px;
-    }
+    &.collapsed {
+        width: 80px;
+    }
 `;
 
 const SidebarHeader = styled.div`
-    padding: 0 1.5rem 1.5rem 1.5rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    &.collapsed {
-        justify-content: center;
-    }
+    &.collapsed {
+        justify-content: center;
+    }
 `;
 
 const Logo = styled.img`
-    height: 60px;
-    transition: opacity 0.3s ease, width 0.3s ease;
-    opacity: ${props => (props.isCollapsed ? 0 : 1)};
-    width: ${props => (props.isCollapsed ? '0px' : 'auto')};
+    height: 60px;
+    transition: opacity 0.3s ease, width 0.3s ease;
+    opacity: ${props => (props.isCollapsed ? 0 : 1)};
+    width: ${props => (props.isCollapsed ? '0px' : 'auto')};
 `;
 
 const ToggleButton = styled.button`
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: #4a4a4a;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #4a4a4a;
+    flex-shrink: 0; 
+`;
+
+const LogoContainer = styled.div`
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    // Adicione a sua logo aqui se desejar
+    font-size: 1.5rem;
+    font-weight: bold;
 `;
 
 const NavMenu = styled.nav`
-    flex-grow: 1;
-    padding: 0 1.5rem;
+    flex-grow: 1;
+    padding: 0 1.5rem;
 `;
 
 const NavItem = styled.div`
-    margin-bottom: 0.5rem;
+    padding: 0 1.5rem;
 `;
 
 const NavButton = styled.button`
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 0.8rem 0;
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #4a4a4a;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0.8rem 0;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a4a4a;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    &:hover {
-        opacity: 0.8;
-    }
-
-    .collapsed & span {
-        display: none;
-    }
+    &:hover {
+        opacity: 0.8;
+    }
 `;
 
 const DropdownMenu = styled.div`
-    padding-left: 1rem;
-    max-height: ${props => (props.isOpen ? '500px' : '0')};
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
-    
-    .collapsed & {
-        display: none;
-    }
+    padding-left: 1rem; // Indentação para os sub-links
+    max-height: ${props => (props.isOpen ? '500px' : '0')};
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
 `;
 
 const NavLinkStyled = styled(NavLink)`
-    display: block;
-    padding: 0.6rem 0;
-    color: #4a4a4a;
-    text-decoration: none;
-    border-radius: 5px;
-    white-space: nowrap;
+    display: block;
+    padding: 0.6rem 0;
+    color: #4a4a4a;
+    text-decoration: none;
+    border-radius: 5px;
+    white-space: nowrap;
 
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 
-    &.active {
-        font-weight: bold;
-        color: black;
-    }
+    &.active {
+        font-weight: bold;
+        color: black;
+    }
 `;
 
 const LogoutButton = styled.button`
-    background: none;
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    width: 100%;
-    padding: 1.5rem;
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #4a4a4a;
-    cursor: pointer;
-    white-space: nowrap;
-    
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
+    background: none;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 1.5rem;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a4a4a;
+    cursor: pointer;
+    white-space: nowrap;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 
-    .collapsed & .logout-text {
-        display: none;
-    }
+    .collapsed & .logout-text {
+        display: none;
+    }
 `;
 
 const DropdownItem = ({ title, children, isCollapsed }) => {
@@ -149,53 +150,50 @@ const DropdownItem = ({ title, children, isCollapsed }) => {
     );
 };
 
-
 export default function PortalSidebar() {
-    const [isCollapsed, setIsCollapsed] = useState(false);
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        if (window.confirm("Tem a certeza que deseja sair?")) {
-            localStorage.removeItem('user_token');
-            navigate('/admin');
-        }
+        // Limpa o token do localStorage
+        localStorage.removeItem('user_token');
+        // Redireciona para a página de login
+        navigate('/admin');
     };
 
     return (
-        <SidebarContainer className={isCollapsed ? 'collapsed' : ''}>
-            <SidebarHeader className={isCollapsed ? 'collapsed' : ''}>
-                <Logo src={logo} alt="Logo" isCollapsed={isCollapsed} />
-                <ToggleButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                    {isCollapsed ? '➔' : '←'}
-                </ToggleButton>
-            </SidebarHeader>
-
+        <SidebarContainer>
+            <LogoContainer>
+                Portal Admin
+            </LogoContainer>
             <NavMenu>
-                <DropdownItem title="Página Inicial" isCollapsed={isCollapsed}>
-                    <NavLinkStyled to="/admin/secoes">Seções Cadastradas</NavLinkStyled>
-                    <NavLinkStyled to="/admin/banners">Gerir Banners</NavLinkStyled>
-                </DropdownItem>
-                
-                <DropdownItem title="Educadores Populares" isCollapsed={isCollapsed}>
-                    <NavLinkStyled to="#">Novas Candidaturas</NavLinkStyled>
-                    <NavLinkStyled to="#">Educadores Cadastrados</NavLinkStyled>
-                </DropdownItem>
-                 
-                <DropdownItem title="Controle de Alunos" isCollapsed={isCollapsed}>
-                    <NavLinkStyled to="#">Novas Matrículas</NavLinkStyled>
-                    <NavLinkStyled to="#">Alunos Matriculados</NavLinkStyled>
-                </DropdownItem>
-                 
-                <DropdownItem title="Redes Sociais" isCollapsed={isCollapsed}>
-                    <NavLinkStyled to="#">Redes Cadastradas</NavLinkStyled>
-                    <NavLinkStyled to="#">Cadastrar Nova Rede</NavLinkStyled>
-                </DropdownItem>
+                <NavItem>
+                    <DropdownItem title="Página Inicial">
+                        <NavLinkStyled to="/admin/secoes">Gerir Seções</NavLinkStyled>
+                        <NavLinkStyled to="/admin/banners">Gerir Banners</NavLinkStyled>
+                    </DropdownItem>
+                </NavItem>
+                <NavItem>
+                    <DropdownItem title="Educadores Populares">
+                        <NavLinkStyled to="/admin/educadores/candidaturas">Novas Candidaturas</NavLinkStyled>
+                        <NavLinkStyled to="/admin/educadores/cadastrados">Educadores Cadastrados</NavLinkStyled>
+                    </DropdownItem>
+                </NavItem>
+                <NavItem>
+                    <DropdownItem title="Controle de Alunos">
+                        <NavLinkStyled to="#">Novas Matrículas</NavLinkStyled>
+                        <NavLinkStyled to="#">Alunos Matriculados</NavLinkStyled>
+                    </DropdownItem>
+                </NavItem>
+                <NavItem>
+                    <DropdownItem title="Redes Sociais">
+                        <NavLinkStyled to="#">Redes Cadastradas</NavLinkStyled>
+                        <NavLinkStyled to="#">Cadastrar Nova Rede</NavLinkStyled>
+                    </DropdownItem>
+                </NavItem>
             </NavMenu>
-            
-            <LogoutButton className={isCollapsed ? 'collapsed' : ''} onClick={handleLogout}>
-                <span className="logout-text">Sair</span> ➔
+            <LogoutButton onClick={handleLogout}>
+                Sair ➔
             </LogoutButton>
         </SidebarContainer>
     );
 }
-

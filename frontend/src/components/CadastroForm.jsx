@@ -44,6 +44,17 @@ const Select = styled.select`
     appearance: none;
     outline: none; 
 `
+const Botao = styled.button`
+    width: 35%;
+    min-height: 60px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 30px;
+    margin: 5% 0 0 0;
+    border: none;
+    color: #FFFFFF;
+    background-color: #F2B924;
+`
 
 export default function CadastroForm() {
 
@@ -92,7 +103,6 @@ export default function CadastroForm() {
                     </Select>
                 </Lin>
             )}
-
             <Botao text="Cadastrar"/>
         </Form>
     );

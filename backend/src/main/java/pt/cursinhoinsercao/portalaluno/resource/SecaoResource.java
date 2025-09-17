@@ -25,7 +25,7 @@ public class SecaoResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Secured // Apenas admins podem aceder
+    @Seguranca // Apenas admins podem aceder
     public Response criar(SecaoDTO secaoDTO) {
         try {
             Secao novaSecao = new Secao();
@@ -44,7 +44,7 @@ public class SecaoResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Secured // Apenas admins podem aceder
+    @Seguranca // Apenas admins podem aceder
     public Response atualizar(@PathParam("id") int id, SecaoDTO secaoDTO) {
         try {
             Secao secaoParaAtualizar = new Secao();
@@ -61,7 +61,7 @@ public class SecaoResource {
 
     @DELETE
     @Path("/{id}")
-    @Secured // Apenas admins podem aceder
+    @Seguranca // Apenas admins podem aceder
     public Response deletar(@PathParam("id") int id) {
         try {
             secaoService.deletar(id);
