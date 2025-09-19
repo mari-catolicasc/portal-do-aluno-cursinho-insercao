@@ -69,7 +69,8 @@ const Input = styled.input`
     background-color: #FFFFFF;
 `
 
-export default function CCriarAvaliacao () {
+export default function CCriarAvaliacao () 
+{
   return (
     <Div>
         <TituloPag>Notas / Criar nova avaliação</TituloPag>
