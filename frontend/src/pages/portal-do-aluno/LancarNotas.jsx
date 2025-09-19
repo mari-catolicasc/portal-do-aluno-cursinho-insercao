@@ -1,8 +1,8 @@
-import CLancarNotas from '../../components/CLancarNotas';
-import PortalSidebar from '../../components/PortalSidebar';
-import styled from 'styled-components';
+import CLancarNotas from "../../components/CLancarNotas";
+import PortalSidebar from "../../components/PortalSidebar";
+import styled from "styled-components";
 import { useState } from "react";
-import '../../global.css';
+import "../../global.css";
 
 const LayoutDiv = styled.div`
   display: flex;
@@ -29,14 +29,17 @@ const Content = styled.div`
 `;
 
 export default function LancarNotas() {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
-    return (
-        <LayoutDiv>
-        <PortalSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-        <Content $collapsed={isCollapsed}>
-            <CLancarNotas />
-        </Content>
-        </LayoutDiv>
-    );
+  return (
+    <LayoutDiv>
+      <PortalSidebar
+        isCollapsed={isCollapsed}
+        setIsCollapsed={setIsCollapsed}
+      />
+      <Content $collapsed={isCollapsed}>
+        <CLancarNotas />
+      </Content>
+    </LayoutDiv>
+  );
 }
