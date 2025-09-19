@@ -2,12 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // --- Páginas Padrão ---
 import Home from './pages/Home';
-
 import Cadastro from './pages/Cadastro';
-import LancarNotas from './pages/portal-do-aluno/LancarNotas';
-import VerNotas from './pages/portal-do-aluno/VerNotas';
-
-import CriarAvaliacao from './pages/portal-do-aluno/CriarAvaliacao';
 
 
 // --- Páginas de Administração ---
