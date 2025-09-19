@@ -553,7 +553,7 @@ export default function PortalSidebar() {
       id: 4,
       title: 'Seu perfil',
       emoji: '👤',
-      submenu: null // Sem submenu
+      submenu: null
     }
   ];
 

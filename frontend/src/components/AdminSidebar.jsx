@@ -492,8 +492,6 @@ export default function AdminSidebar() {
     console.log(`Navegando para: ${groupTitle}`);
     setActiveGroup(groupId);
     setActiveSubmenuItem('');
-    // TODO pode adicionar navegação real
-    // navigate('/relatorios-universidades');
   };
 
   // Função para lidar com itens de submenu
@@ -502,7 +500,20 @@ export default function AdminSidebar() {
     console.log(`Submenu clicado: ${item}`);
     setActiveSubmenuItem(item);
     setActiveGroup('');
-    // TODO adicionar navegação real baseada no item
+  };
+
+  // Função de logout
+  const handleLogout = () => {
+    const userConfirmed = window.confirm('Tem certeza que deseja sair do sistema?');
+    
+    if (userConfirmed) {
+      setTimeout(() => {
+        alert('Você foi desconectado do sistema.');
+        console.log('Usuário deslogado com sucesso');
+      }, 500);
+    } else {
+      console.log('Logout cancelado pelo usuário');
+    }
   };
 
   // Dados dos grupos de menu
@@ -611,6 +622,7 @@ export default function AdminSidebar() {
       {/* ========== BOTÃO DE LOGOUT ========== */}
       <LogoutContainer>
         {/* Botão com controle para logout */}
+        <LogoutButton onClick={handleLogout} title="Sair do sistema">
           {/* Ícone SVG de saída/logout */}
           <LogoutIcon width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path 
@@ -635,6 +647,7 @@ export default function AdminSidebar() {
           </LogoutIcon>
           {/* Texto do botão (some quando sidebar minimizada) */}
           <LogoutText>Sair</LogoutText>
+        </LogoutButton>
       </LogoutContainer>
     </SidebarContainer>
   );

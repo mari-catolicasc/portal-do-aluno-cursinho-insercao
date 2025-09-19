@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
 
-
 // --- Páginas de Administração ---
 import AdminLogin from './pages/AdminLogin';
 import GerirBanners from './pages/admin/GerirBanners';
