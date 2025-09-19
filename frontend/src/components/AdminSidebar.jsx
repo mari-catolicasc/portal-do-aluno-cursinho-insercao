@@ -234,7 +234,7 @@ const GroupHeader = styled.div`
     }
 
     &[data-group="1"]::after {
-      content: '📝';
+      content: '👥';
       background: none;
       font-size: 16px;
       display: flex;
@@ -243,15 +243,6 @@ const GroupHeader = styled.div`
     }
 
     &[data-group="2"]::after {
-      content: '📅';
-      background: none;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &[data-group="3"]::after {
       content: '🎓';
       background: none;
       font-size: 16px;
@@ -260,8 +251,17 @@ const GroupHeader = styled.div`
       justify-content: center;
     }
 
+    &[data-group="3"]::after {
+      content: '📱';
+      background: none;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     &[data-group="4"]::after {
-      content: '👤';
+      content: '📊';
       background: none;
       font-size: 16px;
       display: flex;
@@ -428,7 +428,7 @@ const LogoutText = styled.span`
 
 // ========== COMPONENTE REACT ==========
 
-export default function PortalSidebar() {
+export default function AdminSidebar() {
   // Estados do componente
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -520,40 +520,36 @@ export default function PortalSidebar() {
   const menuGroups = [
     {
       id: 1,
-      title: 'Recados e conteúdos',
-      emoji: '📝',
+      title: 'Educadores populares',
+      emoji: '👥',
       submenu: [
-        'Recados gerais',
-        'Criar novo recado',
-        'Conteúdos',
-        'Postar novo conteúdo'
+        'Novas candidaturas',
+        'Educadores cadastrados'
       ]
     },
     {
       id: 2,
-      title: 'Frequência',
-      emoji: '📅',
+      title: 'Controle de alunos',
+      emoji: '🎓',
       submenu: [
-        'Verificar frequência',
-        'Lançar frequência'
+        'Novas matrículas',
+        'Alunos matriculados'
       ]
     },
     {
       id: 3,
-      title: 'Notas',
-      emoji: '🎓',
+      title: 'Redes sociais',
+      emoji: '📱',
       submenu: [
-        'Ver notas',
-        'Lançar notas',
-        'Criar nova avaliação',
-        'Avaliações cadastradas'
+        'Redes cadastradas',
+        'Cadastrar nova rede'
       ]
     },
     {
       id: 4,
-      title: 'Seu perfil',
-      emoji: '👤',
-      submenu: null
+      title: 'Relatório de Universidades',
+      emoji: '📊',
+      submenu: null // Sem submenu
     }
   ];
 
