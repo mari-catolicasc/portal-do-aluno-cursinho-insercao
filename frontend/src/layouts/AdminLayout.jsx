@@ -1,10 +1,8 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import PortalSidebar from '../components/PortalSidebar'; 
-import Navbar from '../components/Navbar'; 
-import Footer from '../components/Footer'; 
+import PortalSidebar from '../components/PortalSidebar';
 
-// --- Estilização do Layout ---
 const AdminContainer = styled.div`
     display: flex;
     min-height: 100vh;
@@ -15,6 +13,10 @@ const ContentWrapper = styled.div`
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    /* A MÁGICA ESTÁ AQUI: */
+    /* A margem esquerda se ajusta com uma transição suave com base no estado da sidebar */
+    margin-left: ${props => (props.isSidebarCollapsed ? '80px' : '323px')};
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
 const MainContent = styled.main`
@@ -24,16 +26,25 @@ const MainContent = styled.main`
 `;
 
 export default function AdminLayout() {
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsSidebarCollapsed(!isSidebarCollapsed);
+    };
+
     return (
         <AdminContainer>
-            <PortalSidebar />
+            <PortalSidebar 
+                isCollapsed={isSidebarCollapsed} 
+                toggleSidebar={toggleSidebar} 
+            />
 
-            <ContentWrapper>
+            <ContentWrapper isSidebarCollapsed={isSidebarCollapsed}>
                 <MainContent>
-
                     <Outlet />
                 </MainContent>
             </ContentWrapper>
         </AdminContainer>
     );
 }
+

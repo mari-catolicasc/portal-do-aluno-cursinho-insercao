@@ -17,7 +17,8 @@
 
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cursinhoinsercao?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cursinhoinsercao"/>
+
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value=""/>
 
@@ -31,3 +32,4 @@
 
     </persistence-unit>
 </persistence>
+
