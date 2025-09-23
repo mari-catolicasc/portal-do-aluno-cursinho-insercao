@@ -8,7 +8,7 @@ const NavbarDiv = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
+    height: 3rem;
     padding: 0 1rem;
     background-image: url(${fundoNavbar}); 
     background-position: 100% 70px;    
@@ -19,7 +19,7 @@ const Logo = styled.img`
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    height: 70px;
+    height: 100%;
 `
 
 const MenuBtn = styled.button`
@@ -28,11 +28,14 @@ const MenuBtn = styled.button`
     font-size: 2rem;
     cursor: pointer;
     z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `
 
 const MenuIcon = styled.span`
     color: #FFFFFF;
-    font-size: 35px;
+    font-size: 2rem;
 `
 
 const Dropdown = styled.div`
@@ -40,24 +43,18 @@ const Dropdown = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 0 0 20px 0;
-    width: 300px;
-    top: 70px;
+    width: 15rem;
+    top: 3rem;
     left: 0;
     background-image: url(${fundoNavbar}); 
     background-position: 100% 70px;
     z-index: 10;
 `
-const Links = styled.a`
-    font-weight: 600;  
-    padding: 10px;
-    font-size: 18px;
-    text-decoration: none;
-    color: #FFFFFF;
-`
+
 const StyledLink = styled(Link)`
     font-weight: 600;   
-    padding: 15px; // Aumentei o padding para ser mais fácil de clicar
-    font-size: 18px;
+    padding: 1rem;
+    font-size: 1rem;
     text-decoration: none;
     color: #FFFFFF;
     transition: background-color 0.2s;

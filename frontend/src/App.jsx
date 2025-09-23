@@ -8,6 +8,7 @@ import Cadastro from './pages/Cadastro';
 import AdminLogin from './pages/AdminLogin';
 import GerirBanners from './pages/admin/GerirBanners';
 import GerirSecoes from './pages/admin/GerirSecoes';
+import GerirRedes from './pages/admin/GerirRedes';
 import NovasCandidaturas from './pages/admin/NovasCandidaturas';
 import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
 
@@ -17,36 +18,36 @@ import VerNotas from './pages/portal-do-aluno/VerNotas';
 import CriarAvaliacao from './pages/portal-do-aluno/CriarAvaliacao';
 
 import AdminLayout from './layouts/AdminLayout';
+import PortalLayout from './layouts/PortalLayout';
 
 export default function App() {
     return (
         <BrowserRouter>
             <Routes>
 
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-
-                <Route path="/cadastro" element={<Cadastro />} />
-                <Route path="/admin/register" element={<Cadastro />} />
-
-                <Route path="/admin" element={<AdminLogin />} />
+                <Route path="/" element={<Home />}/>
+                <Route path="/home" element={<Home/>}/>
+                <Route path="/admin/register" element={<Cadastro/>} />
+                <Route path="/admin" element={<Navigate to="/admin/login" replace/>}/>
+                <Route path="/admin/login" element={<AdminLogin/>} />
 
                 {/* ========== ROTAS DE ADMINISTRAÇÃO ========== */}
                 <Route element={<AdminLayout />}>
-                    <Route path="/admin/dashboard" element={<Navigate to="/admin/secoes" replace />} />
-                    <Route path="/admin/secoes" element={<GerirSecoes />} />
-                    <Route path="/admin/banners" element={<GerirBanners />} />
-
-                    <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas />} />
-                    <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados />} />
+                    <Route path="/admin/dashboard" element={<Navigate to="/admin/secoes" replace/>}/>
+                    <Route path="/admin/secoes" element={<GerirSecoes/>}/>
+                    <Route path="/admin/banners" element={<GerirBanners/>}/>
+                    <Route path="/admin/redes" element={<GerirRedes/>}/>
+                    <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas/>}/>
+                    <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados/>}/>
                 </Route>
 
 
                 {/* ========== ROTAS DO ALUNO/PROFESSOR ========== */}
-                <Route path="/portal/notas" element={<VerNotas />} />
-                <Route path="/portal/notas/novo" element={<LancarNotas />} />
-                <Route path="/portal/avaliacoes/novo" element={<CriarAvaliacao />} />
-
+                <Route element={<PortalLayout/>}>
+                    <Route path="/portal/notas" element={<VerNotas/>}/>
+                    <Route path="/portal/notas/novo" element={<LancarNotas/>}/>
+                    <Route path="/portal/avaliacoes/novo" element={<CriarAvaliacao/>}/>
+                </Route>
             </Routes>
         </BrowserRouter>
     );

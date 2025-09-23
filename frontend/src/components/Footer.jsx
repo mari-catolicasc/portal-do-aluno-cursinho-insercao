@@ -6,12 +6,12 @@ import apoiase from '../assets/imgs/icon_apoia-se.png';
 const FooterDiv = styled.footer`
   background-color: #F2B924;
   text-align: center;
-  font-size: 18px;
-  line-height: 50px;
+  font-size: 1rem;
+  line-height: 3rem;
   font-weight: 400;
   bottom: 0;
   width: 100%;
-  padding: 50px 40px;
+  padding: 1rem 2rem 1rem 2rem;
   color: #FFFFFF;
 
   /* Força TODOS os links do footer a manterem a mesma cor/decoração */
@@ -43,12 +43,12 @@ const Lin = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 10px 0;
+  margin: 0.5rem 0;
 `;
 
 const RedesSociaisIcon = styled.img`
-  height: 30px;
-  margin: 0 15px 0 0;
+  height: 2rem;
+  margin: 0 1rem 0 0;
 `;
 
 const Links = styled.div`

@@ -7,6 +7,7 @@ const SidebarContainer = styled.aside`
   width: 323px;
   height: 100vh;
   background-color: #F2B924;
+  height: 100%;
   position: fixed;
   left: 0;
   top: 0;
@@ -244,24 +245,21 @@ export default function PortalSidebar({ isCollapsed, toggleSidebar }) {
   };
 
   const menuGroups = [
-    { id: 1, title: 'Página Inicial', icon: '🏠', submenu: [
-        { title: 'Seções', to: '/admin/secoes' },
-        { title: 'Banners', to: '/admin/banners' }
+    { id: 1, title: 'Recados gerais', icon: '📝', submenu: [
+        { title: 'Recados', to: '' },
+        { title: 'Conteúdos', to: '' }
     ]},
-    { id: 2, title: 'Educadores Populares', icon: '👩‍🏫', submenu: [
-        { title: 'Novas Candidaturas', to: '/admin/educadores/candidaturas' },
-        { title: 'Educadores Cadastrados', to: '/admin/educadores/cadastrados' }
+    { id: 2, title: 'Frequência', icon: '📅', submenu: [
+        { title: 'Verificar frequência', to: '/admin/educadores/candidaturas' },
+        { title: 'Lançar frequência', to: '/admin/educadores/cadastrados' }
     ]},
-    { id: 3, title: 'Controle de Alunos', icon: '🎓', submenu: [
-        { title: 'Novas Matrículas', to: '#' },
-        { title: 'Alunos Matriculados', to: '#' }
+    { id: 3, title: 'Notas', icon: '🎓', submenu: [
+        { title: 'Ver notas', to: '#' },
+        { title: 'Lançar notas', to: '#' },
+        { title: 'Gerir avaliações', to: '#'}
     ]},
-    { id: 4, title: 'Redes Sociais', icon: '🌐', submenu: [
-        { title: 'Redes Cadastradas', to: '#' },
-        { title: 'Cadastrar Nova Rede', to: '#' }
-    ]},
-    { id: 5, title: 'Relatório de Universidades', icon: '📊', submenu: [
-        { title: 'Acessar Relatórios', to: '#' }
+    { id: 4, title: 'Seu perfil', icon: '👤', submenu: [
+        { title: 'Ver perfil', to: '#' }
     ]}
   ];
 

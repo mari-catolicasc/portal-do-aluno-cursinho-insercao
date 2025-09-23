@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'; // Para redirecionar o usuário
 import { api } from '../services/api'; // Para chamar o nosso backend
 import styled from 'styled-components';
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Botao from "../components/reused/Botao";
 
 // ========== STYLED COMPONENTS (CSS) ==========
 
 const Container = styled.div`
-  font-family: 'Inter', sans-serif;
-  background-color: #FDF9ED;
+  font-family: 'Roboto';
   color: #E0A76363;
   display: flex;
   flex-direction: column;
@@ -20,11 +21,11 @@ const Main = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 5rem;
 `;
 
 const LoginCard = styled.div`
-  background-color: #F2B92424;
+  background-color: #FEF8E9;
   padding: 2.5rem;
   border-radius: 1.5rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -69,14 +70,14 @@ const Label = styled.label`
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #4b5563;
+  color: #E23467;
   margin-bottom: 0.25rem;
 `;
 
 const FormInput = styled.input`
   width: 100%;
   padding: 0.5rem 1rem;
-  border: 1px solid #d1d5db;
+  border: 2px solid #0D76B8;
   border-radius: 0.5rem;
   outline: none;
   transition: all 0.3s ease;
@@ -90,40 +91,6 @@ const FormInput = styled.input`
   
   &::placeholder {
     color: #9ca3af;
-  }
-`;
-
-const LoginButton = styled.button`
-  width: 100%;
-  margin-top: 2rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #F2B924;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1.125rem;
-  border: none;
-  border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #eab308; /* Um pouco mais escuro no hover */
-    transform: scale(1.05);
-  }
-  
-  &:active {
-    transform: scale(0.98);
-  }
-  
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(242, 185, 36, 0.5);
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
   }
 `;
 
@@ -230,14 +197,13 @@ export default function AdminLogin() {
                             />
                         </InputContainer>
 
-                        <LoginButton type="submit" disabled={loading}>
-                            {loading ? 'A entrar...' : 'Logar'}
-                        </LoginButton>
+                        <Botao text={loading ? 'A entrar...' : 'Logar'} disabled={loading}/>
 
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </Form>
                 </LoginCard>
             </Main>
+            <Footer/>
         </Container>
     );
 };
