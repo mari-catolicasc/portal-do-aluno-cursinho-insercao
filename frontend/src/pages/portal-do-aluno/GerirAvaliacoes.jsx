@@ -1,6 +1,6 @@
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
 import Botao from '../../components/reused/Botao';
-import instaIcon from '../../assets/imgs/icon_instagram.png'
 
 // --- Estilização ---
 const Div = styled.div`
@@ -47,13 +47,6 @@ const Form = styled.div`
     align-items: center;
 `;
 
-const Label = styled.p`
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #E23467;
-    align-self: flex-start;
-`
-
 const Input = styled.input`
     width: 100%;
     padding: 0.75rem;
@@ -61,42 +54,6 @@ const Input = styled.input`
     border-radius: 1rem;
     color: #000000;
     background-color: #FFFFFF;
-`;
-
-const InputImg = styled.input`
-    width: 100%;
-    padding: 0.75rem;
-    color: #000000;
-
-    &::file-selector-button {
-    width: 100%;
-    background-color: #0D76B8;
-    color: #fff;
-    font-weight: 500;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 1rem;
-    margin-right: 1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-    &::file-selector-button:hover {
-      background-color: #095a8f;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-  }
-`;
-
-const Textarea = styled.textarea`
-    width: 100%;
-    padding: 0.8rem;
-    padding: 0.75rem;
-    border: 2px solid #0D76B8;
-    border-radius: 1rem;
-    min-height: 3rem;
-    resize: vertical;
 `;
 
 const ListDiv = styled.div`
@@ -152,7 +109,7 @@ const Button = styled.button`
     border: none;
     font-weight: 600;
     background-color: ${props => props.secondary ? '#6c757d' : (props.danger ? '#dc3545' : '#f2b924')};
-    color: #FFFFFF;
+    color: ${props => props.secondary ? '#FFFFFF' : (props.danger ? '#FFFFFF' : '#42403dff')};
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.2s;
@@ -171,49 +128,55 @@ const Button = styled.button`
     }
 `;
 
-export default function GerirRedes() {
+export default function DetalhesAvaliacao() {
+    const navigate = useNavigate();
+
     return (
         <Div>
-            <h1>Gestão das Redes Sociais</h1>
+            <h1>Gestão das Avaliações</h1>
 
             <ManagementDiv>
-                <h2>Criar Nova Rede Social</h2>
+                <h2>Criar Nova Avaliação</h2>
                 <Form>
-                    <Input type="text" name="nome" placeholder="Nome da Rede" required/>
-                    <Textarea name="link" placeholder="Link da Rede Social" required/>
-                    <Label htmlFor="rede-upload">Imagem</Label>
-                    <InputImg id="rede-upload" type="file" required>
-                    </InputImg>
+                    <Input type="text" name="nome" placeholder="Nome da Avaliação" required/>
                     <Botao text="Criar"/>
                 </Form>
             </ManagementDiv>
 
             <ManagementDiv>
-                <h2>Redes Cadastradas</h2>
+                <h2>Avaliações Cadastradas</h2>
                     <ListDiv>
                         <Card>
                             <InfoDiv>
-                               <img id="redeImg" src={instaIcon} alt="Instagram"/>
                                 <div>
-                                    <h3 id="redeNome">Instagram</h3>
-                                    <p id="redeID">ID: x</p>
+                                    <h3 id="avalNome">Redação - 23/09/2025</h3>
+                                    <p id="avalID">ID: x</p>
                                 </div>
                             </InfoDiv>
                             <ActionsDiv>
-                                <Button>Editar</Button>
+                                <Button secondary onClick={() => navigate("/portal/avaliacoes/ver")}>
+                                    Ver
+                                </Button>
+                                <Button onClick={() => navigate("/portal/avaliacoes/edit")}>
+                                    Editar
+                                </Button>
                                 <Button danger>Apagar</Button>
                             </ActionsDiv>
                         </Card>
                         <Card>
                             <InfoDiv>
-                               <img id="redeImg" src={instaIcon} alt="Instagram"/>
                                 <div>
-                                    <h3 id="redeNome">Instagram</h3>
-                                    <p id="redeID">ID: x</p>
+                                    <h3 id="avalNome">Redação - 23/09/2025</h3>
+                                    <p id="avalID">ID: x</p>
                                 </div>
                             </InfoDiv>
                             <ActionsDiv>
-                                <Button>Editar</Button>
+                                <Button secondary onClick={() => navigate("/portal/avaliacoes/ver")}>
+                                    Ver
+                                </Button>
+                                <Button onClick={() => navigate("/portal/avaliacoes/edit")}>
+                                    Editar
+                                </Button>
                                 <Button danger>Apagar</Button>
                             </ActionsDiv>
                         </Card>

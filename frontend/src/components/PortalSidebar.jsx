@@ -131,7 +131,7 @@ const ExpandIcon = styled.span`
   color: #E1346A;
   font-size: 12px;
   transition: transform 0.3s ease;
-  transform: ${props => (props.isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transform: ${props => (props.$isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 
   .collapsed & {
     display: none;
@@ -148,7 +148,7 @@ const IconDisplay = styled.span`
 
 const Submenu = styled.ul`
   list-style: none;
-  max-height: ${props => (props.isOpen ? '500px' : '0')};
+  max-height: ${props => (props.$isOpen ? '500px' : '0')};
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: rgba(255, 255, 255, 0.05);
@@ -224,10 +224,10 @@ const DropdownGroup = ({ title, icon, children, isCollapsed }) => {
         <MenuGroup>
             <GroupHeader className={isCollapsed ? 'collapsed' : ''} onClick={() => setIsOpen(!isOpen)}>
                 <GroupTitle>{title}</GroupTitle>
-                <ExpandIcon isOpen={isOpen}>▼</ExpandIcon>
+                <ExpandIcon $isOpen={isOpen}>▼</ExpandIcon>
                 <IconDisplay>{icon}</IconDisplay>
             </GroupHeader>
-            <Submenu isOpen={isOpen} className={isCollapsed ? 'collapsed' : ''}>
+            <Submenu $isOpen={isOpen} className={isCollapsed ? 'collapsed' : ''}>
                 {children}
             </Submenu>
         </MenuGroup>
@@ -250,16 +250,16 @@ export default function PortalSidebar({ isCollapsed, toggleSidebar }) {
         { title: 'Conteúdos', to: '' }
     ]},
     { id: 2, title: 'Frequência', icon: '📅', submenu: [
-        { title: 'Verificar frequência', to: '/admin/educadores/candidaturas' },
-        { title: 'Lançar frequência', to: '/admin/educadores/cadastrados' }
+        { title: 'Verificar frequência', to: '' },
+        { title: 'Lançar frequência', to: '' }
     ]},
     { id: 3, title: 'Notas', icon: '🎓', submenu: [
-        { title: 'Ver notas', to: '#' },
-        { title: 'Lançar notas', to: '#' },
-        { title: 'Gerir avaliações', to: '#'}
+        { title: 'Ver notas', to: '/portal/notas' },
+        { title: 'Lançar notas', to: '/portal/notas/novo' },
+        { title: 'Gerir avaliações', to: '/portal/avaliacoes'}
     ]},
     { id: 4, title: 'Seu perfil', icon: '👤', submenu: [
-        { title: 'Ver perfil', to: '#' }
+        { title: 'Ver perfil', to: '' }
     ]}
   ];
 
@@ -280,8 +280,8 @@ export default function PortalSidebar({ isCollapsed, toggleSidebar }) {
         {menuGroups.map(group => (
             <DropdownGroup key={group.id} title={group.title} icon={group.icon} isCollapsed={isCollapsed}>
                 {group.submenu && group.submenu.map(item => (
-                    <li key={item.to}>
-                        <SubmenuItem to={item.to}>{item.title}</SubmenuItem>
+                    <li key={`${group.id}-${item.title}`}>
+                      <SubmenuItem to={item.to}>{item.title}</SubmenuItem>
                     </li>
                 ))}
             </DropdownGroup>

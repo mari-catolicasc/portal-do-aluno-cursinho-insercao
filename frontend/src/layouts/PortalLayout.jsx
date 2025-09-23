@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import PortalSidebar from '../components/AdminSidebar';
+import PortalSidebar from '../components/PortalSidebar';
 
 const AdminContainer = styled.div`
     display: flex;
@@ -13,7 +13,7 @@ const ContentWrapper = styled.div`
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    margin-left: ${props => (props.isSidebarCollapsed ? '80px' : '323px')};
+    margin-left: ${props => (props.$isSidebarCollapsed ? '80px' : '323px')};
     transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
@@ -36,7 +36,7 @@ export default function PortalLayout() {
                 isCollapsed={isSidebarCollapsed} 
                 toggleSidebar={toggleSidebar} 
             />
-            <ContentWrapper isSidebarCollapsed={isSidebarCollapsed}>
+            <ContentWrapper $isSidebarCollapsed={isSidebarCollapsed}>
                 <MainContent>
                     <Outlet />
                 </MainContent>
