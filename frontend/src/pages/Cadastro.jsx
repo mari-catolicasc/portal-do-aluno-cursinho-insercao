@@ -4,13 +4,12 @@ import { api } from '../services/api';
 import styled from 'styled-components';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Botao from "../components/reused/Botao"
 
 // ========== STYLED COMPONENTS (Adaptados do Login) ==========
 
 const Container = styled.div`
-  font-family: 'Inter', sans-serif;
-  background-color: #FDF9ED;
-  color: #E0A76363;
+  font-family: 'Roboto';
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -25,19 +24,19 @@ const Main = styled.main`
 `;
 
 const RegisterCard = styled.div`
-  background-color: #F2B92424;
+  background-color: #FEF8E9;
   padding: 2.5rem;
   border-radius: 1.5rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 28rem;
+  max-width: 30rem;
   width: 100%;
 `;
 
 const Title = styled.h1`
-    color: #4b5563;
+    color: #E23467;
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
 `;
@@ -58,14 +57,14 @@ const Label = styled.label`
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #4b5563;
+  color: #E23467;
   margin-bottom: 0.25rem;
 `;
 
 const FormInput = styled.input`
   width: 100%;
   padding: 0.5rem 1rem;
-  border: 1px solid #d1d5db;
+  border: 2px solid #0D76B8;
   border-radius: 0.5rem;
   font-size: 1rem;
   color: #111827;
@@ -79,7 +78,7 @@ const FormInput = styled.input`
 const SelectInput = styled.select`
   width: 100%;
   padding: 0.5rem 1rem;
-  border: 1px solid #d1d5db;
+  border: 2px solid #0D76B8;
   border-radius: 0.5rem;
   font-size: 1rem;
   color: #111827;
@@ -205,16 +204,27 @@ export default function Cadastro() {
                 </SelectInput>
             </InputContainer>
 
-            <SubmitButton type="submit" disabled={loading}>
-              {loading ? 'A registar...' : 'Registar'}
-            </SubmitButton>
+            {formData.tipo === 1 && (
+                <InputContainer>
+                    <Label>Qual a sua área do conhecimento?</Label>
+                    <SelectInput id="areaConhecimento">
+                        <option>Ciências da Natureza e Suas Tecnologias</option>
+                        <option>Ciências Humanas e Suas Tecnologias</option>
+                        <option>linCampoguagens e Suas Tecnologias</option>
+                        <option>Matemática e Suas Tecnologias</option>
+                        <option>Redação</option>
+                    </SelectInput>
+                </InputContainer>
+            )}
+
+            <Botao text={loading ? 'A registrar...' : 'Registrar'}/>
 
             {message && <Message success={isSuccess}>{message}</Message>}
           </Form>
           <LoginLink to="/admin">Já tem uma conta? Faça login</LoginLink>
         </RegisterCard>
       </Main>
-
+      <Footer/>
     </Container>
   );
 }

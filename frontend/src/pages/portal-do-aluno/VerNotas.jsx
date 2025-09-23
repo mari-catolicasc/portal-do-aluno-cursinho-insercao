@@ -1,5 +1,5 @@
 import CVerNotas from '../../components/CVerNotas';
-import PortalSidebar from '../../components/PortalSidebar';
+import PortalSidebar from '../../components/AdminSidebar';
 import styled from 'styled-components';
 import { useState } from "react";
 import '../../global.css';

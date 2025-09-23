@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Botao from './reused/botao';
+import Botao from './reused/Botao';
 
 const Div = styled.div`
     display: flex;
