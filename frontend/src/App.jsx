@@ -9,6 +9,7 @@ import AdminLogin from './pages/AdminLogin';
 import GerirBanners from './pages/admin/GerirBanners';
 import GerirSecoes from './pages/admin/GerirSecoes';
 import GerirRedes from './pages/admin/GerirRedes';
+import GerirRelatorioUnis from './pages/admin/GerirRelatorioUnis';
 import NovasCandidaturas from './pages/admin/NovasCandidaturas';
 import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
 
@@ -37,6 +38,7 @@ export default function App() {
                     <Route path="/admin/secoes" element={<GerirSecoes/>}/>
                     <Route path="/admin/banners" element={<GerirBanners/>}/>
                     <Route path="/admin/redes" element={<GerirRedes/>}/>
+                    <Route path="/admin/relatorio-universidades" element={<GerirRelatorioUnis/>}/>
                     <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas/>}/>
                     <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados/>}/>
                 </Route>
