@@ -261,7 +261,7 @@ export default function AdminSidebar({ isCollapsed, toggleSidebar }) {
         { title: 'Gerir Redes Sociais', to: '/admin/redes' }
     ]},
     { id: 5, title: 'Relatório de Universidades', icon: '📊', submenu: [
-        { title: 'Acessar Relatórios', to: '#' }
+        { title: 'Acessar Relatório', to: '/admin/relatorio-universidades' }
     ]}
   ];
 
