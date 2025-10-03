@@ -14,9 +14,8 @@ import NovasCandidaturas from './pages/admin/NovasCandidaturas';
 import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
 
 // --- Páginas do Portal do Aluno ---
-import LancarNotas from './pages/portal-do-aluno/LancarNotas';
-import VerNotas from './pages/portal-do-aluno/VerNotas';
-import CriarAvaliacao from './pages/portal-do-aluno/CriarAvaliacao';
+import DetalhesAvaliacao from './pages/portal-do-aluno/DetalhesAvaliacao';
+import GerirAvaliacoes from './pages/portal-do-aluno/GerirAvaliacoes';
 
 import AdminLayout from './layouts/AdminLayout';
 import PortalLayout from './layouts/PortalLayout';
@@ -26,7 +25,7 @@ export default function App() {
         <BrowserRouter>
             <Routes>
 
-                <Route path="/" element={<Home />}/>
+                <Route path="/" element={<Navigate to="/home" replace/>}/>
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/admin/register" element={<Cadastro/>} />
                 <Route path="/admin" element={<Navigate to="/admin/login" replace/>}/>
@@ -46,9 +45,9 @@ export default function App() {
 
                 {/* ========== ROTAS DO ALUNO/PROFESSOR ========== */}
                 <Route element={<PortalLayout/>}>
-                    <Route path="/portal/notas" element={<VerNotas/>}/>
-                    <Route path="/portal/notas/novo" element={<LancarNotas/>}/>
-                    <Route path="/portal/avaliacoes/novo" element={<CriarAvaliacao/>}/>
+                    <Route path="/portal/avaliacoes" element={<GerirAvaliacoes/>}/>
+                    <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao/>}/>
+                    <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

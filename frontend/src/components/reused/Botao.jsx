@@ -33,10 +33,12 @@ const DivBotao = styled.div`
   height: 100%;
 `;
 
-export default function Botao({ text }) {
+export default function Botao({ text, onClick, type = "button", ...rest }) {
     return (
         <DivBotao>
-            <Btn type="submit">{text}</Btn>
+            <Btn type={type} onClick={onClick} {...rest}>
+                {text}
+            </Btn>
         </DivBotao>
     )
 }
