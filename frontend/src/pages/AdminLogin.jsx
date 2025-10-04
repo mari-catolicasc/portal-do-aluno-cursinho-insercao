@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom'; // Para redirecionar o usuário
-import { api } from '../services/api'; // Para chamar o nosso backend
+import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
+import { jwtDecode } from 'jwt-decode';
 import styled from 'styled-components';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -104,53 +105,48 @@ const ErrorMessage = styled.p`
 // ========== COMPONENTE REACT (HTML) ==========
 
 export default function AdminLogin() {
-    // Estados para controlar os inputs
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-
-    // Novos estados para feedback do usuário
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-
-    // Hook do React Router para nos permitir navegar entre páginas
     const navigate = useNavigate();
 
-    // Função para lidar com o submit do formulário
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Limpa erros anteriores
-        setLoading(true); // Inicia o feedback de carregamento
+        setError('');
+        setLoading(true);
 
         try {
-            // 1. Chama o nosso endpoint da API
             const response = await api.post('/api/usuarios/login', { email, senha });
-
-            // 2. Extrai o token da resposta
             const { token } = response.data;
-
-            // 3. Guarda o token no localStorage do navegador.
-            //    Isto é crucial para que os próximos pedidos à API sejam autenticados.
             localStorage.setItem('user_token', token);
 
-            // 4. Redireciona o usuário para o painel de administração
-            navigate('/admin/dashboard');
+            // --- LÓGICA DE REDIRECIONAMENTO INTELIGENTE ---
+            const decodedToken = jwtDecode(token);
+            const userType = decodedToken.tipo;
+
+            if (userType === 1) { // 1 = Professor/Admin
+                navigate('/admin/dashboard'); 
+            } else if (userType === 2) { // 2 = Aluno
+                navigate('/portal/notas');
+            } else {
+                setError('Tipo de usuário desconhecido.');
+            }
+            // --- FIM DA LÓGICA ---
 
         } catch (err) {
-            // 5. Se o login falhar, mostra uma mensagem de erro
             console.error("Erro no login:", err);
-            setError('Email ou senha incorretos. Tente novamente.');
+            setError(err.response?.data || 'Email ou senha incorretos. Tente novamente.');
         } finally {
-            setLoading(false); // Para o feedback de carregamento, quer tenha sucesso ou falhe
+            setLoading(false);
         }
     };
 
     return (
         <Container>
             <Navbar />
-            {/* Seção Principal com o Card de Login */}
             <Main>
                 <LoginCard>
-                    {/* Ícone do usuário */}
                     <UserIcon>
                         <svg
                             fill="currentColor"
@@ -164,10 +160,7 @@ export default function AdminLogin() {
                             />
                         </svg>
                     </UserIcon>
-
-                    {/* Formulário */}
                     <Form onSubmit={handleSubmit}>
-                        {/* Campo de E-mail */}
                         <InputContainer>
                             <Label htmlFor="email">
                                 E-mail
@@ -181,8 +174,6 @@ export default function AdminLogin() {
                                 required
                             />
                         </InputContainer>
-
-                        {/* Campo de Senha */}
                         <InputContainer>
                             <Label htmlFor="senha">
                                 Senha
@@ -196,8 +187,12 @@ export default function AdminLogin() {
                                 required
                             />
                         </InputContainer>
-
-                        <Botao text={loading ? 'A entrar...' : 'Logar'} disabled={loading}/>
+                        
+                        <Botao 
+                            type="submit" 
+                            text={loading ? 'A entrar...' : 'Logar'} 
+                            disabled={loading}
+                        />
 
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </Form>
@@ -207,3 +202,4 @@ export default function AdminLogin() {
         </Container>
     );
 };
+
