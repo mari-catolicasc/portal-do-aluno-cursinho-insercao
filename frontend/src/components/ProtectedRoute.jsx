@@ -1,14 +1,29 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
-
-export default function ProtectedRoute() {
+export default function ProtectedRoute({ allowedRoles }) {
     const token = localStorage.getItem('user_token');
 
-    // se não houver token ele redireciona para a página de login do admin
     if (!token) {
+
         return <Navigate to="/admin" replace />;
     }
 
-    // se houver um token ele permite o acesso
-    return <Outlet />;
+    try {
+        const decodedToken = jwtDecode(token);
+        const userType = decodedToken.tipo;
+
+        if (allowedRoles && allowedRoles.includes(userType)) {
+
+            return <Outlet />;
+        } else {
+
+            return <Navigate to="/" replace />;
+        }
+    } catch (error) {
+        console.error("Token inválido:", error);
+        localStorage.removeItem('user_token');
+        return <Navigate to="/admin" replace />;
+    }
 }
+
