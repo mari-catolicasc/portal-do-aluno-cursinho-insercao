@@ -17,10 +17,6 @@ import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
 import DetalhesAvaliacao from './pages/portal-do-aluno/DetalhesAvaliacao';
 import GerirAvaliacoes from './pages/portal-do-aluno/GerirAvaliacoes';
 
-// import LancarNotas from './pages/portal-do-aluno/LancarNotas';
-// import VerNotas from './pages/portal-do-aluno/VerNotas';
-// import CriarAvaliacao from './pages/portal-do-aluno/CriarAvaliacao';
-
 // --- Layouts e Componentes de Segurança ---
 import AdminLayout from './layouts/AdminLayout';
 import PortalLayout from './layouts/PortalLayout';
@@ -52,12 +48,11 @@ export default function App() {
 
                 {/* ========== ROTAS PROTEGIDAS DO PORTAL DO ALUNO/PROFESSOR ========== */}
                 <Route element={<ProtectedRoute allowedRoles={[1, 2]} />}>
-                    {/* <Route path="/portal/notas" element={<VerNotas />} /> */}
-                    {/* <Route path="/portal/notas/novo" element={<LancarNotas />} /> */}
-                    <Route path="/portal/avaliacoes" element={<GerirAvaliacoes />} />
-                    <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
-                    <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
-                    {/* <Route path="/portal/avaliacoes/novo" element={<CriarAvaliacao />} /> */}
+                    <Route element={<PortalLayout/>}>
+                        <Route path="/portal/avaliacoes" element={<GerirAvaliacoes />} />
+                        <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
+                        <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>
