@@ -217,7 +217,7 @@ export default function Cadastro() {
                 </InputContainer>
             )}
 
-            <Botao text={loading ? 'A registrar...' : 'Registrar'}/>
+            <Botao text={loading ? 'A registrar...' : 'Registrar' } onClick={handleSubmit}/>
 
             {message && <Message success={isSuccess}>{message}</Message>}
           </Form>
