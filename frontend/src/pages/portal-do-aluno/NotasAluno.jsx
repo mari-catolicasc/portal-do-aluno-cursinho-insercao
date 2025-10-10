@@ -109,7 +109,7 @@ const InfoDiv = styled.div`
 export default function NotasAluno() {
     const navigate = useNavigate();
 
-    const isProf = true;
+    const isProf = false;
     const isEdit = true; // define se está em modo de edição
 
     // "Mock" de exemplo

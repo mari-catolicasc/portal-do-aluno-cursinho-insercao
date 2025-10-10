@@ -254,7 +254,8 @@ export default function PortalSidebar({ isCollapsed, toggleSidebar }) {
         { title: 'Lançar frequência', to: '' }
     ]},
     { id: 3, title: 'Notas', icon: '🎓', submenu: [
-        { title: 'Gerir avaliações', to: '/portal/avaliacoes'}
+        { title: 'Gerir avaliações', to: '/portal/avaliacoes'},
+        { title: 'Ver notas', to: '/portal/notas'}
     ]},
     { id: 4, title: 'Seu perfil', icon: '👤', submenu: [
         { title: 'Ver perfil', to: '' }
