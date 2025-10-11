@@ -1,14 +1,20 @@
 package pt.cursinhoinsercao.portalaluno.service;
 
 import pt.cursinhoinsercao.portalaluno.dao.RedeSocialDAO;
-import pt.cursinhoinsercao.portalaluno.dao.SecaoDAO;
 import pt.cursinhoinsercao.portalaluno.entity.RedeSocial;
-import pt.cursinhoinsercao.portalaluno.entity.Secao;
-
 import java.util.List;
 
 public class RedeSocialService {
-    private RedeSocialDAO redeDAO = new RedeSocialDAO();
+
+    private final RedeSocialDAO redeDAO;
+
+    public RedeSocialService() {
+        this.redeDAO = new RedeSocialDAO();
+    }
+
+    public RedeSocialService(RedeSocialDAO redeDAO) {
+        this.redeDAO = redeDAO;
+    }
 
     public List<RedeSocial> buscarTodas() {
         return redeDAO.buscarTodas();
@@ -19,7 +25,6 @@ public class RedeSocialService {
     }
 
     public RedeSocial criar(RedeSocial novaRede) throws Exception {
-
         if (novaRede.getTexto() == null || novaRede.getTexto().trim().isEmpty()) {
             throw new Exception("O texto (nome) da rede social não pode ser vazio");
         }
@@ -43,14 +48,16 @@ public class RedeSocialService {
             throw new Exception("Rede social não encontrada com o ID: " + id);
         }
 
-        redeAtt.setId(id);
-        redeDAO.atualizar(redeAtt);
-        return redeAtt;
+        if (redeAtt.getTexto() != null) redeExistente.setTexto(redeAtt.getTexto());
+        if (redeAtt.getLink() != null) redeExistente.setLink(redeAtt.getLink());
+        if (redeAtt.getImagem() != null) redeExistente.setImagem(redeAtt.getImagem());
+
+        redeDAO.atualizar(redeExistente);
+        return redeExistente;
     }
 
     public void deletar(int id) throws Exception {
         RedeSocial rede = redeDAO.buscarPorId(id);
-
         if (rede == null) {
             throw new Exception("Rede social não encontrada com o ID: " + id);
         }

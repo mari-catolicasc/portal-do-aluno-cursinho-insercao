@@ -74,4 +74,35 @@ public class UsuarioService {
             usuarioDAO.remover(usuario);
         }
     }
+
+    //Busca a lista de novas matrículas de alunos (alunos inativos).
+
+    public List<Usuario> listarMatriculasPendentes() {
+        return usuarioDAO.listarAlunosPorStatus(false);
+    }
+
+    //Busca a lista de alunos já matriculados (alunos ativos).
+
+    public List<Usuario> listarAlunosMatriculados() {
+        return usuarioDAO.listarAlunosPorStatus(true);
+    }
+
+    //Aprova a matrícula de um aluno, tornando-o ativo.
+
+    public void aprovarMatricula(int id) {
+        Usuario usuario = usuarioDAO.buscarPorId(id);
+        if (usuario != null && usuario.getTipo() == 2) { // Garante que é um aluno
+            usuario.setAtivo(true);
+            usuarioDAO.atualizar(usuario);
+        }
+    }
+
+    //Rejeita uma matrícula ou remove um aluno existente
+
+    public void rejeitarOuRemoverAluno(int id) {
+        Usuario usuario = usuarioDAO.buscarPorId(id);
+        if (usuario != null && usuario.getTipo() == 2) { // Garante que só remove alunos
+            usuarioDAO.remover(usuario);
+        }
+    }
 }
