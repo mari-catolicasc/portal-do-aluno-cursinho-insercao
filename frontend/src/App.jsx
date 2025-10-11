@@ -21,6 +21,7 @@ import GerirAvaliacoes from './pages/portal-do-aluno/GerirAvaliacoes';
 import AdminLayout from './layouts/AdminLayout';
 import PortalLayout from './layouts/PortalLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+import LancarFrequencia from './pages/portal-do-aluno/LancarFrequencia';
 
 export default function App() {
     return (
@@ -52,6 +53,7 @@ export default function App() {
                         <Route path="/portal/avaliacoes" element={<GerirAvaliacoes />} />
                         <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
                         <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
+                        <Route path="/portal/lancar-frequencia" element={<LancarFrequencia/>}/>
                     </Route>
                 </Route>
             </Routes>
