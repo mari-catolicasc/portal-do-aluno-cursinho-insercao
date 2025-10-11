@@ -82,4 +82,42 @@ public class UsuarioResource {
         usuarioService.rejeitarOuRemoverEducador(id);
         return Response.noContent().build();
     }
+
+    //Busca a lista de novas matrículas de alunos.
+    @GET
+    @Path("/alunos/pendentes")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Seguranca
+    public Response listarMatriculasPendentes() {
+        List<Usuario> matriculas = usuarioService.listarMatriculasPendentes();
+        return Response.ok(matriculas).build();
+    }
+
+    //Busca a lista de alunos já matriculados
+    @GET
+    @Path("/alunos/matriculados")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Seguranca
+    public Response listarAlunosMatriculados() {
+        List<Usuario> alunos = usuarioService.listarAlunosMatriculados();
+        return Response.ok(alunos).build();
+    }
+
+    //Aprova uma matrícula
+    @PUT
+    @Path("/alunos/{id}/aprovar")
+    @Seguranca
+    public Response aprovarMatricula(@PathParam("id") int id) {
+        usuarioService.aprovarMatricula(id);
+        return Response.ok().build();
+    }
+
+    //Rejeita/Remove um aluno
+    @DELETE
+    @Path("/alunos/{id}")
+    @Seguranca
+    public Response rejeitarOuRemoverAluno(@PathParam("id") int id) {
+        usuarioService.rejeitarOuRemoverAluno(id);
+        return Response.noContent().build();
+    }
 }
