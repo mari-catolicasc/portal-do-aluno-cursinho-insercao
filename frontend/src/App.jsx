@@ -53,7 +53,7 @@ export default function App() {
                         <Route path="/portal/avaliacoes" element={<GerirAvaliacoes />} />
                         <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
                         <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
-                        <Route path="/portal/lancar-frequencia" element={<LancarFrequencia/>}/>
+                        <Route path="/portal/frequencia" element={<LancarFrequencia/>}/>
                     </Route>
                 </Route>
             </Routes>

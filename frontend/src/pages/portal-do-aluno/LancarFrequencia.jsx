@@ -123,7 +123,7 @@ export default function LancarFrequencia() {
             return;
         }
         setIsEdit(false);
-        navigate("/portal/lancar-frequencia");
+        navigate("/portal/frequencia");
     }
 
     return (
