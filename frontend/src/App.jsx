@@ -12,10 +12,13 @@ import GerirRedes from './pages/admin/GerirRedes';
 import GerirRelatorioUnis from './pages/admin/GerirRelatorioUnis';
 import NovasCandidaturas from './pages/admin/NovasCandidaturas';
 import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
+import NovasMatriculas from './pages/admin/NovasMatriculas';
+import AlunosMatriculados from './pages/admin/AlunosMatriculados';
 
 // --- Páginas do Portal do Aluno ---
 import DetalhesAvaliacao from './pages/portal-do-aluno/DetalhesAvaliacao';
 import GerirAvaliacoes from './pages/portal-do-aluno/GerirAvaliacoes';
+import NotasAluno from './pages/portal-do-aluno/NotasAluno';
 
 // --- Layouts e Componentes de Segurança ---
 import AdminLayout from './layouts/AdminLayout';
@@ -44,6 +47,8 @@ export default function App() {
                         <Route path="/admin/relatorio-universidades" element={<GerirRelatorioUnis />} />
                         <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas />} />
                         <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados />} />
+                        <Route path="/admin/alunos/novas-matriculas" element={<NovasMatriculas />} />
+                        <Route path="/admin/alunos/matriculados" element={<AlunosMatriculados />} />
                     </Route>
                 </Route>
 
@@ -53,7 +58,9 @@ export default function App() {
                         <Route path="/portal/avaliacoes" element={<GerirAvaliacoes />} />
                         <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
                         <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
+
                         <Route path="/portal/frequencia" element={<LancarFrequencia/>}/>
+                        <Route path="/portal/notas" element={<NotasAluno/>}/>
                     </Route>
                 </Route>
             </Routes>

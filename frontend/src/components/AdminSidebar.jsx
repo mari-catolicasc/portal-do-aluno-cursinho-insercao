@@ -219,19 +219,19 @@ const LogoutText = styled.span`
 `;
 
 const DropdownGroup = ({ title, icon, children, isCollapsed }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-        <MenuGroup>
-            <GroupHeader className={isCollapsed ? 'collapsed' : ''} onClick={() => setIsOpen(!isOpen)}>
-                <GroupTitle>{title}</GroupTitle>
-                <ExpandIcon isOpen={isOpen}>▼</ExpandIcon>
-                <IconDisplay>{icon}</IconDisplay>
-            </GroupHeader>
-            <Submenu isOpen={isOpen} className={isCollapsed ? 'collapsed' : ''}>
-                {children}
-            </Submenu>
-        </MenuGroup>
-    );
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <MenuGroup>
+      <GroupHeader className={isCollapsed ? 'collapsed' : ''} onClick={() => setIsOpen(!isOpen)}>
+        <GroupTitle>{title}</GroupTitle>
+        <ExpandIcon isOpen={isOpen}>▼</ExpandIcon>
+        <IconDisplay>{icon}</IconDisplay>
+      </GroupHeader>
+      <Submenu isOpen={isOpen} className={isCollapsed ? 'collapsed' : ''}>
+        {children}
+      </Submenu>
+    </MenuGroup>
+  );
 };
 
 export default function AdminSidebar({ isCollapsed, toggleSidebar }) {
@@ -239,30 +239,40 @@ export default function AdminSidebar({ isCollapsed, toggleSidebar }) {
 
   const handleLogout = () => {
     if (window.confirm('Tem certeza que deseja sair do sistema?')) {
-        localStorage.removeItem('user_token');
-        navigate('/admin');
+      localStorage.removeItem('user_token');
+      navigate('/admin');
     }
   };
 
   const menuGroups = [
-    { id: 1, title: 'Página Inicial', icon: '🏠', submenu: [
+    {
+      id: 1, title: 'Página Inicial', icon: '🏠', submenu: [
         { title: 'Seções', to: '/admin/secoes' },
         { title: 'Banners', to: '/admin/banners' }
-    ]},
-    { id: 2, title: 'Educadores Populares', icon: '👩‍🏫', submenu: [
+      ]
+    },
+    {
+      id: 2, title: 'Educadores Populares', icon: '👩‍🏫', submenu: [
         { title: 'Novas Candidaturas', to: '/admin/educadores/candidaturas' },
         { title: 'Educadores Cadastrados', to: '/admin/educadores/cadastrados' }
-    ]},
-    { id: 3, title: 'Controle de Alunos', icon: '🎓', submenu: [
-        { title: 'Novas Matrículas', to: '#' },
-        { title: 'Alunos Matriculados', to: '#' }
-    ]},
-    { id: 4, title: 'Redes Sociais', icon: '🌐', submenu: [
+      ]
+    },
+    {
+      id: 3, title: 'Controle de Alunos', icon: '🎓', submenu: [
+        { title: 'Novas Matrículas', to: '/admin/alunos/novas-matriculas' },
+        { title: 'Alunos Matriculados', to: '/admin/alunos/matriculados' }
+      ]
+    },
+    {
+      id: 4, title: 'Redes Sociais', icon: '🌐', submenu: [
         { title: 'Gerir Redes Sociais', to: '/admin/redes' }
-    ]},
-    { id: 5, title: 'Relatório de Universidades', icon: '📊', submenu: [
+      ]
+    },
+    {
+      id: 5, title: 'Relatório de Universidades', icon: '📊', submenu: [
         { title: 'Acessar Relatório', to: '/admin/relatorio-universidades' }
-    ]}
+      ]
+    }
   ];
 
   return (
@@ -280,13 +290,13 @@ export default function AdminSidebar({ isCollapsed, toggleSidebar }) {
 
       <NavMenu className={isCollapsed ? 'collapsed' : ''}>
         {menuGroups.map(group => (
-            <DropdownGroup key={group.id} title={group.title} icon={group.icon} isCollapsed={isCollapsed}>
-                {group.submenu && group.submenu.map(item => (
-                    <li key={item.to}>
-                        <SubmenuItem to={item.to}>{item.title}</SubmenuItem>
-                    </li>
-                ))}
-            </DropdownGroup>
+          <DropdownGroup key={group.id} title={group.title} icon={group.icon} isCollapsed={isCollapsed}>
+            {group.submenu && group.submenu.map(item => (
+              <li key={item.to}>
+                <SubmenuItem to={item.to}>{item.title}</SubmenuItem>
+              </li>
+            ))}
+          </DropdownGroup>
         ))}
       </NavMenu>
 

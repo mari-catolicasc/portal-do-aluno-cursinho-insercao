@@ -92,4 +92,14 @@ public class UsuarioDAO {
         em.close();
         return professores;
     }
+
+    public List<Usuario> listarAlunosPorStatus(boolean statusAtivo) {
+        EntityManager em = JPAUtil.getEntityManager();
+        String jpql = "select u from Usuario u where u.tipo = 2 and u.ativo = :status";
+        TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+        query.setParameter("status", statusAtivo);
+        List<Usuario> alunos = query.getResultList();
+        em.close();
+        return alunos;
+    }
 }
