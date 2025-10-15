@@ -13,6 +13,7 @@
         <class>pt.cursinhoinsercao.portalaluno.entity.Secao</class>
         <class>pt.cursinhoinsercao.portalaluno.entity.Banner</class>
         <class>pt.cursinhoinsercao.portalaluno.entity.RedeSocial</class>
+        <class>pt.cursinhoinsercao.portalaluno.entity.RelatorioUnis</class>
 
         <properties>
 

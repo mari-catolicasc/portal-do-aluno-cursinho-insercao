@@ -4,30 +4,49 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 public class UploadService {
 
-    private static final String UPLOAD_DIR = "./uploads";
+    private static final String UPLOAD_BASE_DIR = "./uploads";
 
     public UploadService() {
-        // Garante que a pasta de uploads exista. Se não existir, cria-a.
-        File uploadDir = new File(UPLOAD_DIR);
+        // Garante que a pasta base de uploads exista
+        File uploadDir = new File(UPLOAD_BASE_DIR);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
     }
 
     public String salvarImagem(InputStream fileInputStream, String originalFileName) throws IOException {
-        String extensao = originalFileName.substring(originalFileName.lastIndexOf("."));
+        return salvarFicheiro(fileInputStream, originalFileName, "imagens");
+    }
+
+    public String salvarFicheiro(InputStream fileInputStream, String originalFileName, String subpasta) throws IOException {
+
+        Path uploadPath = Paths.get(UPLOAD_BASE_DIR, subpasta);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        String extensao = "";
+
+        int i = originalFileName.lastIndexOf('.');
+
+        if (i > 0) {
+            extensao = originalFileName.substring(i);
+        }
+
         String nomeFicheiroUnico = UUID.randomUUID().toString() + extensao;
 
-        java.nio.file.Path caminhoDestino = Paths.get(UPLOAD_DIR, nomeFicheiroUnico);
+        Path caminhoDestino = uploadPath.resolve(nomeFicheiroUnico);
 
         Files.copy(fileInputStream, caminhoDestino, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/" + UPLOAD_DIR.substring(2) + "/" + nomeFicheiroUnico;
+        return "/" + UPLOAD_BASE_DIR.replace("./", "").replace("\\", "/") + "/" + subpasta + "/" + nomeFicheiroUnico;
     }
 }
+
