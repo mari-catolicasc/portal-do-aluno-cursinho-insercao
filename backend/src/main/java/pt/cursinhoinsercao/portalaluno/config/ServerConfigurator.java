@@ -14,49 +14,44 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 
-/**
- * Classe responsável por configurar e criar a instância do servidor Jetty.
- */
 public class ServerConfigurator {
 
     public static Server createServer() {
-        // Configuração do Jersey, onde dizemos quais pacotes ele deve procurar por endpoints.
+
+        //Porta
+        Server server = new Server(8080);
+
+        ServletContextHandler apiContext = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
+        apiContext.setContextPath("/");
+
+        // Configuração robusta do Filtro CORS
+        FilterHolder cors = apiContext.addFilter(CrossOriginFilter.class, "/api/*", EnumSet.of(DispatcherType.REQUEST));
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,PUT,DELETE,HEAD,OPTIONS");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "Authorization,X-Requested-With,Content-Type,Accept,Origin");
+        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
+
+        // Configuração do Jersey
         ResourceConfig config = new ResourceConfig();
         config.packages("pt.cursinhoinsercao.portalaluno");
         config.register(MultiPartFeature.class);
-
-        // Cria um Servlet do Jersey com a nossa configuração.
         ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+        apiContext.addServlet(servlet, "/api/*");
 
-        // Cria o servidor Jetty na porta 8080.
-        Server server = new Server(8080);
+        // --- Configuração dos Ficheiros Estáticos (Imagens/Relatórios)
+        ResourceHandler staticResourceHandler = new ResourceHandler();
+        staticResourceHandler.setResourceBase("./uploads");
+        staticResourceHandler.setDirectoriesListed(false); // Desativar listagem de diretórios por segurança
 
-        // --- CONFIGURAÇÃO PARA SERVIR IMAGENS ESTÁTICAS ---
-        ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setDirectoriesListed(true);
-        resourceHandler.setResourceBase("./uploads");
+        ServletContextHandler staticContext = new ServletContextHandler();
+        staticContext.setContextPath("/uploads");
+        staticContext.setHandler(staticResourceHandler);
 
-        ServletContextHandler staticContext = new ServletContextHandler(server, "/uploads");
-        staticContext.setHandler(resourceHandler);
-
-        // --- CONFIGURAÇÃO DA API ---
-        ServletContextHandler apiContext = new ServletContextHandler(server, "/api");
-        apiContext.addServlet(servlet, "/*");
-
-        // Adiciona o filtro CORS ao contexto da API
-        FilterHolder cors = new FilterHolder(new CrossOriginFilter());
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
-        cors.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,PUT,DELETE,HEAD");
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "Authorization,X-Requested-With,Content-Type,Accept,Origin");
-        apiContext.addFilter(cors, "/*", EnumSet.of(DispatcherType.REQUEST));
-
-        // Junta os dois handlers (API e imagens) numa lista para o servidor usar
         HandlerList handlers = new HandlerList();
         handlers.addHandler(staticContext);
         handlers.addHandler(apiContext);
-        server.setHandler(handlers);
 
+        server.setHandler(handlers);
         return server;
     }
 }
