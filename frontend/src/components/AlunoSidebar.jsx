@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth } from '../context/AuthContext'; // 1. Importar o nosso hook de autenticação
+
+// --- Estilização (mantida) ---
 
 const SidebarContainer = styled.aside`
     width: 280px;
-    background-color: #f2b924; // O tom de amarelo do seu design
+    background-color: #f2b924;
     color: #4a4a4a;
     display: flex;
     flex-direction: column;
@@ -51,7 +54,7 @@ const NavButton = styled.button`
 `;
 
 const DropdownMenu = styled.div`
-    padding-left: 1rem; // Indentação para os sub-links
+    padding-left: 1rem;
     max-height: ${props => (props.isOpen ? '500px' : '0')};
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
@@ -93,7 +96,7 @@ const LogoutButton = styled.button`
 
 // Componente para um item de menu com dropdown
 const DropdownItem = ({ title, children }) => {
-    const [isOpen, setIsOpen] = useState(true); // Começa aberto por padrão
+    const [isOpen, setIsOpen] = useState(true);
     return (
         <div>
             <NavButton onClick={() => setIsOpen(!isOpen)}>
@@ -108,13 +111,18 @@ const DropdownItem = ({ title, children }) => {
 };
 
 
-export default function PortalSidebar() {
+export default function AlunoSidebar() {
     const navigate = useNavigate();
+    // 2. Usar o hook para aceder aos dados do usuário e à função de logout
+    const { user, logout } = useAuth(); 
 
     const handleLogout = () => {
-        localStorage.removeItem('user_token');
+        logout(); // Usa a função de logout do contexto
         navigate('/admin');
     };
+
+    // 3. Verifica se o usuário é um professor.
+    const isProfessor = user?.tipo === 1;
 
     return (
         <SidebarContainer>
@@ -125,25 +133,25 @@ export default function PortalSidebar() {
                 <NavItem>
                     <DropdownItem title="Recados e conteúdos">
                         <NavLinkStyled to="#">Recados gerais</NavLinkStyled>
-                        <NavLinkStyled to="#">Criar novo recado</NavLinkStyled>
+                        {isProfessor && <NavLinkStyled to="#">Criar novo recado</NavLinkStyled>}
                         <NavLinkStyled to="#">Conteúdos</NavLinkStyled>
-                        <NavLinkStyled to="#">Postar novo conteúdo</NavLinkStyled>
+                        {isProfessor && <NavLinkStyled to="#">Postar novo conteúdo</NavLinkStyled>}
                     </DropdownItem>
                 </NavItem>
                 
                 <NavItem>
                      <DropdownItem title="Frequência">
                         <NavLinkStyled to="#">Verificar frequência</NavLinkStyled>
-                        <NavLinkStyled to="#">Lançar frequência</NavLinkStyled>
+                        {isProfessor && <NavLinkStyled to="#">Lançar frequência</NavLinkStyled>}
                     </DropdownItem>
                 </NavItem>
 
                  <NavItem>
                      <DropdownItem title="Notas">
                         <NavLinkStyled to="/portal/notas">Ver notas</NavLinkStyled>
-                        <NavLinkStyled to="/portal/notas/novo">Lançar notas</NavLinkStyled>
-                        <NavLinkStyled to="/portal/avaliacoes/novo">Criar nova avaliação</NavLinkStyled>
-                        <NavLinkStyled to="#">Avaliações cadastradas</NavLinkStyled>
+                        {isProfessor && <NavLinkStyled to="/portal/notas/novo">Lançar notas</NavLinkStyled>}
+                        {isProfessor && <NavLinkStyled to="/portal/avaliacoes/novo">Criar nova avaliação</NavLinkStyled>}
+                        {isProfessor && <NavLinkStyled to="#">Avaliações cadastradas</NavLinkStyled>}
                     </DropdownItem>
                 </NavItem>
                 
