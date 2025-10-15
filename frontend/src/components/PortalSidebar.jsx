@@ -250,7 +250,7 @@ export default function PortalSidebar({ isCollapsed, toggleSidebar }) {
         { title: 'Conteúdos', to: '' }
     ]},
     { id: 2, title: 'Frequência', icon: '📅', submenu: [
-        { title: 'Verificar frequência', to: '' },
+        { title: 'Verificar frequência', to: '/portal/frequencia/ver' },
         { title: 'Lançar frequência', to: '/portal/frequencia' }
     ]},
     { id: 3, title: 'Notas', icon: '🎓', submenu: [
