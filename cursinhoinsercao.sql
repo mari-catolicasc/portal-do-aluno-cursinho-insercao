@@ -140,9 +140,12 @@ CREATE TABLE `redes_sociais` (
 --
 
 CREATE TABLE `relatorio_unis` (
-  `id` int(11) NOT NULL,
-  `path` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `path` varchar(300) NOT NULL,
+  `nome_original` varchar(255) NOT NULL,
+  `data_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
