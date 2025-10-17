@@ -1,11 +1,10 @@
 import PortalSidebar from "../../components/PortalSidebar";
 import { useState } from "react";
 import styled from "styled-components";
-import RGerais from "../../components/RGerais";
+import NRecado from "../../components/NRecado";
 
 
-
-export default function RecadosGerais() {
+export default function NovoRecado() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
@@ -15,7 +14,7 @@ export default function RecadosGerais() {
         setIsCollapsed={setIsCollapsed}
       />
       <div style={{ flex: 1 }}>
-        <RGerais />
+        <NRecado />
       </div>
     </div>
   );

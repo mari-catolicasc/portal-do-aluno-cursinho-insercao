@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // --- Páginas Padrão ---
 import Home from "./pages/Home";
-
 import Cadastro from "./pages/Cadastro";
 
 // --- Páginas de Administração ---
@@ -16,9 +15,10 @@ import EducadoresCadastrados from "./pages/admin/EducadoresCadastrados";
 import LancarNotas from "./pages/portal-do-aluno/LancarNotas";
 import VerNotas from "./pages/portal-do-aluno/VerNotas";
 import CriarAvaliacao from "./pages/portal-do-aluno/CriarAvaliacao";
-import RecadosGerais from "./pages/portal-do-aluno/RecadosGerais";
 
 import AdminLayout from "./layouts/AdminLayout";
+import RecadosGerais from "./pages/portal-do-aluno/RecadosGerais";
+import NovoRecado from "./pages/portal-do-aluno/NovoRecado";
 
 export default function App() {
   return (
@@ -55,8 +55,11 @@ export default function App() {
         <Route path="/portal/notas" element={<VerNotas />} />
         <Route path="/portal/notas/novo" element={<LancarNotas />} />
         <Route path="/portal/avaliacoes/novo" element={<CriarAvaliacao />} />
-        <Route path="/portal/recados/novo" element={<RecadosGerais />} />
+        <Route path="/portal/RecadosGerais/novo" element={<RecadosGerais />} />
+        <Route path="/portal/NovoRecado/novo" element={<NovoRecado />} />
       </Routes>
     </BrowserRouter>
+    //C:\Users\Gabriel\Desktop\Oclone\portal-do-aluno-cursinho-insercao
+    // \frontend\src\pages\portal-do-aluno\RecadosGerais.jsx
   );
 }

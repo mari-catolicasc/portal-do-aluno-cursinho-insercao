@@ -1,6 +1,7 @@
 package pt.cursinhoinsercao.portalaluno;
 
 import org.eclipse.jetty.server.Server;
+
 import pt.cursinhoinsercao.portalaluno.config.ServerConfigurator;
 
 public class Main {
