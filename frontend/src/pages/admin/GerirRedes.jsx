@@ -217,7 +217,7 @@ export default function GerirRedes() {
                 setRedes(response.data);
             } catch (err) {
                 console.error(err);
-                showToast("Falha ao carregar as seções.", 'error');
+                showToast("Falha ao carregar as redes sociais.", 'error');
             } finally {
                 setLoading(false);
             }
@@ -350,7 +350,7 @@ export default function GerirRedes() {
             {isEditModalOpen && redeParaEditar && (
                 <ModalOverlay>
                     <ModalContent>
-                        <h2>Editar Seção ID: {redeParaEditar.id}</h2>
+                        <h2>Editar Rede ID: {redeParaEditar.id}</h2>
                         <Form>
                             <label>Nome da Rede:</label>
                             <Input type="text" name="texto" value={redeParaEditar.texto} onChange={handleEditChange} />

@@ -12,7 +12,6 @@ import GerirRedes from './pages/admin/GerirRedes';
 import GerirRelatorioUnis from './pages/admin/GerirRelatorioUnis';
 import NovasCandidaturas from './pages/admin/NovasCandidaturas';
 import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
-import NovasMatriculas from './pages/admin/NovasMatriculas';
 import AlunosMatriculados from './pages/admin/AlunosMatriculados';
 
 // --- Páginas do Portal do Aluno ---
@@ -32,33 +31,33 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 {/* ========== ROTAS PÚBLICAS ========== */}
-                <Route path="/" element={<Navigate to="/home" replace />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/admin/register" element={<Cadastro />} />
-                <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
-                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/" element={<Navigate to="/home" replace/>}/>
+                <Route path="/home" element={<Home/>}/>
+                <Route path="/admin/register" element={<Cadastro/>}/>
+                <Route path="/admin" element={<Navigate to="/admin/login" replace/>}/>
+                <Route path="/admin/login" element={<AdminLogin/>}/>
+                <Route path="/portal/admin" element={<AdminLogin/>}/>
 
                 {/* ========== ROTAS PROTEGIDAS DO PAINEL DE ADMINISTRAÇÃO ========== */}
-                <Route element={<ProtectedRoute allowedRoles={[1]} />}>
-                    <Route element={<AdminLayout />}>
-                        <Route path="/admin/dashboard" element={<Navigate to="/admin/secoes" replace />} />
-                        <Route path="/admin/secoes" element={<GerirSecoes />} />
-                        <Route path="/admin/banners" element={<GerirBanners />} />
-                        <Route path="/admin/redes" element={<GerirRedes />} />
-                        <Route path="/admin/relatorio-universidades" element={<GerirRelatorioUnis />} />
-                        <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas />} />
-                        <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados />} />
-                        <Route path="/admin/alunos/novas-matriculas" element={<NovasMatriculas />} />
-                        <Route path="/admin/alunos/matriculados" element={<AlunosMatriculados />} />
+                <Route element={<ProtectedRoute allowedRoles={[1]}/>}>
+                    <Route element={<AdminLayout/>}>
+                        <Route path="/admin/dashboard" element={<Navigate to="/admin/secoes" replace/>}/>
+                        <Route path="/admin/secoes" element={<GerirSecoes/>}/>
+                        <Route path="/admin/banners" element={<GerirBanners/>}/>
+                        <Route path="/admin/redes" element={<GerirRedes/>}/>
+                        <Route path="/admin/relatorio-universidades" element={<GerirRelatorioUnis/>}/>
+                        <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas/>}/>
+                        <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados/>}/>
+                        <Route path="/admin/alunos/matriculados" element={<AlunosMatriculados/>}/>
                     </Route>
                 </Route>
 
                 {/* ========== ROTAS PROTEGIDAS DO PORTAL DO ALUNO/PROFESSOR ========== */}
-                <Route element={<ProtectedRoute allowedRoles={[1, 2]} />}>
+                <Route element={<ProtectedRoute allowedRoles={[1, 2]}/>}>
                     <Route element={<PortalLayout/>}>
-                        <Route path="/portal/avaliacoes" element={<GerirAvaliacoes />} />
-                        <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
-                        <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
+                        <Route path="/portal/avaliacoes" element={<GerirAvaliacoes/>}/>
+                        <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao/>}/>
+                        <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao/>}/>
                         <Route path="/portal/frequencia/ver" element={<VerFrequencia/>}/>
 
                         <Route path="/portal/frequencia" element={<LancarFrequencia/>}/>

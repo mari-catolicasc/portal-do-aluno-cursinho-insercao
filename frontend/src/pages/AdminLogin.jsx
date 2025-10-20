@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { jwtDecode } from 'jwt-decode';
 import styled from 'styled-components';
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/reused/Navbar";
+import Footer from "../components/reused/Footer";
 import Botao from "../components/reused/Botao";
 
 // ========== STYLED COMPONENTS (CSS) ==========
@@ -121,18 +121,29 @@ export default function AdminLogin() {
             const { token } = response.data;
             localStorage.setItem('user_token', token);
 
-            // --- LÓGICA DE REDIRECIONAMENTO INTELIGENTE ---
+            // --- Decodifica o token ---
             const decodedToken = jwtDecode(token);
             const userType = decodedToken.tipo;
 
-            if (userType === 1) { // 1 = Professor/Admin
-                navigate('/admin/dashboard'); 
-            } else if (userType === 2) { // 2 = Aluno
+            // --- Pega a url pela qual o usuário está fazendo login ---
+            const currentUrl = window.location.pathname;
+
+            // --- Lógica de redirecionamento ---
+            if (userType === 1) { 
+                // Professor/Admin
+                if (currentUrl.includes('/portal')) {
+                    navigate('/portal/avaliacoes');
+                } else {
+                    navigate('/admin/dashboard');
+                }
+            } 
+            else if (userType === 2) { 
+                // Aluno só acessa portal
                 navigate('/portal/notas');
-            } else {
+            } 
+            else {
                 setError('Tipo de usuário desconhecido.');
             }
-            // --- FIM DA LÓGICA ---
 
         } catch (err) {
             console.error("Erro no login:", err);
@@ -141,6 +152,7 @@ export default function AdminLogin() {
             setLoading(false);
         }
     };
+
 
     return (
         <Container>
