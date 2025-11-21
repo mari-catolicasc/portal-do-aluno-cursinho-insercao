@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom'; // Para redirecionar o usuário
-import { api } from '../services/api'; // Para chamar o nosso backend
+import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
+import { jwtDecode } from 'jwt-decode';
 import styled from 'styled-components';
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Botao from "../components/reused/Botao";
 
 // ========== STYLED COMPONENTS (CSS) ==========
 
 const Container = styled.div`
-  font-family: 'Inter', sans-serif;
-  background-color: #FDF9ED;
+  font-family: 'Roboto';
   color: #E0A76363;
   display: flex;
   flex-direction: column;
@@ -20,11 +22,11 @@ const Main = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 5rem;
 `;
 
 const LoginCard = styled.div`
-  background-color: #F2B92424;
+  background-color: #FEF8E9;
   padding: 2.5rem;
   border-radius: 1.5rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -69,14 +71,14 @@ const Label = styled.label`
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #4b5563;
+  color: #E23467;
   margin-bottom: 0.25rem;
 `;
 
 const FormInput = styled.input`
   width: 100%;
   padding: 0.5rem 1rem;
-  border: 1px solid #d1d5db;
+  border: 2px solid #0D76B8;
   border-radius: 0.5rem;
   outline: none;
   transition: all 0.3s ease;
@@ -93,40 +95,6 @@ const FormInput = styled.input`
   }
 `;
 
-const LoginButton = styled.button`
-  width: 100%;
-  margin-top: 2rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #F2B924;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1.125rem;
-  border: none;
-  border-radius: 1rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #eab308; /* Um pouco mais escuro no hover */
-    transform: scale(1.05);
-  }
-  
-  &:active {
-    transform: scale(0.98);
-  }
-  
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(242, 185, 36, 0.5);
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-`;
-
 const ErrorMessage = styled.p`
     color: #dc3545;
     margin-top: 1rem;
@@ -137,53 +105,48 @@ const ErrorMessage = styled.p`
 // ========== COMPONENTE REACT (HTML) ==========
 
 export default function AdminLogin() {
-    // Estados para controlar os inputs
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-
-    // Novos estados para feedback do usuário
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-
-    // Hook do React Router para nos permitir navegar entre páginas
     const navigate = useNavigate();
 
-    // Função para lidar com o submit do formulário
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Limpa erros anteriores
-        setLoading(true); // Inicia o feedback de carregamento
+        setError('');
+        setLoading(true);
 
         try {
-            // 1. Chama o nosso endpoint da API
             const response = await api.post('/api/usuarios/login', { email, senha });
-
-            // 2. Extrai o token da resposta
             const { token } = response.data;
-
-            // 3. Guarda o token no localStorage do navegador.
-            //    Isto é crucial para que os próximos pedidos à API sejam autenticados.
             localStorage.setItem('user_token', token);
 
-            // 4. Redireciona o usuário para o painel de administração
-            navigate('/admin/dashboard');
+            // --- LÓGICA DE REDIRECIONAMENTO INTELIGENTE ---
+            const decodedToken = jwtDecode(token);
+            const userType = decodedToken.tipo;
+
+            if (userType === 1) { // 1 = Professor/Admin
+                navigate('/admin/dashboard'); 
+            } else if (userType === 2) { // 2 = Aluno
+                navigate('/portal/notas');
+            } else {
+                setError('Tipo de usuário desconhecido.');
+            }
+            // --- FIM DA LÓGICA ---
 
         } catch (err) {
-            // 5. Se o login falhar, mostra uma mensagem de erro
             console.error("Erro no login:", err);
-            setError('Email ou senha incorretos. Tente novamente.');
+            setError(err.response?.data || 'Email ou senha incorretos. Tente novamente.');
         } finally {
-            setLoading(false); // Para o feedback de carregamento, quer tenha sucesso ou falhe
+            setLoading(false);
         }
     };
 
     return (
         <Container>
             <Navbar />
-            {/* Seção Principal com o Card de Login */}
             <Main>
                 <LoginCard>
-                    {/* Ícone do usuário */}
                     <UserIcon>
                         <svg
                             fill="currentColor"
@@ -197,10 +160,7 @@ export default function AdminLogin() {
                             />
                         </svg>
                     </UserIcon>
-
-                    {/* Formulário */}
                     <Form onSubmit={handleSubmit}>
-                        {/* Campo de E-mail */}
                         <InputContainer>
                             <Label htmlFor="email">
                                 E-mail
@@ -214,8 +174,6 @@ export default function AdminLogin() {
                                 required
                             />
                         </InputContainer>
-
-                        {/* Campo de Senha */}
                         <InputContainer>
                             <Label htmlFor="senha">
                                 Senha
@@ -229,15 +187,19 @@ export default function AdminLogin() {
                                 required
                             />
                         </InputContainer>
-
-                        <LoginButton type="submit" disabled={loading}>
-                            {loading ? 'A entrar...' : 'Logar'}
-                        </LoginButton>
+                        
+                        <Botao 
+                            type="submit" 
+                            text={loading ? 'A entrar...' : 'Logar'} 
+                            disabled={loading}
+                        />
 
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </Form>
                 </LoginCard>
             </Main>
+            <Footer/>
         </Container>
     );
 };
+

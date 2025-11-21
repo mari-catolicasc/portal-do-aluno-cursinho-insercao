@@ -1,8 +1,8 @@
 package pt.cursinhoinsercao.portalaluno.filter;
 
-import io.jsonwebtoken.Claims;
 import pt.cursinhoinsercao.portalaluno.seguranca.Seguranca;
 import pt.cursinhoinsercao.portalaluno.service.TokenService;
+import io.jsonwebtoken.Claims;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
@@ -13,45 +13,37 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
-@Seguranca
 @Provider
+@Seguranca
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
 
     private TokenService tokenService = new TokenService();
-    private static final int TIPO_ADMIN = 1; //professor com id 1 é o Admin.
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
+        if (requestContext.getMethod().equalsIgnoreCase("OPTIONS")) {
+            requestContext.abortWith(Response.ok().build());
+            return;
+        }
+
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            abortarComNaoAutorizado(requestContext, "Cabeçalho de autorização ausente ou mal formatado.");
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("Cabeçalho de autorização inválido.").build());
             return;
         }
 
         String token = authorizationHeader.substring("Bearer".length()).trim();
 
         try {
+
             Claims claims = tokenService.validarToken(token);
 
-            int tipoUsuario = claims.get("tipo", Integer.class);
-            if (tipoUsuario != TIPO_ADMIN) {
-                requestContext.abortWith(
-                        Response.status(Response.Status.FORBIDDEN).entity("Acesso negado. Permissões insuficientes.").build());
-                return;
-            }
-
-
         } catch (Exception e) {
-            // se o token for inválido ele lança essa mensagem
-            abortarComNaoAutorizado(requestContext, "Token inválido ou expirado.");
-        }
-    }
 
-    private void abortarComNaoAutorizado(ContainerRequestContext requestContext, String mensagem) {
-        requestContext.abortWith(
-                Response.status(Response.Status.UNAUTHORIZED).entity(mensagem).build());
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("Token inválido ou expirado.").build());
+        }
     }
 }

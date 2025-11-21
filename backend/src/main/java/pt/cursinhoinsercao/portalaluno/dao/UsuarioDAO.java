@@ -5,6 +5,7 @@ import pt.cursinhoinsercao.portalaluno.util.JPAUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -79,5 +80,26 @@ public class UsuarioDAO {
         } finally {
             em.close();
         }
+    }
+
+    public List<Usuario> listarProfessoresPorStatus(boolean statusAtivo) {
+        EntityManager em = JPAUtil.getEntityManager();
+
+        String jpql = "select u from Usuario u where u.tipo = 1 and u.ativo = :status";
+        TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+        query.setParameter("status", statusAtivo);
+        List<Usuario> professores = query.getResultList();
+        em.close();
+        return professores;
+    }
+
+    public List<Usuario> listarAlunosPorStatus(boolean statusAtivo) {
+        EntityManager em = JPAUtil.getEntityManager();
+        String jpql = "select u from Usuario u where u.tipo = 2 and u.ativo = :status";
+        TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+        query.setParameter("status", statusAtivo);
+        List<Usuario> alunos = query.getResultList();
+        em.close();
+        return alunos;
     }
 }

@@ -20,18 +20,22 @@ public class UploadResource {
     private UploadService uploadService = new UploadService();
 
     @POST
-    @Seguranca // Apenas admins podem fazer upload
+    @Seguranca
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response uploadImagem(
+
+    public Response uploadFile(
+
             @FormDataParam("file") InputStream fileInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileMetaData) {
+            @FormDataParam("file") FormDataContentDisposition fileMetaData,
+            @FormDataParam("subpasta") String subpasta) {
 
         try {
-            // Chama o serviço para guardar o ficheiro e obter o caminho
-            String caminhoDoFicheiro = uploadService.salvarImagem(fileInputStream, fileMetaData.getFileName());
 
-            // Cria uma resposta com o caminho do ficheiro para o frontend usar
+            String pastaDestino = (subpasta == null || subpasta.trim().isEmpty()) ? "imagens" : subpasta;
+
+            String caminhoDoFicheiro = uploadService.salvarFicheiro(fileInputStream, fileMetaData.getFileName(), pastaDestino);
+
             UploadResponse resposta = new UploadResponse(caminhoDoFicheiro);
 
             return Response.ok(resposta).build();
@@ -43,3 +47,4 @@ public class UploadResource {
         }
     }
 }
+
