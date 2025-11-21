@@ -246,7 +246,7 @@ export default function PortalSidebar({ isCollapsed, toggleSidebar }) {
 
   const menuGroups = [
     { id: 1, title: 'Recados gerais', icon: '📝', submenu: [
-        { title: 'Recados', to: '' },
+        { title: 'Recados', to: '/portal/recados' },
         { title: 'Conteúdos', to: '' }
     ]},
     { id: 2, title: 'Frequência', icon: '📅', submenu: [

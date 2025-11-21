@@ -19,6 +19,7 @@ import AlunosMatriculados from './pages/admin/AlunosMatriculados';
 import DetalhesAvaliacao from './pages/portal-do-aluno/DetalhesAvaliacao';
 import GerirAvaliacoes from './pages/portal-do-aluno/GerirAvaliacoes';
 import NotasAluno from './pages/portal-do-aluno/NotasAluno';
+import Recados from './pages/portal-do-aluno/Recados';
 
 // --- Layouts e Componentes de Segurança ---
 import AdminLayout from './layouts/AdminLayout';
@@ -60,9 +61,9 @@ export default function App() {
                         <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
                         <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
                         <Route path="/portal/frequencia/ver" element={<VerFrequencia/>}/>
-
                         <Route path="/portal/frequencia" element={<LancarFrequencia/>}/>
                         <Route path="/portal/notas" element={<NotasAluno/>}/>
+                        <Route path="/portal/recados" element={<Recados/>}/>
                     </Route>
                 </Route>
             </Routes>
