@@ -1,45 +1,81 @@
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { api } from "../../services/api";
+import Botao from "../../components/reused/Botao";
 
 // --- Animações ---
 const fadeIn = keyframes`from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); }`;
 const fadeOut = keyframes`from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); }`;
 
 // --- Estilização (consistente com GerirSecoes) ---
-const PageTitle = styled.h1`
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 2rem;
-`;
+const Div = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-content: center;
+    padding: 1rem;
+    height: 100%;
+    gap: 10px;
 
-const ManagementSection = styled.section`
-    background-color: white;
+    h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        color: #0D76B8;
+    }
+`
+
+const ManagementDiv = styled.section`
+    background-color: #FEF8E9;
     padding: 2rem;
-    border-radius: 8px;
+    border-radius: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 2rem;
 
     h2 {
         margin-top: 0;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 1rem;
-        margin-bottom: 1.5rem;
-        font-size: 1.5rem;
-        color: #4a4a4a;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        color: #0D76B8;
     }
 `;
 
 const Form = styled.div`
     display: flex;
     flex-direction: column;
+    padding: 2rem 0;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    border-radius: 1rem;
     gap: 1rem;
+    align-items: center;
 `;
 
-const Input = styled.input`
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+const InputImg = styled.input`
+    width: 100%;
+    padding: 0.75rem;
+    color: #000000;
+
+    &::file-selector-button {
+    width: 100%;
+    background-color: #0D76B8;
+    color: #fff;
+    font-weight: 500;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+    &::file-selector-button:hover {
+      background-color: #095a8f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  }
 `;
 
 const Grid = styled.div`
@@ -49,10 +85,15 @@ const Grid = styled.div`
 `;
 
 const Card = styled.div`
-    border: 1px solid #ddd;
+    background-color: #FFFFFF;
+    border: 1px solid #0D76B8;
     border-radius: 8px;
-    overflow: hidden;
-    
+    padding: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+
     img {
         width: 100%;
         height: 150px;
@@ -181,20 +222,25 @@ export default function GerirBanners() {
     };
 
     return (
-        <div>
+        <Div>
             <ToastMessage show={toast.show} type={toast.type}>{toast.message}</ToastMessage>
-            <PageTitle>Gestão de Banners</PageTitle>
+            <h1>Gestão de Banners</h1>
 
-            <ManagementSection>
+            <ManagementDiv>
                 <h2>Gerir Banner Principal</h2>
                 <Form>
-                    <label htmlFor="banner-upload">Carregar novo banner:</label>
-                    <Input id="banner-upload" type="file" onChange={handleBannerFileChange} />
-                    <Button onClick={handleUploadBanner} disabled={loading || !bannerFile}>
-                        {loading ? 'A Enviar...' : 'Enviar Novo Banner'}
-                    </Button>
+                    <p htmlFor="banner-upload">Carregar novo banner:</p>
+                    <InputImg
+                        id="banner-upload"
+                        type="file"
+                        onChange={handleBannerFileChange}
+                    />
+                    <Botao onClick={handleUploadBanner} disabled={loading || !bannerFile} text={loading ? 'A Enviar...' : 'Enviar Novo Banner'}/>
                 </Form>
-                <h3 style={{ marginTop: '2rem' }}>Histórico de Banners</h3>
+            </ManagementDiv>
+
+            <ManagementDiv>
+                <h2 style={{ marginTop: '2rem' }}>Histórico de Banners</h2>
                 {loading && !historicoBanners.length ? <p>A carregar histórico...</p> : (
                     <Grid>
                         {historicoBanners.map(banner => (
@@ -213,8 +259,8 @@ export default function GerirBanners() {
                         ))}
                     </Grid>
                 )}
-            </ManagementSection>
-        </div>
+            </ManagementDiv>
+        </Div>
     );
 }
 

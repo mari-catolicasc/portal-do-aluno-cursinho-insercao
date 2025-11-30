@@ -25,7 +25,7 @@ const ManagementDiv = styled.section`
     background-color: #FEF8E9;
     padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
 
     h2 {
@@ -48,6 +48,16 @@ const Form = styled.div`
     align-items: center;
 `;
 
+const Select = styled.select`
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #0D76B8;
+    border-radius: 1rem;
+    color: #000000;
+    background-color: #FFFFFF;
+`;
+
 const Input = styled.input`
     font-size: 1rem;
     width: 100%;
@@ -56,11 +66,6 @@ const Input = styled.input`
     border-radius: 1rem;
     color: #000000;
     background-color: #FFFFFF;
-
-    &:disabled {
-        font-size: 0.85rem;
-        color: #7e7e7e;
-    }
 `;
 
 const ListDiv = styled.div`
@@ -97,30 +102,55 @@ const InfoDiv = styled.div`
 export default function VerFrequencia() {
     const navigate = useNavigate();
 
-    // Estado de edição
+    // 🔹 MOCK DE ALUNOS (seriam registros da tabela usuario onde tipo = 2)
+    const alunosMock = [
+        { id: 10, nome: "Ana Júlia" },
+        { id: 11, nome: "Carlos Eduardo" },
+        { id: 12, nome: "Fernanda Ribeiro" }
+    ];
+
+    // 🔹 MOCK DE FREQUÊNCIA (relacionada ao aluno)
+    const frequenciaMock = {
+        10: [
+            { data: "11/10/2025", presenca: "P", justificativa: "" },
+            { data: "18/10/2025", presenca: "F", justificativa: "" }
+        ],
+        11: [
+            { data: "15/10/2025", presenca: "FJ", justificativa: "Consulta médica" }
+        ],
+        12: [
+            { data: "09/10/2025", presenca: "P", justificativa: "" },
+            { data: "16/10/2025", presenca: "P", justificativa: "" },
+            { data: "23/10/2025", presenca: "F", justificativa: "" }
+        ]
+    };
+
+    // 🔹 Tipo do usuário (viria do backend)
+    const [isProf] = useState(true); // true = professor, pode editar
+
+    // 🔹 Estado do aluno selecionado
+    const [alunoId, setAlunoId] = useState(alunosMock[0].id);
+
+    // 🔹 Frequências do aluno selecionado
+    const [presencas, setPresencas] = useState(frequenciaMock[alunoId]);
+
+    // 🔹 Edit mode
     const [isEdit, setIsEdit] = useState(false);
-    const [isProf] = useState(false); // Deve validar de acordo com o tipo de usuário vindo do back
-
-    const [nomeAluno, setNomeAluno] = useState("Fulano");
-
-    // Mock de exemplo
-    const [presencas, setPresencas] = useState([
-        { data: "11/10/2025", presenca: "P", justificativa: "" },
-        { data: "18/10/2025", presenca: "F", justificativa: "" },
-        { data: "25/10/2025", presenca: "FJ", justificativa: "Aluno doente" },
-    ]);
 
     const handleChange = (index, field, value) => {
-        const novasPresencas = [...presencas];
-        novasPresencas[index][field] = value;
-        setPresencas(novasPresencas);
+        const novas = [...presencas];
+        novas[index][field] = value;
+        setPresencas(novas);
+    };
+
+    const handleTrocarAluno = (e) => {
+        const novoId = parseInt(e.target.value);
+        setAlunoId(novoId);
+        setPresencas(frequenciaMock[novoId]);
     };
 
     function handleSave() {
-        if (presencas.some(p => p.presenca.trim() === "")) {
-            alert("Preencha todos os campos antes de salvar.");
-            return;
-        }
+        alert("Salvaria as frequências editadas no backend aqui.");
         setIsEdit(false);
         navigate("/portal/ver-frequencia");
     }
@@ -132,31 +162,35 @@ export default function VerFrequencia() {
             <ManagementDiv>
                 <h2>Aluno</h2>
                 <Form>
-                    <Input 
-                        type="text"
-                        value={nomeAluno}
-                        onChange={(e) => setNomeAluno(e.target.value)}
-                        disabled={false}
-                    />
+                    <Select value={alunoId} onChange={handleTrocarAluno}>
+                        {alunosMock.map(a => (
+                            <option key={a.id} value={a.id}>
+                                {a.nome}
+                            </option>
+                        ))}
+                    </Select>
                 </Form>
             </ManagementDiv>
 
             <ManagementDiv>
                 <h2>Presença por Data</h2>
+
                 <ListDiv>
                     {presencas.map((p, index) => (
                         <Card key={index}>
                             <InfoDiv>
                                 <h3>{p.data}</h3>
                             </InfoDiv>
+
                             <div style={{ display: "flex", flexDirection: "row", gap: "0.5rem", width: "50%" }}>
-                                <Input 
-                                    type="text" 
+                                <Input
+                                    type="text"
                                     value={p.presenca}
                                     onChange={(e) => handleChange(index, "presenca", e.target.value)}
-                                    disabled={!isEdit} 
+                                    disabled={!isEdit}
                                 />
-                                <Input 
+
+                                <Input
                                     type="text"
                                     value={p.justificativa}
                                     onChange={(e) => handleChange(index, "justificativa", e.target.value)}
@@ -166,14 +200,9 @@ export default function VerFrequencia() {
                         </Card>
                     ))}
 
-                    {/* Exibe botões somente se for professor */}
                     {isProf && (
                         isEdit ? (
-                            <Botao 
-                                text="Salvar" 
-                                onClick={handleSave} 
-                                disabled={presencas.some(p => p.presenca === "")}
-                            />
+                            <Botao text="Salvar" onClick={handleSave} />
                         ) : (
                             <Botao text="Editar" onClick={() => setIsEdit(true)} />
                         )
