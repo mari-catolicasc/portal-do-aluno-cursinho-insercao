@@ -167,7 +167,7 @@ export default function GerirBanners() {
     const fetchHistorico = async () => {
         try {
             setLoading(true);
-            const response = await api.get('/api/banners/historico');
+            const response = await api.get('/banners/historico');
             setHistoricoBanners(response.data);
         } catch (err) {
             console.error(err);
@@ -194,9 +194,9 @@ export default function GerirBanners() {
         try {
             const formData = new FormData();
             formData.append('file', bannerFile);
-            const uploadResponse = await api.post('/api/uploads', formData);
+            const uploadResponse = await api.post('/uploads', formData);
             const filePath = uploadResponse.data.filePath;
-            await api.post('/api/banners', { imagem: filePath });
+            await api.post('/banners', { imagem: filePath });
             showToast("Banner criado com sucesso!");
             setBannerFile(null);
             document.getElementById('banner-upload').value = null;
@@ -211,7 +211,7 @@ export default function GerirBanners() {
     const handleReativarBanner = async (bannerId) => {
         setLoading(true);
         try {
-            await api.put(`/api/banners/${bannerId}/reativar`);
+            await api.put(`/banners/${bannerId}/reativar`);
             showToast("Banner reativado com sucesso!");
             fetchHistorico();
         } catch {
