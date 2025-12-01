@@ -1,10 +1,10 @@
 
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import Navbar from "../components/Navbar";
+import Navbar from "../components/reused/Navbar";
 import Banner from "../components/Banner";
 import Section from "../components/Section";
-import Footer from "../components/Footer";
+import Footer from "../components/reused/Footer";
 
 import '../global.css';
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import fundoNavbar from '../assets/imgs/logo.jpg'
-import logo from '../assets/imgs/logo_sem_fundo.png';
+import fundoNavbar from '../../assets/imgs/logo.jpg'
+import logo from '../../assets/imgs/logo_sem_fundo.png';
 
 const NavbarDiv = styled.nav`
     display: flex;

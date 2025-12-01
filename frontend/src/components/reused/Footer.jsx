@@ -1,7 +1,6 @@
+import { api } from "../../services/api";
 import styled from 'styled-components';
-import instagram from '../assets/imgs/icon_instagram.png';
-import facebook from '../assets/imgs/icon_facebook.png';
-import apoiase from '../assets/imgs/icon_apoia-se.png';
+import { useEffect, useState } from "react";
 
 const FooterDiv = styled.footer`
   background-color: #F2B924;
@@ -63,30 +62,59 @@ const Links = styled.div`
 `;
 
 export default function Footer() {
+
+  const [redes, setRedes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchRedes = async () => {
+      try {
+          setLoading(true);
+          const response = await api.get('/api/redes');
+          setRedes(response.data);
+      } catch (err) {
+          console.error(err);
+      } finally {
+          setLoading(false);
+      }
+  };
+
+  useEffect(() => {
+    fetchRedes();
+  }, []);
+
   return (
     <FooterDiv>
       <FooterLinks>
         <RedesSociais>
-          <Lin>
-            <RedesSociaisIcon src={instagram} alt="Instagram" />
-            <Link href="https://www.instagram.com/cursinhoinsercaojoinville/">cursinhoinsercaojoinville</Link>
-          </Lin>
-          <Lin>
-            <RedesSociaisIcon src={facebook} alt="Facebook" />
-            <Link href="https://www.facebook.com/cursinhoinsercaojoinville/">cursinhoinsercaojoinville</Link>
-          </Lin>
-          <Lin>
-            <RedesSociaisIcon src={apoiase} alt="Apoia-se" />
-            <Link href="https://apoia.se/prevestibularpopularinsercao">apoia-se</Link>
-          </Lin>
+          {loading ? (
+            <Lin>
+              <p>Carregando redes sociais...</p>
+            </Lin>
+          ) : redes.length === 0 ? (
+            <Lin>
+              <p>Nenhuma rede social cadastrada ainda</p>
+            </Lin>
+          ) : (
+            redes.map((rede) => (
+              <Lin key={rede.id}>
+                {rede.imagem && (
+                  <RedesSociaisIcon
+                    src={`http://localhost:8080${rede.imagem}`}
+                    alt={rede.texto}
+                  />
+                )}
+                <Link href={rede.link} target="_blank" rel="noopener noreferrer">
+                  {rede.texto}
+                </Link>
+              </Lin>
+            ))
+          )}
         </RedesSociais>
 
         <Links>
-          <Link href="">Universidades em Joinville e Região</Link>
-          <Link href="../pages/AdminLogin.jsx">Portal do Aluno</Link>
-          <Link href="/admin/register">Matrícula</Link>
-          <Link href="/admin/register">Cadatro de novo educador popular</Link>
-          <Link href="../pages/AdminLogin.jsx">Administração</Link>
+          <Link href="/portal/login">Portal do Aluno</Link>
+          <Link href="/admin/register">Quero participar (aluno/educador popular)</Link>
+          <Link href="/admin/login">Administração</Link>
 
         </Links>
       </FooterLinks>
