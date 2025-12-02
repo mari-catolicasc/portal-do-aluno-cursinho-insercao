@@ -1,95 +1,141 @@
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { api } from "../../services/api";
+import Botao from "../../components/reused/Botao";
 
 // --- Animações ---
 const fadeIn = keyframes`from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); }`;
 const fadeOut = keyframes`from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); }`;
 
 // --- Estilização ---
-const PageTitle = styled.h1`
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 2rem;
+const Div = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-content: center;
+    padding: 1rem;
+    height: 100%;
+    gap: 10px;
+
+    h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        color: #0D76B8;
+    }
 `;
 
-const ManagementSection = styled.section`
-    background-color: white;
+const ManagementDiv = styled.section`
+    background-color: #FEF8E9;
     padding: 2rem;
-    border-radius: 8px;
+    border-radius: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 2rem;
 
     h2 {
         margin-top: 0;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 1rem;
-        margin-bottom: 1.5rem;
-        font-size: 1.5rem;
-        color: #4a4a4a;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        color: #0D76B8;
     }
 `;
 
 const Form = styled.div`
     display: flex;
     flex-direction: column;
+    padding: 2rem 0;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    border-radius: 1rem;
     gap: 1rem;
+    align-items: center;
 `;
 
 const Input = styled.input`
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #0D76B8;
+    border-radius: 1rem;
+    color: #000000;
+    background-color: #FFFFFF;
+`;
+
+const InputImg = styled.input`
+    width: 100%;
+    padding: 0.75rem;
+    color: #000000;
+
+    &::file-selector-button {
+    width: 100%;
+    background-color: #0D76B8;
+    color: #fff;
+    font-weight: 500;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+    &::file-selector-button:hover {
+      background-color: #095a8f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  }
 `;
 
 const Textarea = styled.textarea`
+    width: 100%;
     padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid #0D76B8;
+    border-radius: 10px;
     min-height: 120px;
     resize: vertical;
 `;
 
-const SectionList = styled.div`
+const ListDiv = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    width: 100%;
+    height: fit-content;
+    gap: 2rem;
 `;
 
-const SectionCard = styled.div`
-    border: 1px solid #ddd;
+const Card = styled.div`
+    background-color: #FFFFFF;
+    border: 1px solid #0D76B8;
     border-radius: 8px;
     padding: 1.5rem;
     display: flex;
+    gap: 2rem;
     justify-content: space-between;
     align-items: center;
 `;
 
-const SectionInfo = styled.div`
+const InfoDiv = styled.div`
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 1rem;
-
-    img {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 5px;
-    }
 
     h3 {
         margin: 0;
+        font-size: 1rem;
         color: #333;
     }
 
     p {
         margin: 0.2rem 0 0;
         font-size: 0.8rem;
-        color: #888;
+        color: #333;
+        word-break: break-all;
     }
 `;
 
-const SectionActions = styled.div`
+const ActionsDiv = styled.div`
     display: flex;
     gap: 1rem;
 `;
@@ -254,45 +300,46 @@ export default function GerirSecoes() {
     };
 
     return (
-        <div>
+        <Div>
             <ToastMessage show={toast.show} type={toast.type}>{toast.message}</ToastMessage>
-            <PageTitle>Gestão das Seções</PageTitle>
+            <h1>Gestão das Seções</h1>
 
-            <ManagementSection>
+            <ManagementDiv>
                 <h2>Criar Nova Seção</h2>
                 <Form>
                     <Input type="text" name="titulo" placeholder="Título da Seção" value={novaSecao.titulo} onChange={handleNovaSecaoChange} />
                     <Textarea name="texto" placeholder="Texto da Seção" value={novaSecao.texto} onChange={handleNovaSecaoChange} />
-                    <label htmlFor="secao-upload">Imagem (Opcional):</label>
-                    <Input id="secao-upload" type="file" onChange={handleSecaoFileChange} />
-                    <Button onClick={handleCriarSecao} disabled={loading}>
-                        {loading ? 'A Guardar...' : 'Guardar Nova Seção'}
-                    </Button>
+                    <InputImg
+                        id="secao-upload" 
+                        type="file"
+                        onChange={handleSecaoFileChange}
+                    />
+                    <Botao onClick={handleCriarSecao} disabled={loading} text={loading ? 'A Guardar...' : 'Guardar Nova Seção'}/>
                 </Form>
-            </ManagementSection>
+            </ManagementDiv>
 
-            <ManagementSection>
+            <ManagementDiv>
                 <h2>Seções Atuais</h2>
                 {loading && !secoes.length ? <p>A carregar seções...</p> : (
-                    <SectionList>
+                    <ListDiv>
                         {secoes.map(secao => (
-                            <SectionCard key={secao.id}>
-                                <SectionInfo>
+                            <Card key={secao.id}>
+                                <InfoDiv>
                                     {secao.imagem && <img src={`http://localhost:8080${secao.imagem}`} alt={secao.titulo} />}
                                     <div>
                                         <h3>{secao.titulo}</h3>
                                         <p>ID: {secao.id}</p>
                                     </div>
-                                </SectionInfo>
-                                <SectionActions>
+                                </InfoDiv>
+                                <ActionsDiv>
                                     <Button onClick={() => openEditModal(secao)} disabled={loading}>Editar</Button>
                                     <Button danger onClick={() => handleApagarSecao(secao.id)} disabled={loading}>Apagar</Button>
-                                </SectionActions>
-                            </SectionCard>
+                                </ActionsDiv>
+                            </Card>
                         ))}
-                    </SectionList>
+                    </ListDiv>
                 )}
-            </ManagementSection>
+            </ManagementDiv>
 
             {isEditModalOpen && secaoParaEditar && (
                 <ModalOverlay>
@@ -310,16 +357,16 @@ export default function GerirSecoes() {
                             <label htmlFor="edit-secao-upload">Trocar Imagem (Opcional):</label>
                             <Input id="edit-secao-upload" type="file" onChange={handleEditSecaoFileChange} />
                         </Form>
-                        <SectionActions style={{ marginTop: '1.5rem', justifyContent: 'flex-end' }}>
+                        <ActionsDiv style={{ marginTop: '1.5rem', justifyContent: 'flex-end' }}>
                             <Button secondary onClick={closeEditModal} disabled={loading}>Cancelar</Button>
                             <Button onClick={handleSalvarEdicao} disabled={loading}>
                                 {loading ? 'A Salvar...' : 'Salvar Alterações'}
                             </Button>
-                        </SectionActions>
+                        </ActionsDiv>
                     </ModalContent>
                 </ModalOverlay>
             )}
-        </div>
+        </Div>
     );
 }
 

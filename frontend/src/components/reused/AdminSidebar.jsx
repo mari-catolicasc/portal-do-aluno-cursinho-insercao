@@ -259,7 +259,8 @@ export default function AdminSidebar({ isCollapsed, toggleSidebar }) {
     },
     {
       id: 3, title: 'Controle de Alunos', icon: '🎓', submenu: [
-        { title: 'Alunos Matriculados', to: '/admin/alunos/matriculados' }
+        { title: 'Alunos Matriculados', to: '/admin/alunos/matriculados' },
+        { title: 'Novas Matrículas', to: '/admin/alunos/'}
       ]
     },
     {

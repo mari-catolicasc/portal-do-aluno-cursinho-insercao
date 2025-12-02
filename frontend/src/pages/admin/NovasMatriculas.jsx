@@ -125,8 +125,8 @@ const ToastMessage = styled.div`
     animation: ${props => (props.show ? fadeIn : fadeOut)} 0.3s ease;
 `;
 
-export default function NovasCandidaturas() {
-    const [candidaturas, setCandidaturas] = useState([]);
+export default function NovasMatriculas() {
+    const [matriculas, setMatriculas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
@@ -135,45 +135,47 @@ export default function NovasCandidaturas() {
         setTimeout(() => setToast({ show: false, message: '', type }), 3000);
     };
 
-    const fetchCandidaturas = async () => {
+    const fetchMatriculas = async () => {
         setLoading(true);
         try {
-            const response = await api.get('/api/usuarios/professores/pendentes');
-            setCandidaturas(response.data);
+            const response = await api.get('/api/usuarios/alunos/pendentes');
+            setMatriculas(response.data);
         } catch (err) {
-            console.error(err);
-            showToast("Falha ao carregar as candidaturas.", 'error');
+            console.error("Erro ao buscar matrículas:", err);
+            showToast("Falha ao carregar as novas matrículas.", 'error');
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchCandidaturas();
+        fetchMatriculas();
     }, []);
 
     const handleAprovar = async (id) => {
         setLoading(true);
         try {
-            await api.put(`/api/usuarios/${id}/aprovar`);
-            showToast("Candidatura aprovada com sucesso!");
-            fetchCandidaturas(); 
-        } catch {
-            showToast("Erro ao aprovar a candidatura.", 'error');
+            await api.put(`/api/usuarios/alunos/${id}/aprovar`);
+            showToast("Matrícula aprovada com sucesso!");
+            fetchMatriculas(); 
+        } catch (err) {
+            console.error("Erro ao aprovar matrícula:", err);
+            showToast("Erro ao aprovar a matrícula.", 'error');
         } finally {
             setLoading(false);
         }
     };
 
     const handleRejeitar = async (id) => {
-        if (window.confirm("Tem a certeza que quer rejeitar esta candidatura? A ação não pode ser desfeita.")) {
+        if (window.confirm("Tem a certeza que quer rejeitar esta matrícula? A ação não pode ser desfeita.")) {
             setLoading(true);
             try {
-                await api.delete(`/api/usuarios/${id}`);
-                showToast("Candidatura rejeitada com sucesso.");
-                fetchCandidaturas(); 
-            } catch {
-                showToast("Erro ao rejeitar a candidatura.", 'error');
+                await api.delete(`/api/usuarios/alunos/${id}`);
+                showToast("Matrícula rejeitada com sucesso.");
+                fetchMatriculas(); 
+            } catch (err) {
+                console.error("Erro ao rejeitar matrícula:", err);
+                showToast("Erro ao rejeitar a matrícula.", 'error');
             } finally {
                 setLoading(false);
             }
@@ -183,21 +185,20 @@ export default function NovasCandidaturas() {
     return (
         <Div>
             <ToastMessage show={toast.show} type={toast.type}>{toast.message}</ToastMessage>
-            <h1>Novas Candidaturas de Educadores</h1>
+            <h1>Novas Matrículas de Alunos</h1>
 
             <ManagementDiv>
-                {loading && <p>A carregar candidaturas...</p>}
+                {loading && <p>A carregar novas matrículas...</p>}
 
-                {!loading && candidaturas.length === 0 && (
-                    <p>Não há novas candidaturas pendentes de aprovação.</p>
+                {!loading && matriculas.length === 0 && (
+                    <p>Não há novas matrículas pendentes de aprovação.</p>
                 )}
 
                 <ListDiv>
-                    {candidaturas.map(user => (
+                    {matriculas.map(user => (
                         <Card key={user.id}>
                             <InfoDiv>
                                 <span>{user.nome}</span>
-                                
                             </InfoDiv>
                             <ActionsDiv>
                                 <Button className="approve" onClick={() => handleAprovar(user.id)} disabled={loading}>

@@ -5,58 +5,96 @@ import { api } from "../../services/api";
 const fadeIn = keyframes`from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); }`;
 const fadeOut = keyframes`from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); }`;
 
-const PageTitle = styled.h1`
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 2rem;
-`;
-
-const EducadorList = styled.div`
+const Div = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    text-align: left;
+    align-content: center;
+    padding: 1rem;
+    height: 100%;
+    gap: 10px;
+
+    h1 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        color: #0D76B8;
+    }
 `;
 
-const EducadorCard = styled.div`
-    background-color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
+const ManagementDiv = styled.section`
+    background-color: #FEF8E9;
+    padding: 2rem;
+    border-radius: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        color: #0D76B8;
+    }
+`;
+
+const ListDiv = styled.div`
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    gap: 2rem;
+`;
+
+const Card = styled.div`
+    background-color: #FFFFFF;
+    border: 1px solid #0D76B8;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 2rem;
     justify-content: space-between;
     align-items: center;
 `;
 
-const UserInfo = styled.div`
+const InfoDiv = styled.div`
     display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    flex-grow: 1;
-    span {
-        color: #555;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    h3 {
+        margin: 0;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    p {
+        margin: 0.2rem 0 0;
+        font-size: 0.8rem;
+        color: #333;
+        word-break: break-all;
     }
 `;
 
-const Actions = styled.div`
+const ActionsDiv = styled.div`
     display: flex;
     gap: 1rem;
 `;
 
-const ActionButton = styled.button`
-    padding: 0.5rem 1rem;
+const Button = styled.button`
+    padding: 0.7rem 1.5rem;
     border: none;
+    font-weight: 600;
+    background-color: ${props => props.secondary ? '#6c757d' : (props.danger ? '#dc3545' : '#f2b924')};
+    color: ${props => props.secondary ? '#FFFFFF' : (props.danger ? '#FFFFFF' : '#42403dff')};
     border-radius: 5px;
     cursor: pointer;
-    font-weight: 600;
     transition: all 0.2s;
-    background-color: #dc3545;
-    color: white;
-    
-    &:hover { background-color: #c82333; }
 
-    &:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background-color: ${props => props.secondary ? '#5a6268' : (props.danger ? '#c82333' : '#eab308')};
     }
 `;
 
@@ -118,31 +156,32 @@ export default function EducadoresCadastrados() {
     };
 
     return (
-        <div>
+        <Div>
             <ToastMessage show={toast.show} type={toast.type}>{toast.message}</ToastMessage>
-            <PageTitle>Educadores Cadastrados</PageTitle>
+            <h1>Educadores Cadastrados</h1>
 
-            {loading && <p>A carregar educadores...</p>}
+            <ManagementDiv>
+                {loading && <p>A carregar educadores...</p>}
 
-            {!loading && educadores.length === 0 && (
-                <p>Ainda não há educadores cadastrados e ativos.</p>
-            )}
+                {!loading && educadores.length === 0 && (
+                    <p>Ainda não há educadores cadastrados e ativos.</p>
+                )}
 
-            <EducadorList>
-                {educadores.map(user => (
-                    <EducadorCard key={user.id}>
-                        <UserInfo>
-                            <span>{user.nome}</span>
-                            
-                        </UserInfo>
-                        <Actions>
-                            <ActionButton onClick={() => handleRemover(user.id)} disabled={loading}>
-                                Remover 🗑️
-                            </ActionButton>
-                        </Actions>
-                    </EducadorCard>
-                ))}
-            </EducadorList>
-        </div>
+                <ListDiv>
+                    {educadores.map(user => (
+                        <Card key={user.id}>
+                            <InfoDiv>
+                                <span>{user.nome}</span>
+                            </InfoDiv>
+                            <ActionsDiv>
+                                <Button danger onClick={() => handleRemover(user.id)} disabled={loading}>
+                                    Remover
+                                </Button>
+                            </ActionsDiv>
+                        </Card>
+                    ))}
+                </ListDiv>
+            </ManagementDiv>
+        </Div>
     );
 }

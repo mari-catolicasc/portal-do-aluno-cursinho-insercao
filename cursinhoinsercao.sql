@@ -117,7 +117,8 @@ CREATE TABLE `recados` (
   `id` int(11) NOT NULL,
   `prof` int(11) NOT NULL,
   `texto` varchar(500) NOT NULL,
-  `data` datetime NOT NULL
+  `data` datetime NOT NULL,
+  `img` varchar(200)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

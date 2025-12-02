@@ -1,30 +1,48 @@
-# Portal do Aluno para o Cursinho Inserção
-Este projeto consiste na criação de um sistema de gestão de notas, conteúdos e presença, além de um website de apresentação para o projeto “Cursinho Inserção” do Movimento Negro Maria Laura, que busca auxiliar a introdução de jovens da periferia de Joinville a ingressar ao ensino superior, principalmente em faculdades publicas através do ENEM (Exame Nacional do Ensino Médio).
+# Portal do Aluno - Cursinho Inserção
+## PAC - Projeto de Aprendizagem Colaborativa Extensionista do Curso de Engenharia de Software da Católica de Santa Catarina
 
-O projeto será desenvolvido utilizando React e Java, com arquitetura MVC. Utilizaremos duas frentes de desenvolvimento paralelas: o portal do aluno e a tela de apresentação do Instituto, inicialmente separados em branches e posteriormente mesclados na Main.
+**Alunos:** Claudio Anselmo Katzer Junior, Gabriel Henrique Ferreira, Marina Rosa Oliveira, Messias Ferreira Pichau Junior, Nathalia Aline Berri.
+**Professores Orientadores:** Luiz Carlos Camargo e Claudinei Dias.
+**Instituição Beneficiada:** Movimento Negro Maria Laura - Cursinho Inserção.
+
+O projeto tem por objetivo o desenvolvimento de um sistema de gerenciamento de alunos e um website de apresentação para o “Cursinho Inserção”. Este sistema visa otimizar a gestão dos estudantes matriculados, oferecendo uma interface intuitiva e funcionalidades que auxiliem na organização e desempenho do movimento.
+
+Funcionalidades:
+* Cadastro de alunos, professores, notas e presenças;
+* Cadastro de conteúdos e recados;
+* Personalização da página de apresentação do website;
+* Geração de relatórios (notas e presenças);
+* Segurança e privacidade;
+* Responsividade.
+
+O projeto será desenvolvido utilizando React e Java, com arquitetura MVC.
 
 ## Padrão de Branches
-SECAO-NomeDaFeature
+Para a nomenclatura de branches, decidimos seguir simplesmente com o código das issues criadas no Jira (https://projetos-catolica.atlassian.net/jira/software/projects/CI/boards/3)
 
 Ex:
-- WEBSITE-Navbar
-- PORTAL-NotasAlunos
-- ADMIN-APILogin
+* CI-17
+* CI-55
+* Etc.
 
-## Padrão de Mensagem para Commits
+## Padrão de Mensagem para Commits/Pull-requests
 Código da Atividade - Descrição breve das alterações realizadas no commit especifico
 
 Ex:
-- WEBSITE - Criação da navbar para o website de apresentação
-- PORTAL - Criação da tela de exibição de frequência dos alunos
-- ADMIN - Criação da API para login e cadastro de novos usuários
+- CI-32 - Criar tela de visualização de frequência
+- CI-34 - Criar tela de lançamento de frequência portal do aluno
 
-## Processo de CI
-- Criação de testes automatizados que cubram pelo menos 70% do código
+## Preparação do Ambiente de Desenvolvimento
+* **Requisitos:**
+* Node v. 22.14.0
+* Java
 
-## Ambiente de teste
-Vercel Preview
+* **Como rodar o ambiente de desenvolvimento:**
+1. Ative o banco de dados MySQL de sua preferência (ex: XAMPP);
+2. No terminal, dentro da pasta frontend, execute: npm run dev
+3. Execute o arquivo backend/Main.java
 
-## Administração de atividades
-https://projetos-catolica.atlassian.net/jira/software/projects/CI/boards/3
+## Principais telas
+1. Tela Inicial
+
 
