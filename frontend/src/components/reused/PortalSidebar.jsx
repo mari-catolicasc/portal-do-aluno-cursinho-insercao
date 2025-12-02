@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../assets/imgs/logo_sem_fundo.png';
+import logo from '../../assets/imgs/logo_sem_fundo.png';
 
 const SidebarContainer = styled.aside`
   width: 323px;
@@ -131,7 +131,7 @@ const ExpandIcon = styled.span`
   color: #E1346A;
   font-size: 12px;
   transition: transform 0.3s ease;
-  transform: ${props => (props.isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transform: ${props => (props.$isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 
   .collapsed & {
     display: none;
@@ -148,7 +148,7 @@ const IconDisplay = styled.span`
 
 const Submenu = styled.ul`
   list-style: none;
-  max-height: ${props => (props.isOpen ? '500px' : '0')};
+  max-height: ${props => (props.$isOpen ? '500px' : '0')};
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: rgba(255, 255, 255, 0.05);
@@ -219,60 +219,47 @@ const LogoutText = styled.span`
 `;
 
 const DropdownGroup = ({ title, icon, children, isCollapsed }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <MenuGroup>
-      <GroupHeader className={isCollapsed ? 'collapsed' : ''} onClick={() => setIsOpen(!isOpen)}>
-        <GroupTitle>{title}</GroupTitle>
-        <ExpandIcon isOpen={isOpen}>▼</ExpandIcon>
-        <IconDisplay>{icon}</IconDisplay>
-      </GroupHeader>
-      <Submenu isOpen={isOpen} className={isCollapsed ? 'collapsed' : ''}>
-        {children}
-      </Submenu>
-    </MenuGroup>
-  );
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <MenuGroup>
+            <GroupHeader className={isCollapsed ? 'collapsed' : ''} onClick={() => setIsOpen(!isOpen)}>
+                <GroupTitle>{title}</GroupTitle>
+                <ExpandIcon $isOpen={isOpen}>▼</ExpandIcon>
+                <IconDisplay>{icon}</IconDisplay>
+            </GroupHeader>
+            <Submenu $isOpen={isOpen} className={isCollapsed ? 'collapsed' : ''}>
+                {children}
+            </Submenu>
+        </MenuGroup>
+    );
 };
 
-export default function AdminSidebar({ isCollapsed, toggleSidebar }) {
+export default function PortalSidebar({ isCollapsed, toggleSidebar }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     if (window.confirm('Tem certeza que deseja sair do sistema?')) {
-      localStorage.removeItem('user_token');
-      navigate('/admin');
+        localStorage.removeItem('user_token');
+        navigate('/admin');
     }
   };
 
   const menuGroups = [
-    {
-      id: 1, title: 'Página Inicial', icon: '🏠', submenu: [
-        { title: 'Seções', to: '/admin/secoes' },
-        { title: 'Banners', to: '/admin/banners' }
-      ]
-    },
-    {
-      id: 2, title: 'Educadores Populares', icon: '👩‍🏫', submenu: [
-        { title: 'Novas Candidaturas', to: '/admin/educadores/candidaturas' },
-        { title: 'Educadores Cadastrados', to: '/admin/educadores/cadastrados' }
-      ]
-    },
-    {
-      id: 3, title: 'Controle de Alunos', icon: '🎓', submenu: [
-        { title: 'Novas Matrículas', to: '/admin/alunos/novas-matriculas' },
-        { title: 'Alunos Matriculados', to: '/admin/alunos/matriculados' }
-      ]
-    },
-    {
-      id: 4, title: 'Redes Sociais', icon: '🌐', submenu: [
-        { title: 'Gerir Redes Sociais', to: '/admin/redes' }
-      ]
-    },
-    {
-      id: 5, title: 'Relatório de Universidades', icon: '📊', submenu: [
-        { title: 'Acessar Relatório', to: '/admin/relatorio-universidades' }
-      ]
-    }
+    { id: 1, title: 'Recados gerais', icon: '📝', submenu: [
+        { title: 'Recados', to: '/portal/recados' },
+        { title: 'Conteúdos', to: '/portal/conteudos' }
+    ]},
+    { id: 2, title: 'Frequência', icon: '📅', submenu: [
+        { title: 'Verificar frequência', to: '/portal/frequencia/ver' },
+        { title: 'Lançar frequência', to: '/portal/frequencia' }
+    ]},
+    { id: 3, title: 'Notas', icon: '🎓', submenu: [
+        { title: 'Gerir avaliações', to: '/portal/avaliacoes'},
+        { title: 'Ver notas', to: '/portal/notas'}
+    ]},
+    { id: 4, title: 'Seu perfil', icon: '👤', submenu: [
+        { title: 'Ver perfil', to: '' }
+    ]}
   ];
 
   return (
@@ -290,13 +277,13 @@ export default function AdminSidebar({ isCollapsed, toggleSidebar }) {
 
       <NavMenu className={isCollapsed ? 'collapsed' : ''}>
         {menuGroups.map(group => (
-          <DropdownGroup key={group.id} title={group.title} icon={group.icon} isCollapsed={isCollapsed}>
-            {group.submenu && group.submenu.map(item => (
-              <li key={item.to}>
-                <SubmenuItem to={item.to}>{item.title}</SubmenuItem>
-              </li>
-            ))}
-          </DropdownGroup>
+            <DropdownGroup key={group.id} title={group.title} icon={group.icon} isCollapsed={isCollapsed}>
+                {group.submenu && group.submenu.map(item => (
+                    <li key={`${group.id}-${item.title}`}>
+                      <SubmenuItem to={item.to}>{item.title}</SubmenuItem>
+                    </li>
+                ))}
+            </DropdownGroup>
         ))}
       </NavMenu>
 

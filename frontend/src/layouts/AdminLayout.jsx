@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import AdminSidebar from '../components/AdminSidebar';
+import AdminSidebar from '../components/reused/AdminSidebar';
 
 const AdminContainer = styled.div`
     display: flex;

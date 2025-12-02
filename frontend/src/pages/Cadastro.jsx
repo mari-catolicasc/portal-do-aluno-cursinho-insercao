@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
 import styled from 'styled-components';
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/reused/Navbar";
+import Footer from "../components/reused/Footer";
 import Botao from "../components/reused/Botao"
 
 // ========== STYLED COMPONENTS (Adaptados do Login) ==========

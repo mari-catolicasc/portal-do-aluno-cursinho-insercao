@@ -34,11 +34,12 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 {/* ========== ROTAS PÚBLICAS ========== */}
-                <Route path="/" element={<Navigate to="/home" replace />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/admin/register" element={<Cadastro />} />
-                <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
-                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/" element={<Navigate to="/home" replace/>}/>
+                <Route path="/home" element={<Home/>}/>
+                <Route path="/admin/register" element={<Cadastro/>}/>
+                <Route path="/admin" element={<Navigate to="/admin/login" replace/>}/>
+                <Route path="/admin/login" element={<AdminLogin/>}/>
+                <Route path="/portal/admin" element={<AdminLogin/>}/>
 
                 {/* ========== ROTAS PROTEGIDAS DO PAINEL DE ADMINISTRAÇÃO ========== */}
                 <Route element={<ProtectedRoute allowedRoles={[1]} />}>
@@ -56,11 +57,11 @@ export default function App() {
                 </Route>
 
                 {/* ========== ROTAS PROTEGIDAS DO PORTAL DO ALUNO/PROFESSOR ========== */}
-                <Route element={<ProtectedRoute allowedRoles={[1, 2]} />}>
+                <Route element={<ProtectedRoute allowedRoles={[1, 2]}/>}>
                     <Route element={<PortalLayout/>}>
-                        <Route path="/portal/avaliacoes" element={<GerirAvaliacoes />} />
-                        <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao />} />
-                        <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao />} />
+                        <Route path="/portal/avaliacoes" element={<GerirAvaliacoes/>}/>
+                        <Route path="/portal/avaliacoes/edit" element={<DetalhesAvaliacao/>}/>
+                        <Route path="/portal/avaliacoes/ver" element={<DetalhesAvaliacao/>}/>
                         <Route path="/portal/frequencia/ver" element={<VerFrequencia/>}/>
                         <Route path="/portal/frequencia" element={<LancarFrequencia/>}/>
                         <Route path="/portal/notas" element={<NotasAluno/>}/>
