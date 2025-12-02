@@ -13,6 +13,7 @@ import GerirRelatorioUnis from './pages/admin/GerirRelatorioUnis';
 import NovasCandidaturas from './pages/admin/NovasCandidaturas';
 import EducadoresCadastrados from './pages/admin/EducadoresCadastrados';
 import AlunosMatriculados from './pages/admin/AlunosMatriculados';
+import NovasMatriculas from './pages/admin/NovasMatriculas';
 
 // --- Páginas do Portal do Aluno ---
 import DetalhesAvaliacao from './pages/portal-do-aluno/DetalhesAvaliacao';
@@ -51,6 +52,7 @@ export default function App() {
                         <Route path="/admin/educadores/candidaturas" element={<NovasCandidaturas/>}/>
                         <Route path="/admin/educadores/cadastrados" element={<EducadoresCadastrados/>}/>
                         <Route path="/admin/alunos/matriculados" element={<AlunosMatriculados/>}/>
+                        <Route path="/admin/alunos/matriculas" element={<NovasMatriculas/>}/>
                     </Route>
                 </Route>
 
