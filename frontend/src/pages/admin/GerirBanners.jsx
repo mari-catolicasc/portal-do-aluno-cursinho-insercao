@@ -1,81 +1,45 @@
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { api } from "../../services/api";
-import Botao from "../../components/reused/Botao";
 
 // --- Animações ---
 const fadeIn = keyframes`from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); }`;
 const fadeOut = keyframes`from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); }`;
 
 // --- Estilização (consistente com GerirSecoes) ---
-const Div = styled.div`
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    align-content: center;
-    padding: 1rem;
-    height: 100%;
-    gap: 10px;
+const PageTitle = styled.h1`
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+`;
 
-    h1 {
-        margin-top: 0;
-        margin-bottom: 1rem;
-        font-size: 1.4rem;
-        color: #0D76B8;
-    }
-`
-
-const ManagementDiv = styled.section`
-    background-color: #FEF8E9;
+const ManagementSection = styled.section`
+    background-color: white;
     padding: 2rem;
-    border-radius: 1rem;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 2rem;
 
     h2 {
         margin-top: 0;
-        margin-bottom: 1rem;
-        font-size: 1rem;
-        color: #0D76B8;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        color: #4a4a4a;
     }
 `;
 
 const Form = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 2rem 0;
-    width: 100%;
-    height: 100%;
-    flex-grow: 1;
-    border-radius: 1rem;
     gap: 1rem;
-    align-items: center;
 `;
 
-const InputImg = styled.input`
-    width: 100%;
-    padding: 0.75rem;
-    color: #000000;
-
-    &::file-selector-button {
-    width: 100%;
-    background-color: #0D76B8;
-    color: #fff;
-    font-weight: 500;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 1rem;
-    margin-right: 1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-    &::file-selector-button:hover {
-      background-color: #095a8f;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-  }
+const Input = styled.input`
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 `;
 
 const Grid = styled.div`
@@ -85,15 +49,10 @@ const Grid = styled.div`
 `;
 
 const Card = styled.div`
-    background-color: #FFFFFF;
-    border: 1px solid #0D76B8;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 1.5rem;
-    display: flex;
-    gap: 2rem;
-    justify-content: space-between;
-    align-items: center;
-
+    overflow: hidden;
+    
     img {
         width: 100%;
         height: 150px;
@@ -167,7 +126,7 @@ export default function GerirBanners() {
     const fetchHistorico = async () => {
         try {
             setLoading(true);
-            const response = await api.get('/banners/historico');
+            const response = await api.get('/api/banners/historico');
             setHistoricoBanners(response.data);
         } catch (err) {
             console.error(err);
@@ -194,9 +153,9 @@ export default function GerirBanners() {
         try {
             const formData = new FormData();
             formData.append('file', bannerFile);
-            const uploadResponse = await api.post('/uploads', formData);
+            const uploadResponse = await api.post('/api/uploads', formData);
             const filePath = uploadResponse.data.filePath;
-            await api.post('/banners', { imagem: filePath });
+            await api.post('/api/banners', { imagem: filePath });
             showToast("Banner criado com sucesso!");
             setBannerFile(null);
             document.getElementById('banner-upload').value = null;
@@ -211,7 +170,7 @@ export default function GerirBanners() {
     const handleReativarBanner = async (bannerId) => {
         setLoading(true);
         try {
-            await api.put(`/banners/${bannerId}/reativar`);
+            await api.put(`/api/banners/${bannerId}/reativar`);
             showToast("Banner reativado com sucesso!");
             fetchHistorico();
         } catch {
@@ -222,25 +181,20 @@ export default function GerirBanners() {
     };
 
     return (
-        <Div>
+        <div>
             <ToastMessage show={toast.show} type={toast.type}>{toast.message}</ToastMessage>
-            <h1>Gestão de Banners</h1>
+            <PageTitle>Gestão de Banners</PageTitle>
 
-            <ManagementDiv>
+            <ManagementSection>
                 <h2>Gerir Banner Principal</h2>
                 <Form>
-                    <p htmlFor="banner-upload">Carregar novo banner:</p>
-                    <InputImg
-                        id="banner-upload"
-                        type="file"
-                        onChange={handleBannerFileChange}
-                    />
-                    <Botao onClick={handleUploadBanner} disabled={loading || !bannerFile} text={loading ? 'A Enviar...' : 'Enviar Novo Banner'}/>
+                    <label htmlFor="banner-upload">Carregar novo banner:</label>
+                    <Input id="banner-upload" type="file" onChange={handleBannerFileChange} />
+                    <Button onClick={handleUploadBanner} disabled={loading || !bannerFile}>
+                        {loading ? 'A Enviar...' : 'Enviar Novo Banner'}
+                    </Button>
                 </Form>
-            </ManagementDiv>
-
-            <ManagementDiv>
-                <h2 style={{ marginTop: '2rem' }}>Histórico de Banners</h2>
+                <h3 style={{ marginTop: '2rem' }}>Histórico de Banners</h3>
                 {loading && !historicoBanners.length ? <p>A carregar histórico...</p> : (
                     <Grid>
                         {historicoBanners.map(banner => (
@@ -259,7 +213,7 @@ export default function GerirBanners() {
                         ))}
                     </Grid>
                 )}
-            </ManagementDiv>
-        </Div>
+            </ManagementSection>
+        </div>
     );
 }

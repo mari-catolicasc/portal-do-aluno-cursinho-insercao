@@ -39,7 +39,7 @@ export default function App() {
                 <Route path="/admin/register" element={<Cadastro/>}/>
                 <Route path="/admin" element={<Navigate to="/admin/login" replace/>}/>
                 <Route path="/admin/login" element={<AdminLogin/>}/>
-                <Route path="/portal/admin" element={<AdminLogin/>}/>
+                <Route path="/portal/login" element={<AdminLogin/>}/>
 
                 {/* ========== ROTAS PROTEGIDAS DO PAINEL DE ADMINISTRAÇÃO ========== */}
                 <Route element={<ProtectedRoute allowedRoles={[1]}/>}>
