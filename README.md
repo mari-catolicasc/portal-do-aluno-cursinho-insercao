@@ -2,12 +2,14 @@
 ## PAC - Projeto de Aprendizagem Colaborativa Extensionista do Curso de Engenharia de Software da Católica de Santa Catarina
 
 **Alunos:** Claudio Anselmo Katzer Junior, Gabriel Henrique Ferreira, Marina Rosa Oliveira, Messias Ferreira Pichau Junior, Nathalia Aline Berri.
+
 **Professores Orientadores:** Luiz Carlos Camargo e Claudinei Dias.
+
 **Instituição Beneficiada:** Movimento Negro Maria Laura - Cursinho Inserção.
 
 O projeto tem por objetivo o desenvolvimento de um sistema de gerenciamento de alunos e um website de apresentação para o “Cursinho Inserção”. Este sistema visa otimizar a gestão dos estudantes matriculados, oferecendo uma interface intuitiva e funcionalidades que auxiliem na organização e desempenho do movimento.
 
-Funcionalidades:
+**Funcionalidades:**
 * Cadastro de alunos, professores, notas e presenças;
 * Cadastro de conteúdos e recados;
 * Personalização da página de apresentação do website;
@@ -69,8 +71,30 @@ Ex:
 5. Detalhes de Avaliação
 ![Detalhes de Avaliação](./prints/detalhes_aval.jpg)
 
+6. Conteúdos
+![Conteúdos](./prints/conteudos.jpg)
+
+7. Recados
+![Recados](./prints/recados.jpg)
+
 ### Administração
-1. Cadastro de Relatórios de Universidades
+1. Gestão de Banners Cadastrados
+![Gestão de Banners Cadastrados](./prints/gestao_banners.jpg)
+
+2. Cadastro de Redes Sociais
+![Cadastro de Redes Sociais](./prints/redes_sociais.jpg)
+
+3. Cadastro de Relatórios de Universidades
 ![Cadastro de Relatórios de Universidades](./prints/relatorios.jpg)
 
+4. Novas Candidaturas de Educadores
+![Novas Candidaturas de Educadores](./prints/novas_candidaturas_profs.jpg)
 
+5. Novas Matrículas de Alunos
+![Novas Matrículas de Alunos](./prints)
+
+6. Educadores Cadastrados
+![Educadores Cadastrados](./prints/profs_matric.jpg)
+
+7. Alunos Cadastrados
+![Alunos Cadastrados](./prints/alunos_matric.jpg)
