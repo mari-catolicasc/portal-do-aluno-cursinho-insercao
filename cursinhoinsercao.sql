@@ -227,6 +227,12 @@ ALTER TABLE `avaliacoes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `banner`
+--
+ALTER TABLE `banner`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `conteudo`
 --
 ALTER TABLE `conteudo`
@@ -314,6 +320,12 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `banner`
+--
+ALTER TABLE `banner`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
