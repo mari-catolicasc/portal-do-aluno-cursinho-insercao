@@ -96,7 +96,7 @@ const Card = styled.div`
 
     img {
         width: 100%;
-        height: 150px;
+        max-height: 50px;
         object-fit: cover;
     }
 

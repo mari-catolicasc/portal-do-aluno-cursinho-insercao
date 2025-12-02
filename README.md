@@ -43,6 +43,34 @@ Ex:
 3. Execute o arquivo backend/Main.java
 
 ## Principais telas
+### Gerais
 1. Tela Inicial
+![Tela Inicial](./prints/home.jpg)
+
+2. Cadastro
+![Cadastro](./prints/cadastro.jpg)
+
+3. Login
+![Login](./prints/login.jpg)
+
+### Portal do Aluno
+1. Visualização de Frequência
+![Visualização de Frequência](./prints/visu_freq.jpg)
+
+2. Gestão de Frequência
+![Gestão de Frequência](./prints/gestao_freq.jpg)
+
+3. Visualização de Notas por Aluno
+![Visualização de Notas por Aluno](./prints/notas_aluno.jpg)
+
+4. Gestão de Notas
+![Gestão de Notas](./prints/gestao_aval.jpg)
+
+5. Detalhes de Avaliação
+![Detalhes de Avaliação](./prints/detalhes_aval.jpg)
+
+### Administração
+1. Cadastro de Relatórios de Universidades
+![Cadastro de Relatórios de Universidades](./prints/relatorios.jpg)
 
 
