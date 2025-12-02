@@ -91,7 +91,7 @@ Ex:
 ![Novas Candidaturas de Educadores](./prints/novas_candidaturas_profs.jpg)
 
 5. Novas Matrículas de Alunos
-![Novas Matrículas de Alunos](./prints)
+![Novas Matrículas de Alunos](./prints/novas_matriculas.jpg)
 
 6. Educadores Cadastrados
 ![Educadores Cadastrados](./prints/profs_matric.jpg)
