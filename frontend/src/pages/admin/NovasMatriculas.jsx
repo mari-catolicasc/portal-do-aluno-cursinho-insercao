@@ -201,11 +201,12 @@ export default function NovasMatriculas() {
                                 <span>{user.nome}</span>
                             </InfoDiv>
                             <ActionsDiv>
-                                <Button className="approve" onClick={() => handleAprovar(user.id)} disabled={loading}>
-                                    Aprovar ✔
+                                <Button approve onClick={() => handleAprovar(user.id)} disabled={loading}>
+                                    Aprovar
                                 </Button>
-                                <Button className="reject" onClick={() => handleRejeitar(user.id)} disabled={loading}>
-                                    Rejeitar ✖
+
+                                <Button danger onClick={() => handleRejeitar(user.id)} disabled={loading}>
+                                    Rejeitar
                                 </Button>
                             </ActionsDiv>
                         </Card>
