@@ -96,7 +96,7 @@ const Card = styled.div`
 
     img {
         width: 100%;
-        max-height: 50px;
+        height: 150px;
         object-fit: cover;
     }
 
@@ -263,4 +263,3 @@ export default function GerirBanners() {
         </Div>
     );
 }
-
